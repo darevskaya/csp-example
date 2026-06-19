@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: csp-examples
+    runtime: node
+    buildCommand: npm ci && npm run build
+    startCommand: NODE_ENV=production npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production

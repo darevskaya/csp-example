@@ -7,7 +7,7 @@
     "dev": "ts-node-dev --respawn --transpile-only bin/server.ts",
     "build": "tsc",
     "lint": "eslint src bin",
-    "start:prod": "node dist/app.js"
+    "start:prod": "node dist/bin/server.js"
   },
   "dependencies": {
     "express": "^4.22.2"
