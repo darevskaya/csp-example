@@ -1,4 +1,4 @@
-const isDev = process.env.NODE_ENV !== 'production';
+import { isDev } from './env';
 
 const devScript = isDev ? `\n  <script src="/javascripts/reload.js"></script>` : '';
 

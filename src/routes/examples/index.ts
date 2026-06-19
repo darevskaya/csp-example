@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express';
 import { layout } from '../../layout';
-import { csp } from '../../csp';
+import { csp, formatDirectives } from '../../csp';
 
 const router = express.Router();
 
-const DEMO_CSP = csp({ 'default-src': "'self'" });
-const DEMO_CSP_DISPLAY = "default-src 'self'";
+const DEMO_DIRECTIVES: Record<string, string> = { 'default-src': "'self'" };
+const DEMO_CSP = csp(DEMO_DIRECTIVES);
+const DEMO_CSP_DISPLAY = formatDirectives(DEMO_DIRECTIVES);
 
 function page(query: string, cspOn: boolean): string {
   const action = cspOn ? '/examples/reflected-xss/safe' : '/examples/reflected-xss/unsafe';

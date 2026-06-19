@@ -1,14 +1,17 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import path from 'path';
 import indexRouter from './routes/index';
 import examplesRouter from './routes/examples/index';
 import { csp } from './csp';
+import { isDev } from './env';
+import { setupDevReload } from './dev-reload';
 
 const app = express();
-const isDev = process.env.NODE_ENV !== 'production';
+
+const cspHeader = csp();
 
 app.use((_req, res, next) => {
-  res.setHeader('Content-Security-Policy', csp());
+  res.setHeader('Content-Security-Policy', cspHeader);
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()');
@@ -18,25 +21,7 @@ app.use((_req, res, next) => {
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-if (isDev) {
-  const clients = new Set<Response>();
-
-  app.get('/__reload', (req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-    res.flushHeaders();
-    clients.add(res);
-    req.on('close', () => { clients.delete(res); });
-  });
-
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { watch } = require('chokidar') as typeof import('chokidar');
-  watch(path.join(__dirname, '..', 'public'), { ignoreInitial: true })
-    .on('change', () => {
-      for (const res of clients) res.write('data: reload\n\n');
-    });
-}
+if (isDev) setupDevReload(app);
 
 app.use('/', indexRouter);
 app.use('/examples', examplesRouter);

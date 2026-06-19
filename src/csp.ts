@@ -2,9 +2,15 @@ const BASE: Record<string, string> = {
   'frame-ancestors': "'none'",
 };
 
-export function csp(overrides: Record<string, string> = {}): string {
-  const directives = { ...BASE, ...overrides };
+export function formatDirectives(directives: Record<string, string>): string {
   return Object.entries(directives)
     .map(([k, v]) => `${k} ${v}`)
     .join('; ');
+}
+
+const DEFAULT_CSP = formatDirectives(BASE);
+
+export function csp(overrides?: Record<string, string>): string {
+  if (!overrides) return DEFAULT_CSP;
+  return formatDirectives({ ...BASE, ...overrides });
 }
