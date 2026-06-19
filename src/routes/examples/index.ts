@@ -49,18 +49,19 @@ function page(query: string, cspOn: boolean): string {
     </div>` : ''}
   `;
 
-  return layout('Reflected XSS', body, cspOn ? `<meta http-equiv="Content-Security-Policy" content="${CSP_HEADER}">` : '');
+  return layout('Reflected XSS', body);
 }
 
-router.get('/reflected-xss/safe', (req: Request, res: Response) => {
-  const query = (req.query.q as string) || '';
-  res.setHeader('Content-Security-Policy', CSP_HEADER);
-  res.send(page(query, true));
-});
+function reflectedXssHandler(cspOn: boolean) {
+  return (req: Request, res: Response) => {
+    const raw = req.query.q;
+    const query = typeof raw === 'string' ? raw : '';
+    if (cspOn) res.setHeader('Content-Security-Policy', CSP_HEADER);
+    res.send(page(query, cspOn));
+  };
+}
 
-router.get('/reflected-xss/unsafe', (req: Request, res: Response) => {
-  const query = (req.query.q as string) || '';
-  res.send(page(query, false));
-});
+router.get('/reflected-xss/safe', reflectedXssHandler(true));
+router.get('/reflected-xss/unsafe', reflectedXssHandler(false));
 
 export default router;
