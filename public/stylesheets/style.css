@@ -1,0 +1,374 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --border: #2a2a2a;
+  --text: #e0e0e0;
+  --muted: #666;
+  --accent: #ff3c3c;
+  --accent-dim: rgba(255, 60, 60, 0.1);
+  --green: #3cffa0;
+  --green-dim: rgba(60, 255, 160, 0.1);
+  --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.15s, border-color 0.15s;
+}
+
+a:hover {
+  color: #fff;
+  border-color: var(--muted);
+}
+
+/* ── Layout ── */
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+header .logo {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border: none;
+  color: #fff;
+}
+
+header .logo span {
+  color: var(--accent);
+}
+
+header nav {
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+}
+
+header nav a {
+  font-size: 12px;
+  color: var(--muted);
+  border: none;
+}
+
+header nav a:hover {
+  color: var(--text);
+}
+
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 28px;
+}
+
+/* ── Index page ── */
+
+.page-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.page-subtitle {
+  color: var(--muted);
+  margin-bottom: 28px;
+  font-size: 12px;
+}
+
+.example-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.example-card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 18px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.15s;
+}
+
+.example-card:hover {
+  border-color: var(--muted);
+}
+
+.example-card a {
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.example-card .desc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.example-card .arrow {
+  color: var(--muted);
+}
+
+/* ── Example page ── */
+
+.back {
+  font-size: 11px;
+  color: var(--muted);
+  border: none;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.back:hover {
+  color: var(--text);
+}
+
+.example-header {
+  margin-bottom: 20px;
+}
+
+.example-header h1 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.example-header p {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── Row (toggle + badge) ── */
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* ── CSP toggle ── */
+
+.csp-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.csp-toggle a {
+  border: none;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--muted);
+  background: var(--surface);
+  transition: background 0.15s, color 0.15s;
+}
+
+.csp-toggle a:hover {
+  color: var(--text);
+}
+
+.csp-toggle a.active-unsafe {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.csp-toggle a.active-safe {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+/* ── Status badge ── */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.status-badge.unsafe {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(255, 60, 60, 0.2);
+}
+
+.status-badge.safe {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(60, 255, 160, 0.2);
+}
+
+.status-badge::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ── CSP info box ── */
+
+.info-box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.info-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.info-box code {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--green);
+}
+
+.info-box.muted code {
+  color: var(--muted);
+}
+
+.info-box code em {
+  font-style: normal;
+  color: var(--muted);
+}
+
+/* ── Console note ── */
+
+.console-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 7px 12px;
+  border-radius: 5px;
+  background: rgba(255, 200, 0, 0.06);
+  border: 1px solid rgba(255, 200, 0, 0.15);
+  font-size: 11px;
+  color: #ffc800;
+}
+
+/* ── Demo form ── */
+
+.demo-box {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.demo-box label {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-box input[type="text"] {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 7px 10px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.demo-box input[type="text"]:focus {
+  border-color: var(--muted);
+}
+
+.demo-box button {
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.demo-box button:hover {
+  background: #333;
+}
+
+/* ── Output ── */
+
+.output {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 12px 16px;
+  font-size: 12px;
+}
+
+.output-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
