@@ -39,7 +39,7 @@ function page(query: string, cspOn: boolean): string {
       <label>Search query</label>
       <form method="get" action="${action}">
         <div class="input-row">
-          <input type="text" name="q" value='<script>alert(1)</script>'>
+          <input type="text" name="term" value='<script>alert(1)</script>'>
           <button type="submit">Search</button>
         </div>
       </form>
@@ -57,7 +57,7 @@ function page(query: string, cspOn: boolean): string {
 
 function reflectedXssHandler(cspOn: boolean) {
   return (req: Request, res: Response) => {
-    const raw = req.query.q;
+    const raw = req.query.term;
     const query = typeof raw === 'string' ? raw : '';
     if (cspOn) res.setHeader('Content-Security-Policy', DEMO_CSP);
     res.send(page(query, cspOn));

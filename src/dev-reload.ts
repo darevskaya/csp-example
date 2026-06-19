@@ -15,7 +15,7 @@ export function setupDevReload(app: Express): void {
   });
 
   const watcher = chokidar
-    .watch(path.join(__dirname, '..', 'public'), { ignoreInitial: true })
+    .watch(path.join(__dirname, '..', '..', 'public'), { ignoreInitial: true })
     .on('change', () => {
       for (const res of clients) res.write('data: reload\n\n');
     });
