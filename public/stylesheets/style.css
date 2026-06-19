@@ -82,6 +82,22 @@ main {
   padding: 32px 28px;
 }
 
+/* ── Shared ── */
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+.label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
 /* ── Index page ── */
 
 .page-title {
@@ -105,22 +121,26 @@ main {
 }
 
 .example-card {
-  border: 1px solid var(--border);
-  border-radius: 6px;
   padding: 14px 18px;
-  background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .example-card:hover {
   border-color: var(--muted);
+  background: #1c1c1c;
 }
 
-.example-card a {
-  border: none;
+.example-card:hover .arrow {
+  color: var(--text);
+  transform: translateX(3px);
+}
+
+.card-title {
   color: #fff;
   font-weight: 600;
   font-size: 13px;
@@ -134,6 +154,7 @@ main {
 
 .example-card .arrow {
   color: var(--muted);
+  transition: color 0.15s, transform 0.15s;
 }
 
 /* ── Example page ── */
@@ -246,9 +267,6 @@ main {
 /* ── CSP info box ── */
 
 .info-box {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
   padding: 12px 16px;
   margin-bottom: 16px;
 }
@@ -261,10 +279,6 @@ main {
 }
 
 .info-label {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 4px;
 }
 
@@ -301,19 +315,12 @@ main {
 /* ── Demo form ── */
 
 .demo-box {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
   padding: 16px;
   margin-bottom: 16px;
 }
 
 .demo-box label {
   display: block;
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 8px;
 }
 
@@ -358,17 +365,10 @@ main {
 /* ── Output ── */
 
 .output {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--surface);
   padding: 12px 16px;
   font-size: 12px;
 }
 
 .output-label {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
   margin-bottom: 6px;
 }

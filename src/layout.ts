@@ -1,3 +1,7 @@
+const isDev = process.env.NODE_ENV !== 'production';
+
+const devScript = isDev ? `\n  <script src="/javascripts/reload.js"></script>` : '';
+
 export function layout(title: string, body: string, extraHeaders = ''): string {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -16,6 +20,7 @@ export function layout(title: string, body: string, extraHeaders = ''): string {
     </nav>
   </header>
   <main>${body}</main>
+  ${devScript}
 </body>
 </html>`;
 }

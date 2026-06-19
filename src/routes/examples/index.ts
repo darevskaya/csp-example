@@ -1,9 +1,11 @@
 import express, { Request, Response } from 'express';
 import { layout } from '../../layout';
+import { csp } from '../../csp';
 
 const router = express.Router();
 
-const CSP_HEADER = "default-src 'self'";
+const DEMO_CSP = csp({ 'default-src': "'self'" });
+const DEMO_CSP_DISPLAY = "default-src 'self'";
 
 function page(query: string, cspOn: boolean): string {
   const action = cspOn ? '/examples/reflected-xss/safe' : '/examples/reflected-xss/unsafe';
@@ -26,13 +28,13 @@ function page(query: string, cspOn: boolean): string {
       </div>
     </div>
 
-    <div class="info-box ${cspOn ? '' : 'muted'}">
-      <div class="info-label">Response header</div>
-      <code>${cspOn ? `Content-Security-Policy: ${CSP_HEADER}` : `Content-Security-Policy: <em>(not set)</em>`}</code>
+    <div class="info-box card ${cspOn ? '' : 'muted'}">
+      <div class="info-label label">Response header</div>
+      <code>${cspOn ? `Content-Security-Policy: ${DEMO_CSP_DISPLAY}` : `Content-Security-Policy: <em>(not set)</em>`}</code>
       ${cspOn && query ? `<div class="console-note"><span>⚠</span> Script blocked — check the browser console.</div>` : ''}
     </div>
 
-    <div class="demo-box">
+    <div class="demo-box card">
       <label>Search query</label>
       <form method="get" action="${action}">
         <div class="input-row">
@@ -43,8 +45,8 @@ function page(query: string, cspOn: boolean): string {
     </div>
 
     ${query ? `
-    <div class="output">
-      <div class="output-label">Output</div>
+    <div class="output card">
+      <div class="output-label label">Output</div>
       Reflected input: ${query}
     </div>` : ''}
   `;
@@ -56,7 +58,7 @@ function reflectedXssHandler(cspOn: boolean) {
   return (req: Request, res: Response) => {
     const raw = req.query.q;
     const query = typeof raw === 'string' ? raw : '';
-    if (cspOn) res.setHeader('Content-Security-Policy', CSP_HEADER);
+    if (cspOn) res.setHeader('Content-Security-Policy', DEMO_CSP);
     res.send(page(query, cspOn));
   };
 }

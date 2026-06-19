@@ -10,13 +10,13 @@ router.get('/', (req: Request, res: Response) => {
 
     <ul class="example-list">
       <li>
-        <div class="example-card">
+        <a class="example-card card" href="/examples/reflected-xss/unsafe">
           <div>
-            <a href="/examples/reflected-xss/unsafe">Reflected XSS</a>
+            <div class="card-title">Reflected XSS</div>
             <div class="desc">Unsanitized user input reflected into the DOM</div>
           </div>
           <span class="arrow">→</span>
-        </div>
+        </a>
       </li>
     </ul>
   `;
