@@ -18,6 +18,33 @@ router.get('/', (req: Request, res: Response) => {
           <span class="arrow">→</span>
         </a>
       </li>
+      <li>
+        <a class="example-card card" href="/examples/inline-script/no-nonce">
+          <div>
+            <div class="card-title">Nonce</div>
+            <div class="desc">Per-request token that allows a specific inline script</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a class="example-card card" href="/examples/inline-script/no-hash">
+          <div>
+            <div class="card-title">Hash</div>
+            <div class="desc">Cryptographic fingerprint that allows a known inline script</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+      </li>
+      <li>
+        <a class="example-card card" href="/examples/third-party/no-strict-dynamic">
+          <div>
+            <div class="card-title">strict-dynamic</div>
+            <div class="desc">How third-party SDKs can inject scripts without breaking CSP</div>
+          </div>
+          <span class="arrow">→</span>
+        </a>
+      </li>
     </ul>
   `;
   res.send(layout('Home', body));

@@ -372,3 +372,85 @@ main {
 .output-label {
   margin-bottom: 6px;
 }
+
+/* ── Explanation box ── */
+
+.explanation {
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.explanation code {
+  font-family: var(--mono);
+  color: var(--text);
+  font-size: 11px;
+}
+
+.script-box {
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.script-box pre {
+  margin-top: 6px;
+  overflow-x: auto;
+}
+
+.script-box code {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.nonce-token {
+  color: var(--green);
+  background: var(--green-dim);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.nonce-missing {
+  color: var(--accent);
+}
+
+.hash-note {
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--muted);
+  word-break: break-all;
+}
+
+/* ── Result states ── */
+
+#nonce-output, #hash-output {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+#nonce-output.blocked, #hash-output.blocked {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-color: rgba(255, 60, 60, 0.2);
+}
+
+#nonce-output.ran, #hash-output.ran {
+  color: var(--green);
+  background: var(--green-dim);
+  border-color: rgba(60, 255, 160, 0.2);
+}
+
+#nonce-output.ran-unsafe, #hash-output.ran-unsafe,
+#hash-output[data-unsafe].ran {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-color: rgba(255, 60, 60, 0.2);
+}

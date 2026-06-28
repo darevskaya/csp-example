@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 const BASE: Record<string, string> = {
   'frame-ancestors': "'none'",
 };
@@ -13,4 +15,8 @@ const DEFAULT_CSP = formatDirectives(BASE);
 export function csp(overrides?: Record<string, string>): string {
   if (!overrides) return DEFAULT_CSP;
   return formatDirectives({ ...BASE, ...overrides });
+}
+
+export function generateNonce(): string {
+  return crypto.randomBytes(16).toString('base64');
 }
