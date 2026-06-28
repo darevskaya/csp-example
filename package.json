@@ -7,13 +7,16 @@
     "dev": "ts-node-dev --respawn --transpile-only bin/server.ts",
     "build": "tsc",
     "lint": "eslint src bin",
-    "start:prod": "node dist/bin/server.js"
+    "start:prod": "node dist/bin/server.js",
+    "test": "playwright test --project=headless",
+    "test:ui": "playwright test --project=ui"
   },
   "dependencies": {
     "express": "^4.22.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.61.1",
     "@types/chokidar": "^1.7.5",
     "@types/express": "^5.0.6",
     "@types/node": "^26.0.0",
