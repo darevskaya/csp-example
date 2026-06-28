@@ -1,0 +1,45 @@
+{% extends "layout.njk" %}
+
+{% block head %}
+  <meta name="csp-nonce" content="{{ nonce }}">
+{% endblock %}
+
+{% block content %}
+  <a class="back" href="/">← back to examples</a>
+
+  <div class="example-header">
+    <h1>Nonce</h1>
+    <p>CSP is active on both pages. The difference is whether the script carries a matching nonce.</p>
+  </div>
+
+  <div class="row">
+    <div class="csp-toggle">
+      <a href="/examples/inline-script/no-nonce" class="{{ 'active-unsafe' if not withNonce }}">Script without nonce</a>
+      <a href="/examples/inline-script/nonce" class="{{ 'active-safe' if withNonce }}">Script with nonce</a>
+    </div>
+    <div class="status-badge {{ 'safe' if withNonce else 'unsafe' }}">
+      {{ 'Nonce matched — script allowed' if withNonce else 'No nonce — script blocked' }}
+    </div>
+  </div>
+
+  <div class="info-box card">
+    <div class="info-label label">Response header (same on both pages)</div>
+    <code>Content-Security-Policy: {{ cspDisplay }}</code>
+  </div>
+
+  <div class="script-box card">
+    <div class="info-label label">Inline script in page source</div>
+    <pre><code>&lt;script{% if withNonce %} nonce="<span class="nonce-token">{{ nonce }}</span>"{% else %} <span class="nonce-missing">← no nonce attribute</span>{% endif %}&gt;{{ scriptContent }}&lt;/script&gt;</code></pre>
+  </div>
+
+  <div class="output card">
+    <div class="info-label label">Result</div>
+    <p id="nonce-output" class="blocked">Script blocked by CSP.</p>
+  </div>
+
+  {% if withNonce %}
+  <script nonce="{{ nonce }}">{{ scriptContent | safe }}</script>
+  {% else %}
+  <script>{{ blockedScriptContent | safe }}</script>
+  {% endif %}
+{% endblock %}

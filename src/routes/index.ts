@@ -1,53 +1,10 @@
 import express, { Request, Response } from 'express';
-import { layout } from '../layout';
+import { isDev } from '../env';
 
 const router = express.Router();
 
-router.get('/', (req: Request, res: Response) => {
-  const body = `
-    <div class="page-title">Security Examples</div>
-    <div class="page-subtitle">Interactive demos of common web vulnerabilities and how CSP can protect against them.</div>
-
-    <ul class="example-list">
-      <li>
-        <a class="example-card card" href="/examples/reflected-xss/unsafe">
-          <div>
-            <div class="card-title">Reflected XSS</div>
-            <div class="desc">Unsanitized user input reflected into the DOM</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-      <li>
-        <a class="example-card card" href="/examples/inline-script/no-nonce">
-          <div>
-            <div class="card-title">Nonce</div>
-            <div class="desc">Per-request token that allows a specific inline script</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-      <li>
-        <a class="example-card card" href="/examples/inline-script/no-hash">
-          <div>
-            <div class="card-title">Hash</div>
-            <div class="desc">Cryptographic fingerprint that allows a known inline script</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-      <li>
-        <a class="example-card card" href="/examples/third-party/no-strict-dynamic">
-          <div>
-            <div class="card-title">strict-dynamic</div>
-            <div class="desc">How third-party SDKs can inject scripts without breaking CSP</div>
-          </div>
-          <span class="arrow">→</span>
-        </a>
-      </li>
-    </ul>
-  `;
-  res.send(layout('Home', body));
+router.get('/', (_req: Request, res: Response) => {
+  res.render('index.njk', { title: 'Home', isDev });
 });
 
 export default router;

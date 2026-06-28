@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import nunjucks from 'nunjucks';
 import indexRouter from './routes/index';
 import examplesRouter from './routes/examples/index';
 import { csp } from './csp';
@@ -7,6 +8,11 @@ import { isDev } from './env';
 import { setupDevReload } from './dev-reload';
 
 const app = express();
+
+nunjucks.configure(path.join(__dirname, '..', 'views'), {
+  autoescape: true,
+  express: app,
+});
 
 const cspHeader = csp();
 

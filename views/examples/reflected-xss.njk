@@ -1,0 +1,51 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <a class="back" href="/">← back to examples</a>
+
+  <div class="example-header">
+    <h1>Reflected XSS</h1>
+    <p>User input is reflected directly into the page without sanitization.</p>
+  </div>
+
+  <div class="row">
+    <div class="csp-toggle">
+      <a href="/examples/reflected-xss/unsafe" class="{{ 'active-unsafe' if not cspOn }}">CSP off</a>
+      <a href="/examples/reflected-xss/safe" class="{{ 'active-safe' if cspOn }}">CSP on</a>
+    </div>
+    <div class="status-badge {{ 'safe' if cspOn else 'unsafe' }}">
+      {{ 'CSP blocking inline scripts' if cspOn else 'Vulnerable — no CSP' }}
+    </div>
+  </div>
+
+  <div class="info-box card {{ '' if cspOn else 'muted' }}">
+    <div class="info-label label">Response header</div>
+    <code>
+      {%- if cspOn -%}
+        Content-Security-Policy: {{ cspDisplay }}
+      {%- else -%}
+        Content-Security-Policy: <em>(not set)</em>
+      {%- endif -%}
+    </code>
+    {% if cspOn and query %}
+      <div class="console-note"><span>⚠</span> Script blocked — check the browser console.</div>
+    {% endif %}
+  </div>
+
+  <div class="demo-box card">
+    <label>Search query</label>
+    <form method="get" action="{{ action }}">
+      <div class="input-row">
+        <input type="text" name="term" value='<script>alert(1)</script>'>
+        <button type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+
+  {% if query %}
+  <div class="output card">
+    <div class="output-label label">Output</div>
+    Reflected input: {{ query | safe }}
+  </div>
+  {% endif %}
+{% endblock %}

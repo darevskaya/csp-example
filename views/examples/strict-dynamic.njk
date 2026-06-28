@@ -1,0 +1,51 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <a class="back" href="/">← back to examples</a>
+
+  <div class="example-header">
+    <h1>strict-dynamic &amp; Origin Allowlist</h1>
+    <p>When a third-party SDK injects scripts dynamically, neither nonce nor hash alone is enough. These are the two approaches that work.</p>
+  </div>
+
+  <div class="row">
+    <div class="csp-toggle">
+      <a href="/examples/third-party/no-strict-dynamic" class="{{ 'active-unsafe' if mode == 'no-strict-dynamic' }}">No strict-dynamic</a>
+      <a href="/examples/third-party/strict-dynamic" class="{{ 'active-safe' if mode == 'strict-dynamic' }}">strict-dynamic</a>
+      <a href="/examples/third-party/allowlist" class="{{ 'active-safe' if mode == 'allowlist' }}">Origin allowlist</a>
+    </div>
+    <div class="status-badge {{ statusClass }}">{{ statusText }}</div>
+  </div>
+
+  <div class="info-box card">
+    <div class="info-label label">Response header</div>
+    <code>Content-Security-Policy: {{ cspDisplay }}</code>
+  </div>
+
+  <div class="script-box card">
+    <div class="info-label label">
+      {%- if mode == 'allowlist' -%}
+        SDK script loaded directly (no loader needed)
+      {%- else -%}
+        Loader script (runs on this page, nonce="<span class="nonce-token">{{ nonce }}</span>")
+      {%- endif -%}
+    </div>
+    <pre><code>{{ loaderDisplay | safe }}</code></pre>
+    {% if mode != 'allowlist' %}
+      <div class="hash-note">↳ dynamically injects <code>/javascripts/sdk.js</code></div>
+    {% endif %}
+  </div>
+
+  <div class="output card">
+    <div class="info-label label">Result</div>
+    <p id="sdk-output" class="blocked">SDK script blocked by CSP.</p>
+  </div>
+
+  <div class="explanation card">{{ explanation | safe }}</div>
+
+  {% if mode == 'allowlist' %}
+    <script src="/javascripts/sdk.js"></script>
+  {% else %}
+    <script nonce="{{ nonce }}">{{ loaderScript | safe }}</script>
+  {% endif %}
+{% endblock %}
