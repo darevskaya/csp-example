@@ -15,6 +15,6 @@
     </nav>
   </header>
   <main><%~ it.body %></main>
-  <% if (it.isDev) { %><script src="/javascripts/reload.js"></script><% } %>
+  <% if (it.isReload) { %><script src="/javascripts/reload.js"></script><% } %>
 </body>
 </html>
