@@ -8,8 +8,8 @@
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/reflected-xss/unsafe"<%= it.cspOn ? '' : ' class="active-unsafe"' %>>CSP off</a>
-    <a href="/examples/reflected-xss/safe"<%= it.cspOn ? ' class="active-safe"' : '' %>>CSP on</a>
+    <a href="/examples/reflected-xss/unsafe"<%~ it.cspOn ? '' : ' class="active-unsafe"' %>>CSP off</a>
+    <a href="/examples/reflected-xss/safe"<%~ it.cspOn ? ' class="active-safe"' : '' %>>CSP on</a>
   </div>
   <div class="status-badge <%= it.cspOn ? 'safe' : 'unsafe' %>">
     <%= it.cspOn ? 'CSP blocking inline scripts' : 'Vulnerable — no CSP' %>

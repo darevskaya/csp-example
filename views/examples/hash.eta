@@ -8,8 +8,8 @@
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/inline-script/no-hash"<%= it.withHash ? '' : ' class="active-unsafe"' %>>Script without matching hash</a>
-    <a href="/examples/inline-script/hash"<%= it.withHash ? ' class="active-safe"' : '' %>>Script with matching hash</a>
+    <a href="/examples/inline-script/no-hash"<%~ it.withHash ? '' : ' class="active-unsafe"' %>>Script without matching hash</a>
+    <a href="/examples/inline-script/hash"<%~ it.withHash ? ' class="active-safe"' : '' %>>Script with matching hash</a>
   </div>
   <div class="status-badge <%= it.withHash ? 'safe' : 'unsafe' %>">
     <%= it.withHash ? 'Hash matched — script allowed' : 'Hash mismatch — script blocked' %>

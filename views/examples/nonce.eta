@@ -8,8 +8,8 @@
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/inline-script/no-nonce"<%= it.withNonce ? '' : ' class="active-unsafe"' %>>Script without nonce</a>
-    <a href="/examples/inline-script/nonce"<%= it.withNonce ? ' class="active-safe"' : '' %>>Script with nonce</a>
+    <a href="/examples/inline-script/no-nonce"<%~ it.withNonce ? '' : ' class="active-unsafe"' %>>Script without nonce</a>
+    <a href="/examples/inline-script/nonce"<%~ it.withNonce ? ' class="active-safe"' : '' %>>Script with nonce</a>
   </div>
   <div class="status-badge <%= it.withNonce ? 'safe' : 'unsafe' %>">
     <%= it.withNonce ? 'Nonce matched — script allowed' : 'No nonce — script blocked' %>

@@ -8,9 +8,9 @@
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/third-party/no-strict-dynamic"<%= it.mode === 'no-strict-dynamic' ? ' class="active-unsafe"' : '' %>>No strict-dynamic</a>
-    <a href="/examples/third-party/strict-dynamic"<%= it.mode === 'strict-dynamic' ? ' class="active-safe"' : '' %>>strict-dynamic</a>
-    <a href="/examples/third-party/allowlist"<%= it.mode === 'allowlist' ? ' class="active-safe"' : '' %>>Origin allowlist</a>
+    <a href="/examples/third-party/no-strict-dynamic"<%~ it.mode === 'no-strict-dynamic' ? ' class="active-unsafe"' : '' %>>No strict-dynamic</a>
+    <a href="/examples/third-party/strict-dynamic"<%~ it.mode === 'strict-dynamic' ? ' class="active-safe"' : '' %>>strict-dynamic</a>
+    <a href="/examples/third-party/allowlist"<%~ it.mode === 'allowlist' ? ' class="active-safe"' : '' %>>Origin allowlist</a>
   </div>
   <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
 </div>
