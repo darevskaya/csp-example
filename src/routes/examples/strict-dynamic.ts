@@ -1,6 +1,6 @@
 import express, { Response } from 'express';
 import { csp, formatDirectives, generateNonce } from '../../csp';
-import { isDev } from '../../env';
+import { render } from '../../render';
 
 const router = express.Router();
 
@@ -44,14 +44,9 @@ function handler(mode: Mode) {
       return `The loader has a nonce and runs. But the <code>&lt;script&gt;</code> it creates dynamically has no nonce — the browser blocks it. Without <code>'strict-dynamic'</code>, trust doesn't pass from a trusted script to the scripts it injects.`;
     })();
 
-    const loaderDisplay = mode === 'allowlist'
-      ? '&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;'
-      : LOADER_DISPLAY;
-
     res.setHeader('Content-Security-Policy', cspHeader);
-    res.render('examples/strict-dynamic.njk', {
+    render(res, 'examples/strict-dynamic', {
       title: 'strict-dynamic',
-      isDev,
       mode,
       nonce,
       cspDisplay,
@@ -59,7 +54,7 @@ function handler(mode: Mode) {
       statusText,
       explanation,
       loaderScript: LOADER_SCRIPT,
-      loaderDisplay,
+      loaderDisplay: mode === 'allowlist' ? '&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;' : LOADER_DISPLAY,
     });
   };
 }

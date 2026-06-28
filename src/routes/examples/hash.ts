@@ -1,7 +1,7 @@
 import express, { Response } from 'express';
 import crypto from 'crypto';
 import { csp, formatDirectives } from '../../csp';
-import { isDev } from '../../env';
+import { render } from '../../render';
 
 const router = express.Router();
 
@@ -16,9 +16,8 @@ const CSP_DISPLAY = formatDirectives({ 'default-src': `'self' '${SCRIPT_HASH}'` 
 function hashHandler(withHash: boolean) {
   return (_req: unknown, res: Response) => {
     res.setHeader('Content-Security-Policy', CSP_HEADER);
-    res.render('examples/hash.njk', {
+    render(res, 'examples/hash', {
       title: 'Hash',
-      isDev,
       withHash,
       scriptHash: SCRIPT_HASH,
       differentScriptHash: DIFFERENT_SCRIPT_HASH,

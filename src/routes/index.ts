@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
-import { isDev } from '../env';
+import { render } from '../render';
 
 const router = express.Router();
 
 router.get('/', (_req: Request, res: Response) => {
-  res.render('index.njk', { title: 'Home', isDev });
+  render(res, 'index', { title: 'Home' });
 });
 
 export default router;

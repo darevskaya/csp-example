@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { csp, formatDirectives } from '../../csp';
-import { isDev } from '../../env';
+import { render } from '../../render';
 
 const router = express.Router();
 
@@ -13,9 +13,8 @@ function reflectedXssHandler(cspOn: boolean) {
     const raw = req.query.term;
     const query = typeof raw === 'string' ? raw : '';
     if (cspOn) res.setHeader('Content-Security-Policy', DEMO_CSP);
-    res.render('examples/reflected-xss.njk', {
+    render(res, 'examples/reflected-xss', {
       title: 'Reflected XSS',
-      isDev,
       cspOn,
       query,
       cspDisplay: DEMO_CSP_DISPLAY,

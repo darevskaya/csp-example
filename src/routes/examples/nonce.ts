@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { csp, formatDirectives, generateNonce } from '../../csp';
-import { isDev } from '../../env';
+import { render } from '../../render';
 
 const router = express.Router();
 
@@ -10,28 +10,28 @@ const BLOCKED_SCRIPT_CONTENT = `document.getElementById('nonce-output').textCont
 router.get('/nonce', (_req: Request, res: Response) => {
   const nonce = generateNonce();
   res.setHeader('Content-Security-Policy', csp({ 'default-src': `'self' 'nonce-${nonce}'` }));
-  res.render('examples/nonce.njk', {
+  render(res, 'examples/nonce', {
     title: 'Nonce',
-    isDev,
     withNonce: true,
     nonce,
     cspDisplay: formatDirectives({ 'default-src': `'self' 'nonce-${nonce}'` }),
     scriptContent: SCRIPT_CONTENT,
     blockedScriptContent: BLOCKED_SCRIPT_CONTENT,
+    head: `<meta name="csp-nonce" content="${nonce}">`,
   });
 });
 
 router.get('/no-nonce', (_req: Request, res: Response) => {
   const nonce = generateNonce();
   res.setHeader('Content-Security-Policy', csp({ 'default-src': `'self' 'nonce-${nonce}'` }));
-  res.render('examples/nonce.njk', {
+  render(res, 'examples/nonce', {
     title: 'Nonce',
-    isDev,
     withNonce: false,
     nonce,
     cspDisplay: formatDirectives({ 'default-src': `'self' 'nonce-${nonce}'` }),
     scriptContent: SCRIPT_CONTENT,
     blockedScriptContent: BLOCKED_SCRIPT_CONTENT,
+    head: `<meta name="csp-nonce" content="${nonce}">`,
   });
 });
 

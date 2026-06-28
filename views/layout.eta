@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ title }} — CSP Examples</title>
+  <title><%= it.title %> — CSP Examples</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-  {% block head %}{% endblock %}
+  <%~ it.head ?? "" %>
 </head>
 <body>
   <header>
@@ -14,7 +14,7 @@
       <a href="/">Examples</a>
     </nav>
   </header>
-  <main>{% block content %}{% endblock %}</main>
-  {% if isDev %}<script src="/javascripts/reload.js"></script>{% endif %}
+  <main><%~ it.body %></main>
+  <% if (it.isDev) { %><script src="/javascripts/reload.js"></script><% } %>
 </body>
 </html>
