@@ -323,28 +323,6 @@
   color: var(--muted);
 }
 
-.info-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-/* Console note */
-
-.console-note {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-block-start: 0.625rem;
-  padding: 0.4375rem 0.75rem;
-  border-radius: 0.3125rem;
-  background: var(--yellow-dim);
-  border: 1px solid var(--yellow-border);
-  font-size: 0.6875rem;
-  color: var(--yellow);
-}
-
 /* Script box */
 
 .script-box {

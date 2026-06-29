@@ -25,9 +25,9 @@ const MODE_CONFIG: Record<Mode, {
   'no-allowlist': {
     statusClass: 'unsafe',
     statusText: 'No allowlist — SDK origin not trusted',
-    explanation: `Without listing the SDK's origin in <code>script-src</code>, the browser blocks any script from that domain. There's no nonce or hash on a plain <code>&lt;script src="..."&gt;</code> tag — the origin itself must be explicitly trusted.`,
+    explanation: `The policy allows <code>'self'</code> scripts so the page loads normally, but the SDK's origin is not listed. Without its origin in <code>script-src</code>, the browser blocks any script from that domain — there's no nonce or hash on a plain <code>&lt;script src="..."&gt;</code> tag, so the origin itself must be explicitly trusted.`,
     loaderDisplay: ALLOWLIST_SCRIPT_TAG,
-    scriptDirectives: () => ({ 'script-src': `'none'` }),
+    scriptDirectives: () => ({ 'script-src': `'self'` }),
   },
 };
 

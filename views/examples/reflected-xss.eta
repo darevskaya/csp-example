@@ -57,6 +57,6 @@
 </div>
 
 <% if (it.query) { %>
-<script src="/javascripts/creature-xss.js"></script>
+<script src="/javascripts/creature.js" data-mode="xss"></script>
 <script>markScriptRan();</script>
 <% } %>

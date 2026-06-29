@@ -1,22 +1,32 @@
-function markScriptRan() {
-  const creature = document.getElementById('creature');
-  const speech = document.getElementById('creature-speech');
-  const panel = document.getElementById('creature-panel');
-  clearTimeout(window._creatureTimeout);
-  creature.textContent = '( ^‿^)';
-  creature.className = 'creature ran';
-  speech.textContent = 'Script ran!';
-  speech.className = 'creature-speech ran';
-  panel.className = 'creature-panel card ran';
-}
+(function () {
+  var mode = document.currentScript && document.currentScript.dataset.mode;
+  var xss = mode === 'xss';
 
-window._creatureTimeout = setTimeout(() => {
-  const creature = document.getElementById('creature');
-  const speech = document.getElementById('creature-speech');
-  const panel = document.getElementById('creature-panel');
-  creature.textContent = '( \xd7_\xd7)';
-  creature.className = 'creature blocked';
-  speech.textContent = 'Script blocked.';
-  speech.className = 'creature-speech blocked';
-  panel.className = 'creature-panel card blocked';
-}, 400);
+  function setCreature(state, face, speech) {
+    var creature = document.getElementById('creature');
+    var speechEl = document.getElementById('creature-speech');
+    var panel = document.getElementById('creature-panel');
+    creature.textContent = face;
+    creature.className = 'creature ' + state;
+    speechEl.textContent = speech;
+    speechEl.className = 'creature-speech ' + state;
+    panel.className = 'creature-panel card ' + state;
+  }
+
+  var timeout = setTimeout(function () {
+    if (xss) {
+      setCreature('ran', '( ^‿^)', 'CSP blocked the XSS');
+    } else {
+      setCreature('blocked', '( \xd7_\xd7)', 'CSP blocked the script');
+    }
+  }, 400);
+
+  window.markScriptRan = function () {
+    clearTimeout(timeout);
+    if (xss) {
+      setCreature('xss', '( \xd7_\xd7)', 'XSS ran — no CSP');
+    } else {
+      setCreature('ran', '( ^‿^)', 'Script allowed');
+    }
+  };
+})();
