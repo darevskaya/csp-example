@@ -1,0 +1,48 @@
+<% layout('../layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src nonce</h1>
+  <p class="example-desc">CSP is active on both pages. The script is only allowed when it carries a <code class="example-desc-code">nonce</code> attribute that matches the value in the response header — a random token generated fresh on every request.</p>
+</div>
+
+<div class="row">
+  <div class="csp-toggle">
+    <a class="toggle-tab<%~ it.withNonce ? '' : ' active-unsafe' %>" href="/examples/inline-script/no-nonce">Script without nonce</a>
+    <a class="toggle-tab<%~ it.withNonce ? ' active-safe' : '' %>" href="/examples/inline-script/nonce">Script with nonce</a>
+  </div>
+  <div class="status-badge <%= it.withNonce ? 'safe' : 'unsafe' %>">
+    <%= it.withNonce ? 'Nonce matched — script allowed' : 'No nonce — script blocked' %>
+  </div>
+</div>
+
+<div class="info-box card">
+  <div class="card-header">Response header (same on both pages)</div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
+</div>
+
+<div class="script-box card">
+  <div class="card-header">Inline script in page source</div>
+  <div class="card-body">
+    <pre class="script-pre"><code class="script-code">&lt;script<% if (it.withNonce) { %> nonce="<span class="nonce-token"><%= it.nonce %></span>"<% } else { %> <span class="nonce-missing">← no nonce attribute</span><% } %>&gt;markScriptRan();&lt;/script&gt;</code></pre>
+  </div>
+</div>
+
+<div class="creature-panel card" id="creature-panel">
+  <div class="card-header">Result</div>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech"></div>
+    </div>
+  </div>
+</div>
+
+<script nonce="<%= it.nonce %>" src="/javascripts/creature.js"></script>
+
+<% if (it.withNonce) { %>
+<script nonce="<%= it.nonce %>">markScriptRan();</script>
+<% } else { %>
+<script>markScriptRan();</script>
+<% } %>

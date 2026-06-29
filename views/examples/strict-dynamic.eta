@@ -1,0 +1,42 @@
+<% layout('../layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src strict-dynamic</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<div class="row">
+  <div class="csp-toggle">
+    <a class="toggle-tab<%~ it.mode === 'no-strict-dynamic' ? ' active-unsafe' : '' %>" href="/examples/third-party/no-strict-dynamic">No strict-dynamic</a>
+    <a class="toggle-tab<%~ it.mode === 'strict-dynamic' ? ' active-safe' : '' %>" href="/examples/third-party/strict-dynamic">strict-dynamic</a>
+  </div>
+  <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
+</div>
+
+<div class="info-box card">
+  <div class="card-header">Response header</div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
+</div>
+
+<div class="script-box card">
+  <div class="card-header">Loader script — nonce="<span class="nonce-token"><%= it.nonce %></span>"</div>
+  <div class="card-body">
+    <pre class="script-pre"><code class="script-code"><%~ it.loaderDisplay %></code></pre>
+    <div class="hash-note">↳ dynamically injects <code class="script-code">/javascripts/sdk.js</code></div>
+  </div>
+</div>
+
+<div class="creature-panel card" id="creature-panel">
+  <div class="card-header">Result</div>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech"></div>
+    </div>
+  </div>
+</div>
+
+<script nonce="<%= it.nonce %>" src="/javascripts/creature.js"></script>
+<script nonce="<%= it.nonce %>"><%~ it.loaderScript %></script>

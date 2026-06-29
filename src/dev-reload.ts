@@ -1,11 +1,11 @@
 import path from 'path';
 import chokidar from 'chokidar';
-import type { Express, Request, Response } from 'express';
+import type { Express, Response } from 'express';
 
 export function setupDevReload(app: Express): void {
   const clients = new Set<Response>();
 
-  app.get('/__reload', (req: Request, res: Response) => {
+  app.get('/__reload', (req, res: Response) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');

@@ -1,0 +1,62 @@
+<% layout('../layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">default-src</h1>
+  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — try submitting the form to see the difference.</p>
+</div>
+
+<div class="row">
+  <div class="csp-toggle">
+    <a class="toggle-tab<%~ it.cspOn ? '' : ' active-unsafe' %>" href="/examples/reflected-xss/unsafe">CSP off</a>
+    <a class="toggle-tab<%~ it.cspOn ? ' active-safe' : '' %>" href="/examples/reflected-xss/safe">CSP on</a>
+  </div>
+  <div class="status-badge <%= it.cspOn ? 'safe' : 'unsafe' %>">
+    <%= it.cspOn ? 'CSP blocking inline scripts' : 'Vulnerable — no CSP' %>
+  </div>
+</div>
+
+<div class="info-box card<%= it.cspOn ? '' : ' muted' %>">
+  <div class="card-header">Response header</div>
+  <div class="card-body">
+    <code class="info-code">
+      <% if (it.cspOn) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>Content-Security-Policy: <em class="info-code-muted">(not set)</em><% } %>
+    </code>
+  </div>
+</div>
+
+<div class="demo-box card">
+  <div class="card-header">Search query</div>
+  <div class="card-body">
+    <form method="get" action="<%= it.action %>">
+      <div class="input-row">
+        <input class="demo-input" type="text" name="term" value='<script>alert(1)</script>'>
+        <button class="demo-btn" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% if (it.query) { %>
+<div class="output card">
+  <div class="card-header">Injected into page source</div>
+  <div class="card-body"><code class="output-code"><%= it.query %></code></div>
+</div>
+<%~ it.query %>
+<% } %>
+
+<div class="creature-panel card" id="creature-panel">
+  <div class="card-header">Result</div>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech"></div>
+    </div>
+  </div>
+</div>
+
+<% if (it.query) { %>
+<script src="/javascripts/creature.js" data-mode="xss"></script>
+<script>markScriptRan();</script>
+<% } %>
