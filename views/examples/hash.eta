@@ -1,0 +1,40 @@
+<% layout('../layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1>Hash</h1>
+  <p>CSP is active on both pages. The difference is whether the script's content matches the hash in the header.</p>
+</div>
+
+<div class="row">
+  <div class="csp-toggle">
+    <a href="/examples/inline-script/no-hash"<%~ it.withHash ? '' : ' class="active-unsafe"' %>>Script without matching hash</a>
+    <a href="/examples/inline-script/hash"<%~ it.withHash ? ' class="active-safe"' : '' %>>Script with matching hash</a>
+  </div>
+  <div class="status-badge <%= it.withHash ? 'safe' : 'unsafe' %>">
+    <%= it.withHash ? 'Hash matched — script allowed' : 'Hash mismatch — script blocked' %>
+  </div>
+</div>
+
+<div class="info-box card">
+  <div class="info-label label">Response header (same on both pages)</div>
+  <code>Content-Security-Policy: <%= it.cspDisplay %></code>
+</div>
+
+<div class="script-box card">
+  <div class="info-label label">Inline script in page source</div>
+  <pre><code>&lt;script&gt;<%= it.activeScript %>&lt;/script&gt;</code></pre>
+  <div class="hash-note">
+    Header allows hash: <span class="nonce-token"><%= it.scriptHash %></span>
+    <% if (!it.withHash) { %>
+      <br>Script hash: <span class="nonce-missing"><%= it.differentScriptHash %> ← does not match</span>
+    <% } %>
+  </div>
+</div>
+
+<div class="output card">
+  <div class="info-label label">Result</div>
+  <p id="hash-output" class="blocked">Script blocked by CSP.</p>
+</div>
+
+<script><%~ it.activeScript %></script>

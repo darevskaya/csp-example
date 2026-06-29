@@ -4,17 +4,20 @@
   "private": true,
   "scripts": {
     "start": "ts-node bin/server.ts",
-    "dev": "ts-node-dev --respawn --transpile-only bin/server.ts",
-    "build": "tsc",
+    "dev": "RELOAD=true ts-node-dev --respawn --transpile-only bin/server.ts",
+    "build": "rm -rf dist && tsc",
     "lint": "eslint src bin",
-    "start:prod": "node dist/bin/server.js"
+    "start:prod": "node dist/bin/server.js",
+    "test": "playwright test --project=headless",
+    "test:ui": "playwright test --project=ui"
   },
   "dependencies": {
+    "eta": "^4.6.0",
     "express": "^4.22.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/chokidar": "^1.7.5",
+    "@playwright/test": "^1.61.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.0.0",
     "chokidar": "^5.0.0",

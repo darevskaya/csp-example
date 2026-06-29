@@ -3,10 +3,12 @@ import path from 'path';
 import indexRouter from './routes/index';
 import examplesRouter from './routes/examples/index';
 import { csp } from './csp';
-import { isDev } from './env';
+import { isDev, isReload } from './env';
 import { setupDevReload } from './dev-reload';
 
 const app = express();
+
+app.disable('x-powered-by');
 
 const cspHeader = csp();
 
@@ -19,9 +21,9 @@ app.use((_req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, '..', '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-if (isDev) setupDevReload(app);
+if (isReload) setupDevReload(app);
 
 app.use('/', indexRouter);
 app.use('/examples', examplesRouter);

@@ -1,29 +1,28 @@
 import http from 'http';
 import app from '../src/app';
 
-const port = parseInt(process.env.PORT || '3000', 10);
+const port = parseInt(process.env['PORT'] || '3000', 10);
 app.set('port', port);
 
 const server = http.createServer(app);
 
+const ERROR_MESSAGES: Partial<Record<string, string>> = {
+  EACCES:    `Port ${port} requires elevated privileges`,
+  EADDRINUSE: `Port ${port} is already in use`,
+};
+
 server.listen(port);
 server.on('error', (error: NodeJS.ErrnoException) => {
   if (error.syscall !== 'listen') throw error;
-  switch (error.code) {
-    case 'EACCES':
-      console.error(`Port ${String(port)} requires elevated privileges`);
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(`Port ${String(port)} is already in use`);
-      process.exit(1);
-      break;
-    default:
-      throw error;
+  const message = error.code !== undefined ? ERROR_MESSAGES[error.code] : undefined;
+  if (message !== undefined) {
+    console.error(message);
+    process.exit(1);
   }
+  throw error;
 });
 server.on('listening', () => {
   const addr = server.address();
-  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${String(addr?.port)}`;
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr?.port}`;
   console.log(`Listening on ${bind}`);
 });

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= it.title %> — CSP Examples</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <%~ it.head ?? "" %>
+</head>
+<body>
+  <header>
+    <a class="logo" href="/">csp<span>.</span>examples</a>
+    <nav>
+      <a href="/">Examples</a>
+    </nav>
+  </header>
+  <main><%~ it.body %></main>
+  <% if (it.isReload) { %><script src="/javascripts/reload.js"></script><% } %>
+</body>
+</html>

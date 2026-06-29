@@ -1,4 +1,8 @@
 node_modules/
 dist/
+local/
 .idea/
 .claude/
+test-results/
+playwright-report/
+.playwright/

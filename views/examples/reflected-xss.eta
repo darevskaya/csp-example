@@ -1,0 +1,44 @@
+<% layout('../layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1>Reflected XSS</h1>
+  <p>User input is reflected directly into the page without sanitization.</p>
+</div>
+
+<div class="row">
+  <div class="csp-toggle">
+    <a href="/examples/reflected-xss/unsafe"<%~ it.cspOn ? '' : ' class="active-unsafe"' %>>CSP off</a>
+    <a href="/examples/reflected-xss/safe"<%~ it.cspOn ? ' class="active-safe"' : '' %>>CSP on</a>
+  </div>
+  <div class="status-badge <%= it.cspOn ? 'safe' : 'unsafe' %>">
+    <%= it.cspOn ? 'CSP blocking inline scripts' : 'Vulnerable — no CSP' %>
+  </div>
+</div>
+
+<div class="info-box card<%= it.cspOn ? '' : ' muted' %>">
+  <div class="info-label label">Response header</div>
+  <code>
+    <% if (it.cspOn) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>Content-Security-Policy: <em>(not set)</em><% } %>
+  </code>
+  <% if (it.cspOn && it.query) { %>
+    <div class="console-note"><span>⚠</span> Script blocked — check the browser console.</div>
+  <% } %>
+</div>
+
+<div class="demo-box card">
+  <label>Search query</label>
+  <form method="get" action="<%= it.action %>">
+    <div class="input-row">
+      <input type="text" name="term" value='<script>alert(1)</script>'>
+      <button type="submit">Search</button>
+    </div>
+  </form>
+</div>
+
+<% if (it.query) { %>
+<div class="output card">
+  <div class="output-label label">Output</div>
+  Reflected input: <%~ it.query %>
+</div>
+<% } %>
