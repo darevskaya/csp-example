@@ -13,6 +13,15 @@
     </a>
   </li>
   <li>
+    <a class="example-card card" href="/examples/third-party/no-allowlist">
+      <div>
+        <div class="card-title">Origin Allowlist</div>
+        <div class="desc">Trust scripts by origin URL. Any script loaded from an allowed domain runs without a nonce or hash.</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  </li>
+  <li>
     <a class="example-card card" href="/examples/inline-script/no-nonce">
       <div>
         <div class="card-title">Nonce</div>
@@ -35,15 +44,6 @@
       <div>
         <div class="card-title">strict-dynamic</div>
         <div class="desc">Lets a trusted script inject further scripts, so third-party SDKs work without allowlisting domains.</div>
-      </div>
-      <span class="arrow">→</span>
-    </a>
-  </li>
-  <li>
-    <a class="example-card card" href="/examples/third-party/no-allowlist">
-      <div>
-        <div class="card-title">Origin Allowlist</div>
-        <div class="desc">Trust scripts by origin URL. Any script loaded from an allowed domain runs without a nonce or hash.</div>
       </div>
       <span class="arrow">→</span>
     </a>
