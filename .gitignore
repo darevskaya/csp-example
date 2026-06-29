@@ -1,6 +1,6 @@
 node_modules/
 dist/
-blog-post*.md
+local/
 .idea/
 .claude/
 test-results/
