@@ -2,7 +2,7 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1 class="example-title">Hash</h1>
+  <h1 class="example-title">script-src hash</h1>
   <p class="example-desc">CSP is active on both pages. Instead of a per-request nonce, the policy lists the SHA-256 hash of the exact script content it allows. The script only runs if its content hashes to that value — any change, even a single character, produces a different hash and gets blocked.</p>
 </div>
 

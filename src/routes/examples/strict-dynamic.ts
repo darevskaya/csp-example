@@ -43,7 +43,7 @@ function handler(mode: Mode) {
     const directives = scriptDirectives(nonce);
     res.setHeader('Content-Security-Policy', csp(directives));
     render(res, 'examples/strict-dynamic', {
-      title: 'strict-dynamic',
+      title: 'script-src strict-dynamic',
       mode,
       nonce,
       cspDisplay: formatDirectives(directives),

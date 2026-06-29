@@ -38,7 +38,7 @@ function handler(mode: Mode) {
   return (_req: unknown, res: Response) => {
     res.setHeader('Content-Security-Policy', csp(directives));
     render(res, 'examples/allowlist', {
-      title: 'Origin Allowlist',
+      title: 'script-src origin',
       mode,
       cspDisplay: formatDirectives(directives),
       statusClass,

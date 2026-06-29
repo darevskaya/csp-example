@@ -7,10 +7,10 @@ const router = express.Router();
 function nonceHandler(withNonce: boolean) {
   return (_req: Request, res: Response) => {
     const nonce = generateNonce();
-    const directives = { 'default-src': `'self' 'nonce-${nonce}'` };
+    const directives = { 'script-src': `'self' 'nonce-${nonce}'` };
     res.setHeader('Content-Security-Policy', csp(directives));
     render(res, 'examples/nonce', {
-      title: 'Nonce',
+      title: 'script-src nonce',
       withNonce,
       nonce,
       cspDisplay: formatDirectives(directives),

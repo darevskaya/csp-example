@@ -2,7 +2,7 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1 class="example-title">strict-dynamic</h1>
+  <h1 class="example-title">script-src strict-dynamic</h1>
   <p class="example-desc"><%~ it.explanation %></p>
 </div>
 

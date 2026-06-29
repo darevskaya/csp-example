@@ -2,7 +2,7 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1 class="example-title">Nonce</h1>
+  <h1 class="example-title">script-src nonce</h1>
   <p class="example-desc">CSP is active on both pages. The script is only allowed when it carries a <code class="example-desc-code">nonce</code> attribute that matches the value in the response header — a random token generated fresh on every request.</p>
 </div>
 
