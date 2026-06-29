@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import type { Response } from 'express';
 import { eta } from './eta';
 import { isDev, isReload } from './env';
 

@@ -20,7 +20,7 @@ export function setupDevReload(app: Express): void {
       for (const res of clients) res.write('data: reload\n\n');
     });
 
-  const shutdown = () => { void watcher.close(); };
+  const shutdown = (): void => { void watcher.close(); };
   process.once('SIGTERM', shutdown);
   process.once('SIGINT', shutdown);
 }

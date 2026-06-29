@@ -3,7 +3,7 @@ import path from 'path';
 import indexRouter from './routes/index';
 import examplesRouter from './routes/examples/index';
 import { csp } from './csp';
-import { isDev, isReload } from './env';
+import { isReload } from './env';
 import { setupDevReload } from './dev-reload';
 
 const app = express();
