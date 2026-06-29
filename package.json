@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "eta": "^4.6.0",
-    "express": "^4.22.2"
+    "express": "^5.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
