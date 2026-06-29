@@ -13,60 +13,57 @@ const LOADER_DISPLAY = LOADER_SCRIPT
   .replace(/</g, '&lt;')
   .replace(/>/g, '&gt;');
 
-const ALLOWLIST_DIRECTIVES = { 'script-src': `'self'` };
-const ALLOWLIST_CSP_HEADER = csp(ALLOWLIST_DIRECTIVES);
-const ALLOWLIST_CSP_DISPLAY = formatDirectives(ALLOWLIST_DIRECTIVES);
-
 type Mode = 'no-strict-dynamic' | 'strict-dynamic' | 'allowlist';
 
-function handler(mode: Mode) {
-  let statusClass: string;
-  let statusText: string;
-  let explanation: string;
+const ALLOWLIST_SCRIPT_TAG = '&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;';
 
-  if (mode === 'strict-dynamic') {
-    statusClass = 'safe';
-    statusText = 'strict-dynamic — injected script allowed';
-    explanation = `The loader has a nonce so the browser trusts it. <code>'strict-dynamic'</code> extends that trust to any script the loader injects — even though the injected script has no nonce of its own.`;
-  } else if (mode === 'allowlist') {
-    statusClass = 'safe';
-    statusText = 'Origin allowlist — SDK origin trusted';
-    explanation = `The SDK's origin (<code>'self'</code> here, normally the CDN URL) is listed directly in <code>script-src</code>. No nonce needed — any script from that origin is trusted.`;
-  } else {
-    statusClass = 'unsafe';
-    statusText = 'No strict-dynamic — injected script blocked';
-    explanation = `The loader has a nonce and runs. But the <code>&lt;script&gt;</code> it creates dynamically has no nonce — the browser blocks it. Without <code>'strict-dynamic'</code>, trust doesn't pass from a trusted script to the scripts it injects.`;
-  }
+const MODE_CONFIG: Record<Mode, {
+  statusClass: string;
+  statusText: string;
+  explanation: string;
+  loaderDisplay: string;
+  scriptDirectives: (nonce: string) => Record<string, string>;
+}> = {
+  'strict-dynamic': {
+    statusClass: 'safe',
+    statusText: 'strict-dynamic — injected script allowed',
+    explanation: `The loader has a nonce so the browser trusts it. <code>'strict-dynamic'</code> extends that trust to any script the loader injects — even though the injected script has no nonce of its own.`,
+    loaderDisplay: LOADER_DISPLAY,
+    scriptDirectives: (nonce) => ({ 'script-src': `'nonce-${nonce}' 'strict-dynamic'` }),
+  },
+  'allowlist': {
+    statusClass: 'safe',
+    statusText: 'Origin allowlist — SDK origin trusted',
+    explanation: `The SDK's origin (<code>'self'</code> here, normally the CDN URL) is listed directly in <code>script-src</code>. No nonce needed — any script from that origin is trusted.`,
+    loaderDisplay: ALLOWLIST_SCRIPT_TAG,
+    scriptDirectives: () => ({ 'script-src': `'self'` }),
+  },
+  'no-strict-dynamic': {
+    statusClass: 'unsafe',
+    statusText: 'No strict-dynamic — injected script blocked',
+    explanation: `The loader has a nonce and runs. But the <code>&lt;script&gt;</code> it creates dynamically has no nonce — the browser blocks it. Without <code>'strict-dynamic'</code>, trust doesn't pass from a trusted script to the scripts it injects.`,
+    loaderDisplay: LOADER_DISPLAY,
+    scriptDirectives: (nonce) => ({ 'script-src': `'nonce-${nonce}'` }),
+  },
+};
+
+function handler(mode: Mode) {
+  const { statusClass, statusText, explanation, loaderDisplay, scriptDirectives } = MODE_CONFIG[mode];
 
   return (_req: unknown, res: Response) => {
     const nonce = generateNonce();
-
-    let cspHeader: string;
-    let cspDisplay: string;
-    if (mode === 'strict-dynamic') {
-      const directives = { 'script-src': `'nonce-${nonce}' 'strict-dynamic'` };
-      cspHeader = csp(directives);
-      cspDisplay = formatDirectives(directives);
-    } else if (mode === 'allowlist') {
-      cspHeader = ALLOWLIST_CSP_HEADER;
-      cspDisplay = ALLOWLIST_CSP_DISPLAY;
-    } else {
-      const directives = { 'script-src': `'nonce-${nonce}'` };
-      cspHeader = csp(directives);
-      cspDisplay = formatDirectives(directives);
-    }
-
-    res.setHeader('Content-Security-Policy', cspHeader);
+    const directives = scriptDirectives(nonce);
+    res.setHeader('Content-Security-Policy', csp(directives));
     render(res, 'examples/strict-dynamic', {
       title: 'strict-dynamic',
       mode,
       nonce,
-      cspDisplay,
+      cspDisplay: formatDirectives(directives),
       statusClass,
       statusText,
       explanation,
       loaderScript: LOADER_SCRIPT,
-      loaderDisplay: mode === 'allowlist' ? '&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;' : LOADER_DISPLAY,
+      loaderDisplay,
     });
   };
 }

@@ -20,3 +20,7 @@ export function csp(overrides?: Record<string, string>): string {
 export function generateNonce(): string {
   return crypto.randomBytes(16).toString('base64');
 }
+
+export function hashScript(content: string): string {
+  return `sha256-${crypto.createHash('sha256').update(content).digest('base64')}`;
+}

@@ -1,14 +1,13 @@
 import express, { Response } from 'express';
-import crypto from 'crypto';
-import { csp, formatDirectives } from '../../csp';
+import { csp, formatDirectives, hashScript } from '../../csp';
 import { render } from '../../render';
 
 const router = express.Router();
 
 const HASH_SCRIPT_CONTENT = `document.getElementById('hash-output').className = 'ran'; document.getElementById('hash-output').textContent = 'Script executed successfully — hash matched.'`;
-const SCRIPT_HASH = `sha256-${crypto.createHash('sha256').update(HASH_SCRIPT_CONTENT).digest('base64')}`;
+const SCRIPT_HASH = hashScript(HASH_SCRIPT_CONTENT);
 const DIFFERENT_SCRIPT_CONTENT = `document.getElementById('hash-output').textContent = 'This line never runs.'`;
-const DIFFERENT_SCRIPT_HASH = `sha256-${crypto.createHash('sha256').update(DIFFERENT_SCRIPT_CONTENT).digest('base64')}`;
+const DIFFERENT_SCRIPT_HASH = hashScript(DIFFERENT_SCRIPT_CONTENT);
 
 const CSP_HEADER = csp({ 'default-src': `'self' '${SCRIPT_HASH}'` });
 const CSP_DISPLAY = formatDirectives({ 'default-src': `'self' '${SCRIPT_HASH}'` });
