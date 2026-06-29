@@ -2,28 +2,28 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1>strict-dynamic</h1>
-  <p><%~ it.explanation %></p>
+  <h1 class="example-title">strict-dynamic</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
 </div>
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/third-party/no-strict-dynamic"<%~ it.mode === 'no-strict-dynamic' ? ' class="active-unsafe"' : '' %>>No strict-dynamic</a>
-    <a href="/examples/third-party/strict-dynamic"<%~ it.mode === 'strict-dynamic' ? ' class="active-safe"' : '' %>>strict-dynamic</a>
+    <a class="toggle-tab<%~ it.mode === 'no-strict-dynamic' ? ' active-unsafe' : '' %>" href="/examples/third-party/no-strict-dynamic">No strict-dynamic</a>
+    <a class="toggle-tab<%~ it.mode === 'strict-dynamic' ? ' active-safe' : '' %>" href="/examples/third-party/strict-dynamic">strict-dynamic</a>
   </div>
   <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
 </div>
 
 <div class="info-box card">
   <div class="card-header">Response header</div>
-  <div class="card-body"><code>Content-Security-Policy: <%= it.cspDisplay %></code></div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
 </div>
 
 <div class="script-box card">
   <div class="card-header">Loader script — nonce="<span class="nonce-token"><%= it.nonce %></span>"</div>
   <div class="card-body">
-    <pre><code><%~ it.loaderDisplay %></code></pre>
-    <div class="hash-note">↳ dynamically injects <code>/javascripts/sdk.js</code></div>
+    <pre class="script-pre"><code class="script-code"><%~ it.loaderDisplay %></code></pre>
+    <div class="hash-note">↳ dynamically injects <code class="script-code">/javascripts/sdk.js</code></div>
   </div>
 </div>
 

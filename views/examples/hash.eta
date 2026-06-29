@@ -2,14 +2,14 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1>Hash</h1>
-  <p>CSP is active on both pages. Instead of a per-request nonce, the policy lists the SHA-256 hash of the exact script content it allows. The script only runs if its content hashes to that value — any change, even a single character, produces a different hash and gets blocked.</p>
+  <h1 class="example-title">Hash</h1>
+  <p class="example-desc">CSP is active on both pages. Instead of a per-request nonce, the policy lists the SHA-256 hash of the exact script content it allows. The script only runs if its content hashes to that value — any change, even a single character, produces a different hash and gets blocked.</p>
 </div>
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/inline-script/no-hash"<%~ it.withHash ? '' : ' class="active-unsafe"' %>>Script without matching hash</a>
-    <a href="/examples/inline-script/hash"<%~ it.withHash ? ' class="active-safe"' : '' %>>Script with matching hash</a>
+    <a class="toggle-tab<%~ it.withHash ? '' : ' active-unsafe' %>" href="/examples/inline-script/no-hash">Script without matching hash</a>
+    <a class="toggle-tab<%~ it.withHash ? ' active-safe' : '' %>" href="/examples/inline-script/hash">Script with matching hash</a>
   </div>
   <div class="status-badge <%= it.withHash ? 'safe' : 'unsafe' %>">
     <%= it.withHash ? 'Hash matched — script allowed' : 'Hash mismatch — script blocked' %>
@@ -18,13 +18,13 @@
 
 <div class="info-box card">
   <div class="card-header">Response header (same on both pages)</div>
-  <div class="card-body"><code>Content-Security-Policy: <%= it.cspDisplay %></code></div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
 </div>
 
 <div class="script-box card">
   <div class="card-header">Inline script in page source</div>
   <div class="card-body">
-    <pre><code>&lt;script&gt;<%= it.activeScript %>&lt;/script&gt;</code></pre>
+    <pre class="script-pre"><code class="script-code">&lt;script&gt;<%= it.activeScript %>&lt;/script&gt;</code></pre>
     <div class="hash-note">
       Header allows hash: <span class="nonce-token"><%= it.scriptHash %></span>
       <% if (!it.withHash) { %>

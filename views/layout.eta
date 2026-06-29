@@ -7,14 +7,14 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <%~ it.head ?? "" %>
 </head>
-<body>
-  <header>
-    <a class="logo" href="/">csp<span>.</span>examples</a>
-    <nav>
-      <a href="/">Examples</a>
+<body class="app-body">
+  <header class="site-header">
+    <a class="site-logo" href="/"><span class="site-logo-accent">csp</span>.examples</a>
+    <nav class="site-nav">
+      <a class="site-nav-link" href="/">Examples</a>
     </nav>
   </header>
-  <main><%~ it.body %></main>
+  <main class="site-main"><%~ it.body %></main>
   <% if (it.isReload) { %><script src="/javascripts/reload.js"></script><% } %>
 </body>
 </html>

@@ -6,46 +6,46 @@
   <li>
     <a class="example-card card" href="/examples/reflected-xss/unsafe">
       <div>
-        <div class="card-title">default-src</div>
-        <div class="desc">The simplest CSP policy. See how <code>default-src 'self'</code> blocks injected inline scripts.</div>
+        <div class="example-card-title">default-src</div>
+        <div class="example-card-desc">The simplest CSP policy. See how <code class="example-card-desc-code">default-src 'self'</code> blocks injected inline scripts.</div>
       </div>
-      <span class="arrow">→</span>
+      <span class="example-arrow">→</span>
     </a>
   </li>
   <li>
     <a class="example-card card" href="/examples/third-party/no-allowlist">
       <div>
-        <div class="card-title">Origin Allowlist</div>
-        <div class="desc">Trust scripts by origin URL. Any script loaded from an allowed domain runs without a nonce or hash.</div>
+        <div class="example-card-title">Origin Allowlist</div>
+        <div class="example-card-desc">Trust scripts by origin URL. Any script loaded from an allowed domain runs without a nonce or hash.</div>
       </div>
-      <span class="arrow">→</span>
+      <span class="example-arrow">→</span>
     </a>
   </li>
   <li>
     <a class="example-card card" href="/examples/inline-script/no-nonce">
       <div>
-        <div class="card-title">Nonce</div>
-        <div class="desc">A per-request random token in the header and script tag lets one specific inline script run.</div>
+        <div class="example-card-title">Nonce</div>
+        <div class="example-card-desc">A per-request random token in the header and script tag lets one specific inline script run.</div>
       </div>
-      <span class="arrow">→</span>
+      <span class="example-arrow">→</span>
     </a>
   </li>
   <li>
     <a class="example-card card" href="/examples/inline-script/no-hash">
       <div>
-        <div class="card-title">Hash</div>
-        <div class="desc">A cryptographic hash of the script content. Only scripts whose content matches the hash are allowed.</div>
+        <div class="example-card-title">Hash</div>
+        <div class="example-card-desc">A cryptographic hash of the script content. Only scripts whose content matches the hash are allowed.</div>
       </div>
-      <span class="arrow">→</span>
+      <span class="example-arrow">→</span>
     </a>
   </li>
   <li>
     <a class="example-card card" href="/examples/third-party/no-strict-dynamic">
       <div>
-        <div class="card-title">strict-dynamic</div>
-        <div class="desc">Lets a trusted script inject further scripts, so third-party SDKs work without allowlisting domains.</div>
+        <div class="example-card-title">strict-dynamic</div>
+        <div class="example-card-desc">Lets a trusted script inject further scripts, so third-party SDKs work without allowlisting domains.</div>
       </div>
-      <span class="arrow">→</span>
+      <span class="example-arrow">→</span>
     </a>
   </li>
 </ul>

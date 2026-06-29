@@ -2,27 +2,27 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1>Origin Allowlist</h1>
-  <p><%~ it.explanation %></p>
+  <h1 class="example-title">Origin Allowlist</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
 </div>
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/third-party/no-allowlist"<%~ it.mode === 'no-allowlist' ? ' class="active-unsafe"' : '' %>>No allowlist</a>
-    <a href="/examples/third-party/allowlist"<%~ it.mode === 'allowlist' ? ' class="active-safe"' : '' %>>Origin allowlist</a>
+    <a class="toggle-tab<%~ it.mode === 'no-allowlist' ? ' active-unsafe' : '' %>" href="/examples/third-party/no-allowlist">No allowlist</a>
+    <a class="toggle-tab<%~ it.mode === 'allowlist' ? ' active-safe' : '' %>" href="/examples/third-party/allowlist">Origin allowlist</a>
   </div>
   <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
 </div>
 
 <div class="info-box card">
   <div class="card-header">Response header</div>
-  <div class="card-body"><code>Content-Security-Policy: <%= it.cspDisplay %></code></div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
 </div>
 
 <div class="script-box card">
   <div class="card-header">Script tag in page source</div>
   <div class="card-body">
-    <pre><code><%~ it.loaderDisplay %></code></pre>
+    <pre class="script-pre"><code class="script-code"><%~ it.loaderDisplay %></code></pre>
   </div>
 </div>
 
