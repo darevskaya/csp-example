@@ -6,7 +6,7 @@ test.describe('home page', () => {
   test('lists all four examples', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/CSP Examples/);
-    await expect(page.getByText('Reflected XSS')).toBeVisible();
+    await expect(page.getByText('default-src')).toBeVisible();
     await expect(page.getByText('Nonce')).toBeVisible();
     await expect(page.getByText('Hash')).toBeVisible();
     await expect(page.getByText('strict-dynamic')).toBeVisible();

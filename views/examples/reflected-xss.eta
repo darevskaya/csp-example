@@ -2,8 +2,8 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1>Reflected XSS</h1>
-  <p>User input is reflected directly into the page without sanitization.</p>
+  <h1>default-src</h1>
+  <p>Without CSP, injected scripts run freely. A <code>default-src 'self'</code> policy blocks them.</p>
 </div>
 
 <div class="row">
@@ -35,9 +35,10 @@
 
 <% if (it.query) { %>
 <div class="output card">
-  <div class="output-label label">Output</div>
-  Reflected input: <%~ it.query %>
+  <div class="output-label label">Injected into page source</div>
+  <code><%= it.query %></code>
 </div>
+<%~ it.query %>
 <% } %>
 
 <div class="creature-panel card" id="creature-panel">
