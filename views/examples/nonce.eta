@@ -23,16 +23,22 @@
 
 <div class="script-box card">
   <div class="info-label label">Inline script in page source</div>
-  <pre><code>&lt;script<% if (it.withNonce) { %> nonce="<span class="nonce-token"><%= it.nonce %></span>"<% } else { %> <span class="nonce-missing">← no nonce attribute</span><% } %>&gt;<%= it.withNonce ? it.scriptContent : it.blockedScriptContent %>&lt;/script&gt;</code></pre>
+  <pre><code>&lt;script<% if (it.withNonce) { %> nonce="<span class="nonce-token"><%= it.nonce %></span>"<% } else { %> <span class="nonce-missing">← no nonce attribute</span><% } %>&gt;markScriptRan();&lt;/script&gt;</code></pre>
 </div>
 
-<div class="output card">
-  <div class="info-label label">Result</div>
-  <p id="nonce-output" class="blocked">Script blocked by CSP.</p>
+<div class="creature-panel card" id="creature-panel">
+  <div class="label">Result</div>
+  <div class="creature-stage">
+    <div class="creature" id="creature">( ._.)
+    </div>
+    <div class="creature-speech" id="creature-speech"></div>
+  </div>
 </div>
+
+<script nonce="<%= it.nonce %>" src="/javascripts/creature.js"></script>
 
 <% if (it.withNonce) { %>
-<script nonce="<%= it.nonce %>"><%~ it.scriptContent %></script>
+<script nonce="<%= it.nonce %>">markScriptRan();</script>
 <% } else { %>
-<script><%~ it.blockedScriptContent %></script>
+<script>markScriptRan();</script>
 <% } %>

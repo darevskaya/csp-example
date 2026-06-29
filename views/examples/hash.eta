@@ -32,9 +32,14 @@
   </div>
 </div>
 
-<div class="output card">
-  <div class="info-label label">Result</div>
-  <p id="hash-output" class="blocked">Script blocked by CSP.</p>
+<div class="creature-panel card" id="creature-panel">
+  <div class="label">Result</div>
+  <div class="creature-stage">
+    <div class="creature" id="creature">( ._.)
+    </div>
+    <div class="creature-speech" id="creature-speech"></div>
+  </div>
 </div>
 
+<script src="/javascripts/creature.js"></script>
 <script><%~ it.activeScript %></script>

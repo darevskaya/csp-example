@@ -21,9 +21,6 @@
   <code>
     <% if (it.cspOn) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>Content-Security-Policy: <em>(not set)</em><% } %>
   </code>
-  <% if (it.cspOn && it.query) { %>
-    <div class="console-note"><span>⚠</span> Script blocked — check the browser console.</div>
-  <% } %>
 </div>
 
 <div class="demo-box card">
@@ -41,4 +38,18 @@
   <div class="output-label label">Output</div>
   Reflected input: <%~ it.query %>
 </div>
+<% } %>
+
+<div class="creature-panel card" id="creature-panel">
+  <div class="label">Result</div>
+  <div class="creature-stage">
+    <div class="creature" id="creature">( ._.)
+    </div>
+    <div class="creature-speech" id="creature-speech"></div>
+  </div>
+</div>
+
+<% if (it.query) { %>
+<script src="/javascripts/creature-xss.js"></script>
+<script>markScriptRan();</script>
 <% } %>

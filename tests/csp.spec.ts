@@ -70,18 +70,18 @@ test.describe('nonce example', () => {
     }
   });
 
-  test('no-nonce: script is blocked — result stays red', async ({ page }) => {
+  test('no-nonce: script is blocked — result stays default', async ({ page }) => {
     await page.goto('/examples/inline-script/no-nonce');
-    const output = page.locator('#nonce-output');
-    await expect(output).toHaveClass(/blocked/);
-    await expect(output).toHaveText('Script blocked by CSP.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech')).toHaveText('Script blocked.');
   });
 
   test('nonce: script runs — result turns green', async ({ page }) => {
     await page.goto('/examples/inline-script/nonce');
-    const output = page.locator('#nonce-output');
-    await expect(output).toHaveClass(/ran/);
-    await expect(output).toHaveText('Script executed successfully — nonce matched.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/ran/);
+    await expect(page.locator('#creature-speech')).toHaveText('Script ran!');
   });
 
   test('nonce is different on each request', async ({ request }) => {
@@ -108,18 +108,18 @@ test.describe('hash example', () => {
     expect(h1).toBe(h2);
   });
 
-  test('no-hash: mismatched script is blocked — result stays red', async ({ page }) => {
+  test('no-hash: mismatched script is blocked — result stays default', async ({ page }) => {
     await page.goto('/examples/inline-script/no-hash');
-    const output = page.locator('#hash-output');
-    await expect(output).toHaveClass(/blocked/);
-    await expect(output).toHaveText('Script blocked by CSP.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech')).toHaveText('Script blocked.');
   });
 
   test('hash: matching script runs — result turns green', async ({ page }) => {
     await page.goto('/examples/inline-script/hash');
-    const output = page.locator('#hash-output');
-    await expect(output).toHaveClass(/ran/);
-    await expect(output).toHaveText('Script executed successfully — hash matched.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/ran/);
+    await expect(page.locator('#creature-speech')).toHaveText('Script ran!');
   });
 });
 
@@ -133,11 +133,11 @@ test.describe('strict-dynamic example', () => {
     expect(csp).not.toContain('strict-dynamic');
   });
 
-  test('no-strict-dynamic: SDK injection blocked — result stays red', async ({ page }) => {
+  test('no-strict-dynamic: SDK injection blocked — result stays default', async ({ page }) => {
     await page.goto('/examples/third-party/no-strict-dynamic');
-    const output = page.locator('#sdk-output');
-    await expect(output).toHaveClass(/blocked/);
-    await expect(output).toHaveText('SDK script blocked by CSP.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech')).toHaveText('Script blocked.');
   });
 
   test('strict-dynamic: header contains nonce and strict-dynamic', async ({ request }) => {
@@ -149,9 +149,9 @@ test.describe('strict-dynamic example', () => {
 
   test('strict-dynamic: injected SDK runs — result turns green', async ({ page }) => {
     await page.goto('/examples/third-party/strict-dynamic');
-    const output = page.locator('#sdk-output');
-    await expect(output).toHaveClass(/ran/);
-    await expect(output).toHaveText('SDK script executed — injected by loader.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/ran/);
+    await expect(page.locator('#creature-speech')).toHaveText('Script ran!');
   });
 
   test('allowlist: script-src self CSP header set', async ({ request }) => {
@@ -162,8 +162,8 @@ test.describe('strict-dynamic example', () => {
 
   test('allowlist: SDK loads directly — result turns green', async ({ page }) => {
     await page.goto('/examples/third-party/allowlist');
-    const output = page.locator('#sdk-output');
-    await expect(output).toHaveClass(/ran/);
-    await expect(output).toHaveText('SDK script executed — injected by loader.');
+    const creature = page.locator('#creature');
+    await expect(creature).toHaveClass(/ran/);
+    await expect(page.locator('#creature-speech')).toHaveText('Script ran!');
   });
 });

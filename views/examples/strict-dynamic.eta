@@ -30,15 +30,21 @@
   <% } %>
 </div>
 
-<div class="output card">
-  <div class="info-label label">Result</div>
-  <p id="sdk-output" class="blocked">SDK script blocked by CSP.</p>
+<div class="creature-panel card" id="creature-panel">
+  <div class="label">Result</div>
+  <div class="creature-stage">
+    <div class="creature" id="creature">( ._.)
+    </div>
+    <div class="creature-speech" id="creature-speech"></div>
+  </div>
 </div>
 
 <div class="explanation card"><%~ it.explanation %></div>
 
 <% if (it.mode === 'allowlist') { %>
-  <script src="/javascripts/sdk.js"></script>
+<script src="/javascripts/creature.js"></script>
+<script src="/javascripts/sdk.js"></script>
 <% } else { %>
-  <script nonce="<%= it.nonce %>"><%~ it.loaderScript %></script>
+<script nonce="<%= it.nonce %>" src="/javascripts/creature.js"></script>
+<script nonce="<%= it.nonce %>"><%~ it.loaderScript %></script>
 <% } %>

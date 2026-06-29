@@ -4,9 +4,9 @@ import { render } from '../../render';
 
 const router = express.Router();
 
-const HASH_SCRIPT_CONTENT = `document.getElementById('hash-output').className = 'ran'; document.getElementById('hash-output').textContent = 'Script executed successfully — hash matched.'`;
+const HASH_SCRIPT_CONTENT = `markScriptRan();`;
+const DIFFERENT_SCRIPT_CONTENT = `/* different script — hash won't match */`;
 const SCRIPT_HASH = hashScript(HASH_SCRIPT_CONTENT);
-const DIFFERENT_SCRIPT_CONTENT = `document.getElementById('hash-output').textContent = 'This line never runs.'`;
 const DIFFERENT_SCRIPT_HASH = hashScript(DIFFERENT_SCRIPT_CONTENT);
 
 const HASH_DIRECTIVES = { 'default-src': `'self' '${SCRIPT_HASH}'` };
