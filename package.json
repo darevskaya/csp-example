@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node bin/server.ts",
-    "dev": "RELOAD=true ts-node-dev --respawn --transpile-only bin/server.ts",
+    "dev": "cross-env RELOAD=true ts-node-dev --respawn --transpile-only --watch src,views,bin --debounce 300 bin/server.ts",
     "build": "rm -rf dist && tsc",
     "lint": "eslint src bin",
     "start:prod": "node dist/bin/server.js",
@@ -21,6 +21,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^26.0.0",
     "chokidar": "^5.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^10.5.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
