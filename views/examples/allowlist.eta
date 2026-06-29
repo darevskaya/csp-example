@@ -2,14 +2,14 @@
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
-  <h1>strict-dynamic</h1>
+  <h1>Origin Allowlist</h1>
   <p><%~ it.explanation %></p>
 </div>
 
 <div class="row">
   <div class="csp-toggle">
-    <a href="/examples/third-party/no-strict-dynamic"<%~ it.mode === 'no-strict-dynamic' ? ' class="active-unsafe"' : '' %>>No strict-dynamic</a>
-    <a href="/examples/third-party/strict-dynamic"<%~ it.mode === 'strict-dynamic' ? ' class="active-safe"' : '' %>>strict-dynamic</a>
+    <a href="/examples/third-party/no-allowlist"<%~ it.mode === 'no-allowlist' ? ' class="active-unsafe"' : '' %>>No allowlist</a>
+    <a href="/examples/third-party/allowlist"<%~ it.mode === 'allowlist' ? ' class="active-safe"' : '' %>>Origin allowlist</a>
   </div>
   <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
 </div>
@@ -20,10 +20,9 @@
 </div>
 
 <div class="script-box card">
-  <div class="card-header">Loader script — nonce="<span class="nonce-token"><%= it.nonce %></span>"</div>
+  <div class="card-header">Script tag in page source</div>
   <div class="card-body">
     <pre><code><%~ it.loaderDisplay %></code></pre>
-    <div class="hash-note">↳ dynamically injects <code>/javascripts/sdk.js</code></div>
   </div>
 </div>
 
@@ -38,5 +37,9 @@
   </div>
 </div>
 
-<script nonce="<%= it.nonce %>" src="/javascripts/creature.js"></script>
-<script nonce="<%= it.nonce %>"><%~ it.loaderScript %></script>
+<% if (it.mode === 'allowlist') { %>
+<script src="/javascripts/creature.js"></script>
+<script src="/javascripts/sdk.js"></script>
+<% } else { %>
+<script src="/javascripts/creature.js"></script>
+<% } %>

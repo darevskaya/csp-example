@@ -3,7 +3,7 @@
 
 <div class="example-header">
   <h1>default-src</h1>
-  <p>Without CSP, injected scripts run freely. A <code>default-src 'self'</code> policy blocks them.</p>
+  <p>Without CSP, injected scripts run freely. A <code>default-src 'self'</code> policy blocks them — try submitting the form to see the difference.</p>
 </div>
 
 <div class="row">
@@ -17,36 +17,42 @@
 </div>
 
 <div class="info-box card<%= it.cspOn ? '' : ' muted' %>">
-  <div class="info-label label">Response header</div>
-  <code>
-    <% if (it.cspOn) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>Content-Security-Policy: <em>(not set)</em><% } %>
-  </code>
+  <div class="card-header">Response header</div>
+  <div class="card-body">
+    <code>
+      <% if (it.cspOn) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>Content-Security-Policy: <em>(not set)</em><% } %>
+    </code>
+  </div>
 </div>
 
 <div class="demo-box card">
-  <label>Search query</label>
-  <form method="get" action="<%= it.action %>">
-    <div class="input-row">
-      <input type="text" name="term" value='<script>alert(1)</script>'>
-      <button type="submit">Search</button>
-    </div>
-  </form>
+  <div class="card-header">Search query</div>
+  <div class="card-body">
+    <form method="get" action="<%= it.action %>">
+      <div class="input-row">
+        <input type="text" name="term" value='<script>alert(1)</script>'>
+        <button type="submit">Search</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <% if (it.query) { %>
 <div class="output card">
-  <div class="output-label label">Injected into page source</div>
-  <code><%= it.query %></code>
+  <div class="card-header">Injected into page source</div>
+  <div class="card-body"><code><%= it.query %></code></div>
 </div>
 <%~ it.query %>
 <% } %>
 
 <div class="creature-panel card" id="creature-panel">
-  <div class="label">Result</div>
-  <div class="creature-stage">
-    <div class="creature" id="creature">( ._.)
+  <div class="card-header">Result</div>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech"></div>
     </div>
-    <div class="creature-speech" id="creature-speech"></div>
   </div>
 </div>
 
