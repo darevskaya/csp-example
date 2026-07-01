@@ -40,10 +40,10 @@
     </a>
   </li>
   <li>
-    <a class="example-card card" href="/examples/third-party/no-strict-dynamic">
+    <a class="example-card card" href="/examples/event-handler/script-src">
       <div>
-        <div class="example-card-title">script-src strict-dynamic</div>
-        <div class="example-card-desc">Lets a trusted script inject further scripts, so third-party SDKs work without allowlisting domains.</div>
+        <div class="example-card-title">script-src-elem / script-src-attr</div>
+        <div class="example-card-desc">Split script rules by category. Allow inline event handlers while keeping <code class="example-card-desc-code">&lt;script&gt;</code> blocks protected by nonces.</div>
       </div>
       <span class="example-arrow">→</span>
     </a>

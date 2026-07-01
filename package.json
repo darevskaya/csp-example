@@ -7,7 +7,7 @@
     "start": "ts-node bin/server.ts",
     "dev": "cross-env RELOAD=true ts-node-dev --respawn --transpile-only --watch src,views,bin --debounce 300 bin/server.ts",
     "build": "rm -rf dist && tsc && cp -r views dist/views && cp -r public dist/public",
-    "lint": "eslint src bin",
+    "lint": "eslint src bin public/javascripts",
     "lint:css": "stylelint \"public/stylesheets/**/*.css\"",
     "lint:all": "npm run lint && npm run lint:css",
     "start:prod": "node dist/bin/server.js",
