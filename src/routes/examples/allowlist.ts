@@ -1,4 +1,5 @@
-import express, { Response } from 'express';
+import type { Response } from 'express';
+import express from 'express';
 import { csp, formatDirectives } from '../../csp';
 import { render } from '../../render';
 

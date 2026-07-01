@@ -5,24 +5,24 @@
 }
 
 :root {
-  --bg:            oklch(10% 0 0);
-  --surface:       oklch(14% 0 0);
-  --border:        oklch(26% 0 0);
-  --text:          oklch(92% 0 0);
-  --muted:         oklch(58% 0 0);
-  --accent:        oklch(68% 0.22 25);
+  --bg:            oklch(10% 0 0deg);
+  --surface:       oklch(14% 0 0deg);
+  --border:        oklch(26% 0 0deg);
+  --text:          oklch(92% 0 0deg);
+  --muted:         oklch(58% 0 0deg);
+  --accent:        oklch(68% 0.22 25deg);
   --accent-dim:    color-mix(in oklch, var(--accent) 12%, transparent);
   --accent-border: color-mix(in oklch, var(--accent) 35%, transparent);
-  --green:         oklch(84% 0.18 158);
+  --green:         oklch(84% 0.18 158deg);
   --green-dim:     color-mix(in oklch, var(--green) 12%, transparent);
   --green-border:  color-mix(in oklch, var(--green) 35%, transparent);
-  --yellow:        oklch(82% 0.15 80);
+  --yellow:        oklch(82% 0.15 80deg);
   --yellow-dim:    color-mix(in oklch, var(--yellow) 10%, transparent);
   --yellow-border: color-mix(in oklch, var(--yellow) 30%, transparent);
-  --blue:          oklch(72% 0.18 250);
+  --blue:          oklch(72% 0.18 250deg);
   --blue-dim:      color-mix(in oklch, var(--blue) 10%, transparent);
   --blue-border:   color-mix(in oklch, var(--blue) 30%, transparent);
-  --purple:        oklch(72% 0.18 300);
+  --purple:        oklch(72% 0.18 300deg);
   --purple-dim:    color-mix(in oklch, var(--purple) 10%, transparent);
   --purple-border: color-mix(in oklch, var(--purple) 30%, transparent);
   --mono:          'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
@@ -53,7 +53,7 @@
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: oklch(100% 0 0);
+  color: oklch(100% 0 0deg);
   text-decoration: none;
   border: none;
 }
@@ -100,10 +100,10 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.375rem 0.875rem;
-  background: oklch(11% 0 0);
+  background: oklch(11% 0 0deg);
   border-bottom: 1px solid var(--border);
   font-size: 0.625rem;
-  color: oklch(55% 0 0);
+  color: oklch(55% 0 0deg);
   text-transform: uppercase;
   letter-spacing: 0.09em;
 }
@@ -118,7 +118,7 @@
   font-size: 1.125rem;
   font-weight: 700;
   margin-block-end: 0.375rem;
-  color: oklch(100% 0 0);
+  color: oklch(100% 0 0deg);
 }
 
 .page-subtitle {
@@ -145,9 +145,14 @@
   border-bottom: none;
 }
 
+.example-arrow {
+  color: var(--muted);
+  transition: color 0.15s, transform 0.15s;
+}
+
 .example-card:hover {
   border-color: var(--muted);
-  background: oklch(16% 0 0);
+  background: oklch(16% 0 0deg);
 }
 
 .example-card:hover .example-arrow {
@@ -156,7 +161,7 @@
 }
 
 .example-card-title {
-  color: oklch(100% 0 0);
+  color: oklch(100% 0 0deg);
   font-weight: 600;
   font-size: 0.8125rem;
 }
@@ -170,11 +175,6 @@
 .example-card-desc-code {
   font-family: var(--mono);
   color: var(--text);
-}
-
-.example-arrow {
-  color: var(--muted);
-  transition: color 0.15s, transform 0.15s;
 }
 
 /* Example page */
@@ -200,7 +200,7 @@
 .example-title {
   font-size: 1.0625rem;
   font-weight: 700;
-  color: oklch(100% 0 0);
+  color: oklch(100% 0 0deg);
   margin-block-end: 0.375rem;
 }
 
@@ -281,7 +281,7 @@
   width: 0.3125rem;
   height: 0.3125rem;
   border-radius: 50%;
-  background: currentColor;
+  background: currentcolor;
 }
 
 .status-badge.unsafe {
@@ -342,7 +342,7 @@
 .script-code {
   font-family: var(--mono);
   font-size: 0.6875rem;
-  color: oklch(78% 0 0);
+  color: oklch(78% 0 0deg);
   white-space: pre-wrap;
   word-break: break-all;
 }
@@ -412,7 +412,7 @@
 }
 
 .demo-btn:hover {
-  background: oklch(26% 0 0);
+  background: oklch(26% 0 0deg);
 }
 
 .input-row {
@@ -436,8 +436,7 @@
 /* Creature panel */
 
 .creature-panel {
-  margin-block-start: 1rem;
-  margin-block-end: 1rem;
+  margin-block: 1rem;
 }
 
 .creature-panel.ran {
@@ -493,19 +492,19 @@
 .creature-speech {
   font-size: 0.75rem;
   color: var(--muted);
-  opacity: 0;
+  opacity: 0%;
   transition: opacity 0.3s 0.2s;
 }
 
 .creature-speech.ran {
   color: var(--green);
-  opacity: 1;
+  opacity: 100%;
 }
 
 .creature-speech.blocked,
 .creature-speech.xss {
   color: var(--accent);
-  opacity: 1;
+  opacity: 100%;
 }
 
 @keyframes creature-bounce {

@@ -1,4 +1,5 @@
-import express, { Response } from 'express';
+import type { Response } from 'express';
+import express from 'express';
 import { render } from '../render';
 
 const router = express.Router();
