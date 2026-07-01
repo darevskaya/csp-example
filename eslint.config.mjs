@@ -4,8 +4,9 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   eslint.configs.recommended,
-  ...tseslint.configs.strictTypeChecked,
   {
+    files: ['**/*.ts'],
+    extends: [...tseslint.configs.strictTypeChecked],
     languageOptions: {
       parserOptions: {
         projectService: true,
@@ -28,6 +29,29 @@ export default tseslint.config(
   {
     files: ['tests/**/*.ts'],
     ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    files: ['public/**/*.js'],
+    ...tseslint.configs.disableTypeChecked,
+    languageOptions: {
+      parserOptions: { project: null },
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        location: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        EventSource: 'readonly',
+        markScriptRan: 'readonly',
+      },
+    },
+    rules: {
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'eqeqeq': ['error', 'always'],
+      'no-implicit-globals': 'error',
+      'no-undef': 'error',
+    },
   },
   {
     ignores: ['dist/**', 'node_modules/**'],

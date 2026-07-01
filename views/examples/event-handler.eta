@@ -1,0 +1,53 @@
+<% layout('../layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src-elem / script-src-attr</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<div class="row">
+  <div class="csp-toggle">
+    <a class="toggle-tab<%~ it.mode === 'script-src' ? ' active-unsafe' : '' %>" href="/examples/event-handler/script-src">script-src only</a>
+    <a class="toggle-tab<%~ it.mode === 'split-unsafe-inline' ? ' active-safe' : '' %>" href="/examples/event-handler/split-unsafe-inline">split — attr allowed</a>
+    <a class="toggle-tab<%~ it.mode === 'split-none' ? ' active-unsafe' : '' %>" href="/examples/event-handler/split-none">split — attr blocked</a>
+  </div>
+  <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
+</div>
+
+<div class="info-box card">
+  <div class="card-header">Response header</div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
+</div>
+
+<div class="script-box card">
+  <div class="card-header">Inline event handler in page source</div>
+  <div class="card-body">
+    <pre class="script-pre"><code class="script-code">&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;</code></pre>
+    <div class="hash-note">↳ calls <code class="script-code">markScriptRan()</code> defined in creature.js, loaded via nonced <code class="script-code">&lt;script&gt;</code></div>
+  </div>
+</div>
+
+<div class="creature-panel card" id="creature-panel">
+  <div class="card-header">Result — click the button</div>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech"></div>
+    </div>
+    <div style="margin-top: 1rem; text-align: center;">
+      <button onclick="markScriptRan()" style="padding: 0.5rem 1.5rem; font-size: 1rem; cursor: pointer;">Click me</button>
+    </div>
+  </div>
+</div>
+
+<script nonce="<%= it.nonce %>" src="/javascripts/creature.js" data-mode="click"></script>
+<% if (!it.handlerAllowed) { %>
+<script nonce="<%= it.nonce %>">
+  var btn = document.querySelector('button[onclick]');
+  if (btn) btn.addEventListener('click', function () {
+    window.markHandlerBlocked();
+  });
+</script>
+<% } %>
