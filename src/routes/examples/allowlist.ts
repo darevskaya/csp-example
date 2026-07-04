@@ -5,7 +5,10 @@ import { render } from '../../render';
 
 const router = express.Router();
 
-const ALLOWLIST_SCRIPT_TAG = '&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;';
+const CDN_ORIGIN = 'https://cdnjs.cloudflare.com';
+const CDN_SCRIPT_URL = `${CDN_ORIGIN}/ajax/libs/jquery/3.7.1/jquery.min.js`;
+const CDN_SCRIPT_TAG = `&lt;script src="${CDN_SCRIPT_URL}"&gt;&lt;/script&gt;`;
+const SELF_SCRIPT_TAG = `&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;`;
 
 type Mode = 'no-allowlist' | 'allowlist';
 
@@ -19,15 +22,15 @@ const MODE_CONFIG: Record<Mode, {
   'allowlist': {
     statusClass: 'safe',
     statusText: 'Origin allowlist — third-party origin trusted',
-    explanation: `The third-party script's origin is listed directly in <code>script-src</code> (shown as <code>'self'</code> here; in production this would be a CDN URL). Any script loaded from that origin is trusted — no nonce or hash needed on the tag itself.`,
-    loaderDisplay: ALLOWLIST_SCRIPT_TAG,
+    explanation: `The script's origin (<code>'self'</code>) is listed in <code>script-src</code>. The browser fetches and runs it — no nonce or hash needed on the tag itself, just the origin. In production, a CDN URL like <code>${CDN_ORIGIN}</code> would be listed instead.`,
+    loaderDisplay: SELF_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
   },
   'no-allowlist': {
     statusClass: 'unsafe',
-    statusText: 'No allowlist — third-party origin not trusted',
-    explanation: `The third-party script's origin is not listed in <code>script-src</code>. In production, that means the browser would block it — a plain <code>&lt;script src="..."&gt;</code> tag has no nonce or hash, so the origin must be explicitly trusted. This demo simulates the blocked result by not loading the script at all.`,
-    loaderDisplay: ALLOWLIST_SCRIPT_TAG,
+    statusText: 'No allowlist — third-party origin blocked',
+    explanation: `The third-party script's origin (<code>${CDN_ORIGIN}</code>) is not listed in <code>script-src</code>. A plain <code>&lt;script src="..."&gt;</code> tag has no nonce or hash, so the origin must be explicitly trusted — the browser blocks the load.`,
+    loaderDisplay: CDN_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
   },
 };
@@ -46,6 +49,7 @@ function handler(mode: Mode) {
       statusText,
       explanation,
       loaderDisplay,
+      cdnScriptUrl: CDN_SCRIPT_URL,
     });
   };
 }

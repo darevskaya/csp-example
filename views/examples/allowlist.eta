@@ -37,9 +37,9 @@
   </div>
 </div>
 
-<% if (it.mode === 'allowlist') { %>
 <script src="/javascripts/creature.js"></script>
+<% if (it.mode === 'allowlist') { %>
 <script src="/javascripts/sdk.js"></script>
 <% } else { %>
-<script src="/javascripts/creature.js"></script>
+<script id="allowlist-script" src="<%= it.cdnScriptUrl %>"></script>
 <% } %>
