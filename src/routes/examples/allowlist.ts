@@ -1,14 +1,14 @@
 import type { Response } from 'express';
 import express from 'express';
-import { csp, formatDirectives } from '../../csp';
+import { csp, escapeHtml, formatDirectives } from '../../csp';
 import { render } from '../../render';
 
 const router = express.Router();
 
 const CDN_ORIGIN = 'https://cdnjs.cloudflare.com';
 const CDN_SCRIPT_URL = `${CDN_ORIGIN}/ajax/libs/jquery/3.7.1/jquery.min.js`;
-const CDN_SCRIPT_TAG = `&lt;script src="${CDN_SCRIPT_URL}"&gt;&lt;/script&gt;`;
-const SELF_SCRIPT_TAG = `&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;`;
+const CDN_SCRIPT_TAG = escapeHtml(`<script src="${CDN_SCRIPT_URL}"></script>`);
+const SELF_SCRIPT_TAG = escapeHtml(`<script src="/javascripts/sdk.js"></script>`);
 
 type Mode = 'no-allowlist' | 'allowlist';
 
@@ -32,13 +32,15 @@ const MODE_CONFIG: Record<Mode, {
 function handler(mode: Mode) {
   const { explanation, loaderDisplay, scriptDirectives } = MODE_CONFIG[mode];
   const directives = scriptDirectives();
+  const cspHeader = csp(directives);
+  const cspDisplay = formatDirectives(directives);
 
   return (_req: unknown, res: Response) => {
-    res.setHeader('Content-Security-Policy', csp(directives));
+    res.setHeader('Content-Security-Policy', cspHeader);
     render(res, 'examples/allowlist', {
       title: 'script-src origin',
       mode,
-      cspDisplay: formatDirectives(directives),
+      cspDisplay,
       explanation,
       loaderDisplay,
       cdnScriptUrl: CDN_SCRIPT_URL,
