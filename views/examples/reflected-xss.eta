@@ -57,3 +57,7 @@
 <script src="/javascripts/creature.js" data-mode="xss"></script>
 <script>markScriptRan();</script>
 <% } %>
+
+<% if (it.cspOn && it.query) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

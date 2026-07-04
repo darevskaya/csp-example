@@ -42,3 +42,7 @@
 <% } else { %>
 <script id="allowlist-script" src="<%= it.cdnScriptUrl %>"></script>
 <% } %>
+
+<% if (it.mode === 'no-allowlist') { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

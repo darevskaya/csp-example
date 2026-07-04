@@ -1,6 +1,6 @@
 import type { Response } from 'express';
 import express from 'express';
-import { csp, formatDirectives, generateNonce } from '../../csp';
+import { csp, formatDirectives, generateNonce, escapeHtml } from '../../csp';
 import { render } from '../../render';
 
 const router = express.Router();
@@ -10,11 +10,7 @@ s.src = '/javascripts/sdk.js';
 document.head.appendChild(s);
 `;
 
-const LOADER_DISPLAY = LOADER_SCRIPT
-  .replace(/&/g, '&amp;')
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/^(?=.)/gm, '  ');
+const LOADER_DISPLAY = escapeHtml(LOADER_SCRIPT).replace(/^(?=.)/gm, '  ');
 
 type Mode = 'no-strict-dynamic' | 'strict-dynamic';
 

@@ -5,14 +5,14 @@ import { render } from '../../render';
 
 const router = express.Router();
 
-type Mode = 'script-src' | 'split-unsafe-inline' | 'split-none';
+type Mode = 'script-src-only' | 'split-unsafe-inline' | 'split-none';
 
 const MODE_CONFIG: Record<Mode, {
   explanation: string;
   handlerAllowed: boolean;
   scriptDirectives: (nonce: string) => Record<string, string>;
 }> = {
-  'script-src': {
+  'script-src-only': {
     explanation: `<code>script-src</code> covers all script execution — including inline event handlers. The <code>onclick</code> attribute has no nonce, so the browser blocks it. The only way to allow it under a plain <code>script-src</code> policy would be <code>'unsafe-inline'</code>, which defeats the nonce.`,
     handlerAllowed: false,
     scriptDirectives: (nonce) => ({ 'script-src': `'self' 'nonce-${nonce}'` }),
@@ -53,7 +53,7 @@ function handler(mode: Mode) {
   };
 }
 
-router.get('/script-src',          handler('script-src'));
+router.get('/script-src-only',      handler('script-src-only'));
 router.get('/split-unsafe-inline', handler('split-unsafe-inline'));
 router.get('/split-none',          handler('split-none'));
 

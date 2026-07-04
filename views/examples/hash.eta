@@ -44,3 +44,7 @@
 
 <script src="/javascripts/creature.js"></script>
 <script><%~ it.activeScript %></script>
+
+<% if (!it.withHash) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>
