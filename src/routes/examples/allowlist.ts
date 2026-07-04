@@ -18,15 +18,15 @@ const MODE_CONFIG: Record<Mode, {
 }> = {
   'allowlist': {
     statusClass: 'safe',
-    statusText: 'Origin allowlist — SDK origin trusted',
-    explanation: `The SDK's origin (<code>'self'</code> here, normally a CDN URL) is listed directly in <code>script-src</code>. Any script loaded from that origin is trusted — no nonce or hash needed on the tag itself.`,
+    statusText: 'Origin allowlist — third-party origin trusted',
+    explanation: `The third-party script's origin is listed directly in <code>script-src</code> (shown as <code>'self'</code> here; in production this would be a CDN URL). Any script loaded from that origin is trusted — no nonce or hash needed on the tag itself.`,
     loaderDisplay: ALLOWLIST_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
   },
   'no-allowlist': {
     statusClass: 'unsafe',
-    statusText: 'No allowlist — SDK origin not trusted',
-    explanation: `The policy allows <code>'self'</code> scripts so the page loads normally, but the SDK's origin is not listed. Without its origin in <code>script-src</code>, the browser blocks any script from that domain — there's no nonce or hash on a plain <code>&lt;script src="..."&gt;</code> tag, so the origin itself must be explicitly trusted.`,
+    statusText: 'No allowlist — third-party origin not trusted',
+    explanation: `The third-party script's origin is not listed in <code>script-src</code>. In production, that means the browser would block it — a plain <code>&lt;script src="..."&gt;</code> tag has no nonce or hash, so the origin must be explicitly trusted. This demo simulates the blocked result by not loading the script at all.`,
     loaderDisplay: ALLOWLIST_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
   },
