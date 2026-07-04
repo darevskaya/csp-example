@@ -3,16 +3,13 @@
 
 <div class="example-header">
   <h1 class="example-title">default-src</h1>
-  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — try submitting the form to see the difference.</p>
+  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — click on search to see the difference.</p>
 </div>
 
 <div class="row">
   <div class="csp-toggle">
     <a class="toggle-tab<%~ it.cspOn ? '' : ' active-unsafe' %>" href="/examples/reflected-xss/unsafe">CSP off</a>
     <a class="toggle-tab<%~ it.cspOn ? ' active-safe' : '' %>" href="/examples/reflected-xss/safe">CSP on</a>
-  </div>
-  <div class="status-badge <%= it.cspOn ? 'safe' : 'unsafe' %>">
-    <%= it.cspOn ? 'CSP blocking inline scripts' : 'Vulnerable — no CSP' %>
   </div>
 </div>
 
@@ -59,4 +56,8 @@
 <% if (it.query) { %>
 <script src="/javascripts/creature.js" data-mode="xss"></script>
 <script>markScriptRan();</script>
+<% } %>
+
+<% if (it.cspOn && it.query) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
 <% } %>

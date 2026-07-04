@@ -8,11 +8,10 @@
 
 <div class="row">
   <div class="csp-toggle">
-    <a class="toggle-tab<%~ it.mode === 'script-src' ? ' active-unsafe' : '' %>" href="/examples/event-handler/script-src">script-src only</a>
+    <a class="toggle-tab<%~ it.mode === 'script-src-only' ? ' active-unsafe' : '' %>" href="/examples/event-handler/script-src-only">script-src only</a>
     <a class="toggle-tab<%~ it.mode === 'split-unsafe-inline' ? ' active-safe' : '' %>" href="/examples/event-handler/split-unsafe-inline">split — attr allowed</a>
     <a class="toggle-tab<%~ it.mode === 'split-none' ? ' active-unsafe' : '' %>" href="/examples/event-handler/split-none">split — attr blocked</a>
   </div>
-  <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
 </div>
 
 <div class="info-box card">
@@ -24,7 +23,6 @@
   <div class="card-header">Inline event handler in page source</div>
   <div class="card-body">
     <pre class="script-pre"><code class="script-code">&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;</code></pre>
-    <div class="hash-note">↳ calls <code class="script-code">markScriptRan()</code> defined in creature.js, loaded via nonced <code class="script-code">&lt;script&gt;</code></div>
   </div>
 </div>
 
@@ -50,4 +48,8 @@
     window.markHandlerBlocked();
   });
 </script>
+<% } %>
+
+<% if (!it.handlerAllowed) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
 <% } %>

@@ -11,9 +11,6 @@
     <a class="toggle-tab<%~ it.withNonce ? '' : ' active-unsafe' %>" href="/examples/inline-script/no-nonce">Script without nonce</a>
     <a class="toggle-tab<%~ it.withNonce ? ' active-safe' : '' %>" href="/examples/inline-script/nonce">Script with nonce</a>
   </div>
-  <div class="status-badge <%= it.withNonce ? 'safe' : 'unsafe' %>">
-    <%= it.withNonce ? 'Nonce matched — script allowed' : 'No nonce — script blocked' %>
-  </div>
 </div>
 
 <div class="info-box card">
@@ -45,4 +42,8 @@
 <script nonce="<%= it.nonce %>">markScriptRan();</script>
 <% } else { %>
 <script>markScriptRan();</script>
+<% } %>
+
+<% if (!it.withNonce) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
 <% } %>

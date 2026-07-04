@@ -21,6 +21,13 @@ export function generateNonce(): string {
   return crypto.randomBytes(16).toString('base64');
 }
 
+export function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
 export function hashScript(content: string): string {
   return `sha256-${crypto.createHash('sha256').update(content).digest('base64')}`;
 }
