@@ -11,9 +11,6 @@
     <a class="toggle-tab<%~ it.cspOn ? '' : ' active-unsafe' %>" href="/examples/reflected-xss/unsafe">CSP off</a>
     <a class="toggle-tab<%~ it.cspOn ? ' active-safe' : '' %>" href="/examples/reflected-xss/safe">CSP on</a>
   </div>
-  <div class="status-badge <%= it.cspOn ? 'safe' : 'unsafe' %>">
-    <%= it.cspOn ? 'CSP blocking inline scripts' : 'Vulnerable — no CSP' %>
-  </div>
 </div>
 
 <div class="info-box card<%= it.cspOn ? '' : ' muted' %>">

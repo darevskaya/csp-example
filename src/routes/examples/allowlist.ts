@@ -13,22 +13,16 @@ const SELF_SCRIPT_TAG = `&lt;script src="/javascripts/sdk.js"&gt;&lt;/script&gt;
 type Mode = 'no-allowlist' | 'allowlist';
 
 const MODE_CONFIG: Record<Mode, {
-  statusClass: string;
-  statusText: string;
   explanation: string;
   loaderDisplay: string;
   scriptDirectives: () => Record<string, string>;
 }> = {
   'allowlist': {
-    statusClass: 'safe',
-    statusText: 'Origin allowlist — third-party origin trusted',
     explanation: `The script's origin (<code>'self'</code>) is listed in <code>script-src</code>. The browser fetches and runs it — no nonce or hash needed on the tag itself, just the origin. In production, a CDN URL like <code>${CDN_ORIGIN}</code> would be listed instead.`,
     loaderDisplay: SELF_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
   },
   'no-allowlist': {
-    statusClass: 'unsafe',
-    statusText: 'No allowlist — third-party origin blocked',
     explanation: `The third-party script's origin (<code>${CDN_ORIGIN}</code>) is not listed in <code>script-src</code>. A plain <code>&lt;script src="..."&gt;</code> tag has no nonce or hash, so the origin must be explicitly trusted — the browser blocks the load.`,
     loaderDisplay: CDN_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
@@ -36,7 +30,7 @@ const MODE_CONFIG: Record<Mode, {
 };
 
 function handler(mode: Mode) {
-  const { statusClass, statusText, explanation, loaderDisplay, scriptDirectives } = MODE_CONFIG[mode];
+  const { explanation, loaderDisplay, scriptDirectives } = MODE_CONFIG[mode];
   const directives = scriptDirectives();
 
   return (_req: unknown, res: Response) => {
@@ -45,8 +39,6 @@ function handler(mode: Mode) {
       title: 'script-src origin',
       mode,
       cspDisplay: formatDirectives(directives),
-      statusClass,
-      statusText,
       explanation,
       loaderDisplay,
       cdnScriptUrl: CDN_SCRIPT_URL,

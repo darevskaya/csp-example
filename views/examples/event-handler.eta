@@ -12,7 +12,6 @@
     <a class="toggle-tab<%~ it.mode === 'split-unsafe-inline' ? ' active-safe' : '' %>" href="/examples/event-handler/split-unsafe-inline">split — attr allowed</a>
     <a class="toggle-tab<%~ it.mode === 'split-none' ? ' active-unsafe' : '' %>" href="/examples/event-handler/split-none">split — attr blocked</a>
   </div>
-  <div class="status-badge <%= it.statusClass %>"><%= it.statusText %></div>
 </div>
 
 <div class="info-box card">

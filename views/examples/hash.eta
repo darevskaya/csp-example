@@ -3,16 +3,13 @@
 
 <div class="example-header">
   <h1 class="example-title">script-src hash</h1>
-  <p class="example-desc">CSP is active on both pages. Instead of a per-request nonce, the policy lists the SHA-256 hash of the exact script content it allows. The script only runs if its content hashes to that value — any change, even a single character, produces a different hash and gets blocked.</p>
+  <p class="example-desc"><%~ it.explanation %></p>
 </div>
 
 <div class="row">
   <div class="csp-toggle">
     <a class="toggle-tab<%~ it.withHash ? '' : ' active-unsafe' %>" href="/examples/inline-script/no-hash">Script without matching hash</a>
     <a class="toggle-tab<%~ it.withHash ? ' active-safe' : '' %>" href="/examples/inline-script/hash">Script with matching hash</a>
-  </div>
-  <div class="status-badge <%= it.withHash ? 'safe' : 'unsafe' %>">
-    <%= it.withHash ? 'Hash matched — script allowed' : 'Hash mismatch — script blocked' %>
   </div>
 </div>
 
@@ -26,9 +23,9 @@
   <div class="card-body">
     <pre class="script-pre"><code class="script-code">&lt;script&gt;<%= it.activeScript %>&lt;/script&gt;</code></pre>
     <div class="hash-note">
-      Header allows hash: <span class="nonce-token"><%= it.scriptHash %></span>
+      <code class="script-code script-comment">// Header allows hash: <span class="nonce-token"><%= it.scriptHash %></span></code>
       <% if (!it.withHash) { %>
-        <br>Script hash: <span class="nonce-missing"><%= it.differentScriptHash %> ← does not match</span>
+        <br><code class="script-code script-comment">// Script hash: <span class="nonce-missing"><%= it.differentScriptHash %> ← does not match</span></code>
       <% } %>
     </div>
   </div>
