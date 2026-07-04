@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 // ── Home ─────────────────────────────────────────────────────────────────────
 
 test.describe('home page', () => {
-  test('lists all five examples', async ({ page }) => {
+  test('lists all six examples', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/CSP Examples/);
     await expect(page.getByText('default-src').first()).toBeVisible();
@@ -11,6 +11,7 @@ test.describe('home page', () => {
     await expect(page.getByText('script-src nonce')).toBeVisible();
     await expect(page.getByText('script-src hash')).toBeVisible();
     await expect(page.getByText('script-src strict-dynamic')).toBeVisible();
+    await expect(page.getByText('script-src-elem / script-src-attr')).toBeVisible();
   });
 });
 
@@ -165,10 +166,16 @@ test.describe('strict-dynamic example', () => {
     expect(csp).not.toContain('strict-dynamic');
   });
 
+  test('no-strict-dynamic: loader runs — loader creature shows script ran', async ({ page }) => {
+    await page.goto('/examples/third-party/no-strict-dynamic');
+    await expect(page.locator('#creature-loader')).toHaveClass(/ran/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech-loader')).toHaveText('Script ran');
+  });
+
   test('no-strict-dynamic: SDK injection blocked — creature shows CSP blocked', async ({ page }) => {
     await page.goto('/examples/third-party/no-strict-dynamic');
-    await expect(page.locator('#creature')).toHaveClass(/blocked/, { timeout: 2000 });
-    await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the script');
+    await expect(page.locator('#creature-injected')).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech-injected')).toHaveText('CSP blocked the script');
   });
 
   test('strict-dynamic: header contains nonce and strict-dynamic', async ({ request }) => {
@@ -180,7 +187,53 @@ test.describe('strict-dynamic example', () => {
 
   test('strict-dynamic: injected SDK runs — creature shows script allowed', async ({ page }) => {
     await page.goto('/examples/third-party/strict-dynamic');
-    await expect(page.locator('#creature')).toHaveClass(/ran/);
+    await expect(page.locator('#creature-injected')).toHaveClass(/ran/);
+    await expect(page.locator('#creature-speech-injected')).toHaveText('Script allowed');
+  });
+});
+
+// ── Event handler ─────────────────────────────────────────────────────────────
+
+test.describe('event-handler example', () => {
+  test('script-src-only: CSP header uses script-src with nonce', async ({ request }) => {
+    const res = await request.get('/examples/event-handler/script-src-only');
+    const csp = res.headers()['content-security-policy'];
+    expect(csp).toContain('script-src ');
+    expect(csp).toMatch(/nonce-/);
+  });
+
+  test('script-src-only: inline handler blocked — creature shows handler blocked', async ({ page }) => {
+    await page.goto('/examples/event-handler/script-src-only');
+    await page.click('button');
+    await expect(page.locator('#creature')).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech')).toHaveText('Handler blocked by CSP');
+  });
+
+  test('split-unsafe-inline: CSP header uses script-src-elem and script-src-attr', async ({ request }) => {
+    const res = await request.get('/examples/event-handler/split-unsafe-inline');
+    const csp = res.headers()['content-security-policy'];
+    expect(csp).toContain('script-src-elem');
+    expect(csp).toContain("script-src-attr 'unsafe-inline'");
+  });
+
+  test('split-unsafe-inline: inline handler allowed — creature shows script allowed', async ({ page }) => {
+    await page.goto('/examples/event-handler/split-unsafe-inline');
+    await page.click('button');
+    await expect(page.locator('#creature')).toHaveClass(/ran/, { timeout: 2000 });
     await expect(page.locator('#creature-speech')).toHaveText('Script allowed');
+  });
+
+  test('split-none: CSP header uses script-src-attr none', async ({ request }) => {
+    const res = await request.get('/examples/event-handler/split-none');
+    const csp = res.headers()['content-security-policy'];
+    expect(csp).toContain('script-src-elem');
+    expect(csp).toContain("script-src-attr 'none'");
+  });
+
+  test('split-none: inline handler blocked — creature shows handler blocked', async ({ page }) => {
+    await page.goto('/examples/event-handler/split-none');
+    await page.click('button');
+    await expect(page.locator('#creature')).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech')).toHaveText('Handler blocked by CSP');
   });
 });
