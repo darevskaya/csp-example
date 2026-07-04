@@ -23,7 +23,6 @@
   <div class="card-header">Inline event handler in page source</div>
   <div class="card-body">
     <pre class="script-pre"><code class="script-code">&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;</code></pre>
-    <div class="hash-note">↳ calls <code class="script-code">markScriptRan()</code> defined in creature.js, loaded via nonced <code class="script-code">&lt;script&gt;</code></div>
   </div>
 </div>
 

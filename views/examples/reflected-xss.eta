@@ -3,7 +3,7 @@
 
 <div class="example-header">
   <h1 class="example-title">default-src</h1>
-  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — try submitting the form to see the difference.</p>
+  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — click on search to see the difference.</p>
 </div>
 
 <div class="row">

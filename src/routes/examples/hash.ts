@@ -13,7 +13,7 @@ const DIFFERENT_SCRIPT_HASH = hashScript(DIFFERENT_SCRIPT_CONTENT);
 const HASH_DIRECTIVES = { 'script-src': `'self' '${SCRIPT_HASH}'` };
 const CSP_HEADER = csp(HASH_DIRECTIVES);
 const CSP_DISPLAY = formatDirectives(HASH_DIRECTIVES);
-const EXPLANATION = `CSP is active on both pages. The script only runs if its content hashes to the value in the policy — any change, even a single character, produces a different hash and gets blocked. The policy allows: <code>${HASH_SCRIPT_CONTENT}</code> → <code>${SCRIPT_HASH}</code>.`;
+const EXPLANATION = `CSP is active on both pages. The script only runs if its content hashes to the value in the policy — any change, even a single character, produces a different hash and gets blocked. The policy allows <code>${HASH_SCRIPT_CONTENT}</code> (hash: <code>${SCRIPT_HASH}</code>).`;
 
 function hashHandler(withHash: boolean) {
   return (_req: unknown, res: Response) => {

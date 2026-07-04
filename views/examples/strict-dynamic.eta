@@ -24,7 +24,6 @@
     <pre class="script-pre"><code class="script-code">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
 <%~ it.loaderDisplay %>
 &lt;/script&gt;</code></pre>
-    <div class="hash-note"><code class="script-code script-comment">// dynamically injects /javascripts/sdk.js</code></div>
   </div>
 </div>
 
@@ -40,7 +39,7 @@
     </div>
   </div>
   <div class="creature-panel card" id="creature-panel-injected">
-    <div class="card-header">Injected script</div>
+    <div class="card-header">Injected script (/javascripts/sdk.js)</div>
     <div class="card-body">
       <div class="creature-stage">
         <div class="creature" id="creature-injected">( ._.)

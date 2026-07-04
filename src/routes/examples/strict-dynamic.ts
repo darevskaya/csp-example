@@ -10,7 +10,7 @@ s.src = '/javascripts/sdk.js';
 document.head.appendChild(s);
 `;
 
-const LOADER_DISPLAY = escapeHtml(LOADER_SCRIPT.trimEnd()).replace(/^/gm, '  ');
+const LOADER_DISPLAY = escapeHtml(LOADER_SCRIPT.trimEnd()).replace(/^/gm, '  ') + '\n';
 
 type Mode = 'no-strict-dynamic' | 'strict-dynamic';
 

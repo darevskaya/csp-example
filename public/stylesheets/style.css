@@ -350,6 +350,7 @@
 .nonce-missing {
   color: var(--accent);
 }
+
 .console-hint {
   margin-block-start: 0.5rem;
   font-size: 0.75rem;
@@ -433,6 +434,10 @@
 
 /* Creature panel */
 
+.creature-panel {
+  margin-block: 1rem;
+}
+
 .creature-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -442,10 +447,6 @@
 
 .creature-row .creature-panel {
   margin-block: 0;
-}
-
-.creature-panel {
-  margin-block: 1rem;
 }
 
 .creature-panel.ran {
