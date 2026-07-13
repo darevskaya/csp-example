@@ -71,7 +71,10 @@ router.get('/strict-dynamic/:mode', (req: Request, res: Response) => {
 router.get('/event-handler/:mode', (req: Request, res: Response) => {
   const mode = req.params['mode'] as 'script-src-only' | 'split-unsafe-inline' | 'split-none';
   const nonce = generateNonce();
-  const directivesMap: Record<'script-src-only' | 'split-unsafe-inline' | 'split-none', Record<string, string>> = {
+  const directivesMap: Record<
+    'script-src-only' | 'split-unsafe-inline' | 'split-none',
+    Record<string, string>
+  > = {
     'script-src-only': { 'script-src': `'self' 'nonce-${nonce}'` },
     'split-unsafe-inline': {
       'script-src-elem': `'self' 'nonce-${nonce}'`,
