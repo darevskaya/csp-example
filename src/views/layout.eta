@@ -13,7 +13,7 @@
   <%~ it.head ?? "" %>
 </head>
 <body class="app-body">
-  <script<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>>window.__creatureRan=false;window.__creatureBlocked=false;window.markScriptRan=function(){window.__creatureRan=true};window.markHandlerBlocked=function(){window.__creatureBlocked=true};</script>
+  <script<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>><%~ it.earlyInitScript %></script>
   <header class="site-header">
     <a class="site-logo" href="/"><span class="site-logo-accent">csp</span>.examples</a>
     <nav class="site-nav">

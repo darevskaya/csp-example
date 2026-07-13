@@ -1,4 +1,4 @@
-import http from 'http';
+import http from 'node:http';
 import app from '../src/app';
 
 const port = parseInt(process.env['PORT'] || '3000', 10);

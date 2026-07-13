@@ -11,7 +11,7 @@
   <% } %>
 </head>
 <body class="lab-body">
-  <script<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>>window.__creatureRan=false;window.__creatureBlocked=false;window.markScriptRan=function(){window.__creatureRan=true;window.parent.postMessage({type:'lab',event:'ran'},'*')};window.markHandlerBlocked=function(){window.__creatureBlocked=true;window.parent.postMessage({type:'lab',event:'blocked'},'*')};</script>
+  <script<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>><%~ it.labEarlyInitScript %></script>
   <main class="lab-main"><%~ it.body %></main>
   <script type="module" src="<%= it.mainJs %>"<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>></script>
 </body>

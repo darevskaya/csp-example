@@ -1,5 +1,5 @@
+import path from 'node:path';
 import express from 'express';
-import path from 'path';
 import { csp } from './csp';
 import { isDev } from './env';
 import examplesRouter from './routes/examples/index';

@@ -6,7 +6,7 @@
     const el = document.getElementById(id);
     if (!el) return;
     el.textContent = value;
-    el.className = 'config-val ' + (good ? 'config-val--good' : 'config-val--bad');
+    el.className = `config-val ${good ? 'config-val--good' : 'config-val--bad'}`;
   }
 
   if (cfg) {

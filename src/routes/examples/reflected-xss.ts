@@ -13,7 +13,11 @@ function reflectedXssHandler(cspOn: boolean) {
   return (req: Request, res: Response) => {
     const raw = req.query['term'];
     const query = typeof raw === 'string' ? raw : '';
-    if (cspOn) res.setHeader('Content-Security-Policy', DEMO_CSP);
+    if (cspOn) {
+      res.setHeader('Content-Security-Policy', DEMO_CSP);
+    } else {
+      res.removeHeader('Content-Security-Policy');
+    }
     render(res, 'examples/reflected-xss', {
       title: 'Reflected XSS',
       cspOn,

@@ -1,6 +1,6 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import type { Express, NextFunction, Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
 import { isDev } from '../env';
 
 const VITE_PORT = 5173;

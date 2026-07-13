@@ -7,9 +7,9 @@ interface CreatureElements {
   panel: HTMLElement;
 }
 
-// These may be replaced by the early-init nonce script in layout.eta which
-// runs before inline example scripts. The module top-level (here) runs after
-// ALL inline body scripts, so we read flags set by the early-init stubs.
+// These stubs may be replaced by the early-init script in layout.eta (which runs
+// before inline body scripts). This module runs after all body scripts, so we
+// guard against overwriting handlers the early-init script already wired up.
 if (!window.markScriptRan) {
   window.markScriptRan = () => {
     window.__creatureRan = true;
@@ -68,8 +68,7 @@ export function initCreature(el: HTMLElement): void {
   const els = getElements('');
   if (!els) return;
 
-  // Declare timeout ref before closures that reference it to avoid TDZ errors
-  // when __creatureRan is already true and onRan() is called immediately.
+  // Declare before closures that use it to avoid TDZ when __creatureRan is already true.
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
   const onRan = () => {
@@ -98,7 +97,11 @@ export function initCreature(el: HTMLElement): void {
     mode === 'click'
       ? null
       : setTimeout(() => {
-          applyState(els, mode === 'xss' ? 'ran' : 'blocked');
+          if (mode === 'xss') {
+            applyState(els, 'ran', '( ^-^)', 'CSP blocked the XSS');
+          } else {
+            applyState(els, 'blocked', '( x_x)', 'CSP blocked the script');
+          }
         }, 400);
 
   window.markScriptRan = () => {

@@ -5,12 +5,17 @@ export function initCopyButton(btn: HTMLElement): void {
       ? (document.getElementById(target)?.textContent ?? '')
       : (btn.dataset['copy'] ?? '');
 
-    void navigator.clipboard.writeText(text).then(() => {
-      const original = btn.textContent;
-      btn.textContent = 'Copied!';
-      setTimeout(() => {
+    const original = btn.textContent;
+    void navigator.clipboard.writeText(text).then(
+      () => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 1500);
+      },
+      () => {
         btn.textContent = original;
-      }, 1500);
-    });
+      },
+    );
   });
 }

@@ -1,16 +1,12 @@
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import express from 'express';
 import { csp, escapeHtml, formatDirectives, generateNonce } from '../../csp';
+import { LOADER_SCRIPT } from '../../examples/fixtures';
 import { render } from '../../render';
 
 const router = express.Router();
 
-const LOADER_SCRIPT = `var s = document.createElement('script');
-s.src = '/lab-assets/scripts/sdk.js';
-document.head.appendChild(s);
-`;
-
-const LOADER_DISPLAY = escapeHtml(LOADER_SCRIPT.trimEnd()).replace(/^/gm, '  ') + '\n';
+const LOADER_DISPLAY = `${escapeHtml(LOADER_SCRIPT.trimEnd()).replace(/^/gm, '  ')}\n`;
 
 type Mode = 'no-strict-dynamic' | 'strict-dynamic';
 
@@ -34,7 +30,7 @@ const MODE_CONFIG: Record<
 function handler(mode: Mode) {
   const { explanation, scriptDirectives } = MODE_CONFIG[mode];
 
-  return (_req: unknown, res: Response) => {
+  return (_req: Request, res: Response) => {
     const nonce = generateNonce();
     const directives = scriptDirectives(nonce);
     res.setHeader('Content-Security-Policy', csp(directives));

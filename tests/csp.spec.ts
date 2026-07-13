@@ -34,11 +34,9 @@ test.describe('reflected XSS', () => {
     expect(alerted).toBe(true);
   });
 
-  test('unsafe: no script-src restriction on unsafe page', async ({ request }) => {
+  test('unsafe: no CSP header on unsafe page', async ({ request }) => {
     const res = await request.get('/examples/reflected-xss/unsafe');
-    const csp = res.headers()['content-security-policy'];
-    expect(csp).not.toContain('script-src');
-    expect(csp).not.toContain('default-src');
+    expect(res.headers()['content-security-policy']).toBeUndefined();
   });
 
   test('safe: CSP header present on safe page', async ({ request }) => {

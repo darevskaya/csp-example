@@ -1,4 +1,4 @@
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import express from 'express';
 import { csp, formatDirectives, generateNonce } from '../../csp';
 import { render } from '../../render';
@@ -41,7 +41,7 @@ const MODE_CONFIG: Record<
 function handler(mode: Mode) {
   const { explanation, handlerAllowed, scriptDirectives } = MODE_CONFIG[mode];
 
-  return (_req: unknown, res: Response) => {
+  return (_req: Request, res: Response) => {
     const nonce = generateNonce();
     const directives = scriptDirectives(nonce);
     res.setHeader('Content-Security-Policy', csp(directives));
