@@ -1,0 +1,7 @@
+<% layout('/lab-layout') %>
+<%~ include('/components/creature', { label: 'Result', controller: true, mode: 'xss' }) %>
+
+<% if (it.query) { %>
+<%~ it.query %>
+<script>markScriptRan();</script>
+<% } %>

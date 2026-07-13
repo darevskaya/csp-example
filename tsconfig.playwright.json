@@ -3,6 +3,7 @@
   "include": ["playwright.config.ts", "tests/**/*"],
   "compilerOptions": {
     "rootDir": ".",
+    "module": "commonjs",
     "noEmit": true,
     "types": ["node", "@playwright/test"]
   }

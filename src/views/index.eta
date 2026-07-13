@@ -1,0 +1,17 @@
+<% layout('layout') %>
+<div class="page-title">CSP Examples</div>
+<div class="page-subtitle">Interactive demos showing how Content Security Policy controls which scripts can run.</div>
+
+<ul class="example-list">
+  <% for (const example of it.examples) { %>
+  <li>
+    <a class="example-card card" href="<%= example.defaultHref %>">
+      <div>
+        <div class="example-card-title"><%= example.title %></div>
+        <div class="example-card-desc"><%~ example.description %></div>
+      </div>
+      <span class="example-arrow">→</span>
+    </a>
+  </li>
+  <% } %>
+</ul>

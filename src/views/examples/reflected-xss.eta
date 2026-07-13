@@ -1,0 +1,39 @@
+<% layout('/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">default-src</h1>
+  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — click on search to see the difference.</p>
+</div>
+
+<%~ include('/components/mode-toggle', { tabs: [
+  { label: 'CSP off', href: '/examples/reflected-xss/unsafe', state: it.cspOn ? '' : 'unsafe' },
+  { label: 'CSP on', href: '/examples/reflected-xss/safe', state: it.cspOn ? 'safe' : '' }
+] }) %>
+
+<%~ include('/components/csp-header-card', { active: it.cspOn, cspDisplay: it.cspDisplay }) %>
+
+<div class="demo-box card">
+  <div class="card-header">Search query</div>
+  <div class="card-body">
+    <form method="get" action="<%= it.action %>">
+      <div class="input-row">
+        <input class="demo-input" type="text" name="term" value='<script>alert(1)</script>'>
+        <button class="demo-btn" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<% if (it.query) { %>
+<div class="output card">
+  <div class="card-header">Injected into page source</div>
+  <div class="card-body"><code class="output-code"><%= it.query %></code></div>
+</div>
+<% } %>
+
+<iframe class="lab-frame" src="/lab/reflected-xss/<%= it.cspOn ? 'safe' : 'unsafe' %><%= it.query ? '?term=' + encodeURIComponent(it.query) : '' %>" title="Result"></iframe>
+
+<% if (it.cspOn && it.query) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

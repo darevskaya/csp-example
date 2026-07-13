@@ -1,0 +1,121 @@
+@layer components {
+  /* Example page layout */
+  .back {
+    font-size: 0.6875rem;
+    color: var(--muted);
+    border: none;
+    display: inline-block;
+    margin-block-end: 1.25rem;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .back:hover {
+    color: var(--text);
+  }
+
+  .example-header {
+    margin-block-end: 1.25rem;
+  }
+
+  .example-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    margin-block-end: 0.375rem;
+  }
+
+  .example-desc {
+    font-size: 0.75rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  .example-desc-code {
+    font-family: var(--mono);
+    color: var(--yellow);
+    font-size: 0.6875rem;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-block-end: 1rem;
+  }
+
+  .console-hint {
+    margin-block-start: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* Index page */
+  .page-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-block-end: 0.375rem;
+    color: var(--text-bright);
+  }
+
+  .page-subtitle {
+    color: var(--muted);
+    margin-block-end: 1.75rem;
+    font-size: 0.75rem;
+  }
+
+  .example-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .example-card {
+    padding: 0.875rem 1.125rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition:
+      border-color 0.15s,
+      background 0.15s;
+    cursor: pointer;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  .example-arrow {
+    color: var(--muted);
+    transition:
+      color 0.15s,
+      transform 0.15s;
+  }
+
+  .example-card:hover {
+    border-color: var(--muted);
+    background: var(--surface-hover);
+  }
+
+  .example-card:hover .example-arrow {
+    color: var(--text);
+    transform: translateX(3px);
+  }
+
+  .example-card-title {
+    color: var(--text-bright);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+
+  .example-card-desc {
+    font-size: 0.6875rem;
+    color: var(--muted);
+    margin-block-start: 0.1875rem;
+  }
+
+  .example-card-desc-code {
+    font-family: var(--mono);
+    color: var(--text);
+  }
+}

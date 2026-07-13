@@ -1,0 +1,99 @@
+@layer components {
+  .creature-panel {
+    margin-block: 1rem;
+  }
+
+  .creature-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-block: 1rem;
+  }
+
+  .creature-row .creature-panel {
+    margin-block: 0;
+  }
+
+  .creature-panel.ran {
+    border-color: var(--green-border);
+  }
+
+  .creature-panel.ran .card-header {
+    color: var(--green);
+  }
+
+  .creature-panel.blocked {
+    border-color: var(--accent-border);
+  }
+
+  .creature-panel.blocked .card-header,
+  .creature-panel.xss .card-header {
+    color: var(--accent);
+  }
+
+  .creature-panel.xss {
+    border-color: var(--accent-border);
+  }
+
+  .creature-stage {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.5rem;
+  }
+
+  .creature {
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--muted);
+    transition: color 0.2s;
+    white-space: pre;
+  }
+
+  .creature.ran {
+    color: var(--green);
+    animation: creature-bounce 0.4s ease-out;
+  }
+
+  .creature.blocked {
+    color: var(--accent);
+  }
+
+  .creature.xss {
+    color: var(--accent);
+    animation: creature-bounce 0.4s ease-out;
+  }
+
+  .creature-speech {
+    font-size: 0.75rem;
+    color: var(--muted);
+    opacity: 0%;
+    transition: opacity 0.3s 0.2s;
+  }
+
+  .creature-speech.ran {
+    color: var(--green);
+    opacity: 100%;
+  }
+
+  .creature-speech.blocked,
+  .creature-speech.xss {
+    color: var(--accent);
+    opacity: 100%;
+  }
+
+  @keyframes creature-bounce {
+    0% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-6px);
+    }
+    60% {
+      transform: translateY(2px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}

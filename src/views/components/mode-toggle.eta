@@ -1,0 +1,7 @@
+<div class="row">
+  <div class="csp-toggle">
+    <% for (const tab of it.tabs) { %>
+    <a class="toggle-tab<%~ tab.state === 'unsafe' ? ' active-unsafe' : tab.state === 'safe' ? ' active-safe' : '' %>" href="<%= tab.href %>"><%= tab.label %></a>
+    <% } %>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<% layout('/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src origin</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/components/mode-toggle', { tabs: [
+  { label: 'No allowlist', href: '/examples/third-party/no-allowlist', state: it.mode === 'no-allowlist' ? 'unsafe' : '' },
+  { label: 'Origin allowlist', href: '/examples/third-party/allowlist', state: it.mode === 'allowlist' ? 'safe' : '' }
+] }) %>
+
+<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+
+<%~ include('/components/code-card', { header: 'Script tag in page source', code: it.loaderDisplay }) %>
+
+<iframe class="lab-frame" src="/lab/allowlist/<%= it.mode %>" title="Result"></iframe>
+
+<% if (it.mode === 'no-allowlist') { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

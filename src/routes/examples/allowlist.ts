@@ -8,16 +8,19 @@ const router = express.Router();
 const CDN_ORIGIN = 'https://cdnjs.cloudflare.com';
 const CDN_SCRIPT_URL = `${CDN_ORIGIN}/ajax/libs/jquery/3.7.1/jquery.min.js`;
 const CDN_SCRIPT_TAG = escapeHtml(`<script src="${CDN_SCRIPT_URL}"></script>`);
-const SELF_SCRIPT_TAG = escapeHtml(`<script src="/javascripts/sdk.js"></script>`);
+const SELF_SCRIPT_TAG = escapeHtml(`<script src="/lab-assets/scripts/sdk.js"></script>`);
 
 type Mode = 'no-allowlist' | 'allowlist';
 
-const MODE_CONFIG: Record<Mode, {
-  explanation: string;
-  loaderDisplay: string;
-  scriptDirectives: () => Record<string, string>;
-}> = {
-  'allowlist': {
+const MODE_CONFIG: Record<
+  Mode,
+  {
+    explanation: string;
+    loaderDisplay: string;
+    scriptDirectives: () => Record<string, string>;
+  }
+> = {
+  allowlist: {
     explanation: `The script's origin (<code>'self'</code>) is listed in <code>script-src</code>. The browser fetches and runs it — no nonce or hash needed on the tag itself, just the origin. In production, a CDN URL like <code>${CDN_ORIGIN}</code> would be listed instead.`,
     loaderDisplay: SELF_SCRIPT_TAG,
     scriptDirectives: () => ({ 'script-src': `'self'` }),
@@ -49,6 +52,6 @@ function handler(mode: Mode) {
 }
 
 router.get('/no-allowlist', handler('no-allowlist'));
-router.get('/allowlist',    handler('allowlist'));
+router.get('/allowlist', handler('allowlist'));
 
 export default router;

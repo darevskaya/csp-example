@@ -1,0 +1,16 @@
+<% layout('/lab-layout') %>
+<%~ include('/components/creature', {
+  label: 'Result — click the button',
+  controller: true,
+  mode: 'click',
+  slot: '<div style="margin-top: 1rem; text-align: center;"><button onclick="markScriptRan()" style="padding: 0.5rem 1.5rem; font-size: 1rem; cursor: pointer;">Click me</button></div>'
+}) %>
+
+<% if (!it.handlerAllowed) { %>
+<script nonce="<%= it.nonce %>">
+  var btn = document.querySelector('button[onclick]');
+  if (btn) btn.addEventListener('click', function () {
+    window.markHandlerBlocked();
+  });
+</script>
+<% } %>

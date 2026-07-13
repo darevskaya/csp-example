@@ -1,0 +1,30 @@
+<% layout('/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src nonce</h1>
+  <p class="example-desc">CSP is active on both pages. The script is only allowed when it carries a <code class="example-desc-code">nonce</code> attribute that matches the value in the response header — a random token generated fresh on every request.</p>
+</div>
+
+<%~ include('/components/mode-toggle', { tabs: [
+  { label: 'Script without nonce', href: '/examples/inline-script/no-nonce', state: it.withNonce ? '' : 'unsafe' },
+  { label: 'Script with nonce', href: '/examples/inline-script/nonce', state: it.withNonce ? 'safe' : '' }
+] }) %>
+
+<div class="info-box card">
+  <div class="card-header">Response header (same on both pages)</div>
+  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
+</div>
+
+<div class="script-box card">
+  <div class="card-header">Inline script in page source</div>
+  <div class="card-body">
+    <pre class="script-pre"><code class="script-code">&lt;script<% if (it.withNonce) { %> nonce="<span class="nonce-token"><%= it.nonce %></span>"<% } else { %> <span class="nonce-missing">← no nonce attribute</span><% } %>&gt;markScriptRan();&lt;/script&gt;</code></pre>
+  </div>
+</div>
+
+<iframe class="lab-frame" src="/lab/nonce/<%= it.withNonce ? 'nonce' : 'no-nonce' %>" title="Result"></iframe>
+
+<% if (!it.withNonce) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

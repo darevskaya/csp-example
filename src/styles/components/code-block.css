@@ -1,0 +1,122 @@
+@layer components {
+  /* Info box (CSP header) */
+  .info-box {
+    margin-block-end: 1rem;
+    border-left: 3px solid var(--blue-border);
+    background: color-mix(in oklch, var(--blue-dim) 40%, var(--surface));
+  }
+
+  .info-box .card-header {
+    color: var(--blue);
+  }
+
+  .info-code {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--blue);
+  }
+
+  .info-box.muted .info-code {
+    color: var(--muted);
+  }
+
+  .info-code-muted {
+    font-style: normal;
+    color: var(--muted);
+  }
+
+  /* Script / code box */
+  .script-box {
+    margin-block-end: 1rem;
+    border-left: 3px solid var(--purple-border);
+    background: color-mix(in oklch, var(--purple-dim) 40%, var(--surface));
+  }
+
+  .script-box .card-header {
+    color: var(--purple);
+  }
+
+  .script-pre {
+    overflow-x: auto;
+  }
+
+  .script-code {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-code);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .script-comment {
+    color: var(--muted);
+  }
+
+  .nonce-token {
+    color: var(--green);
+    background: var(--green-dim);
+    padding: 0.0625rem 0.25rem;
+    border-radius: 0.1875rem;
+  }
+
+  .nonce-missing {
+    color: var(--accent);
+  }
+
+  .hash-note {
+    margin-block-start: 0.625rem;
+    font-size: 0.6875rem;
+    color: var(--muted);
+    word-break: break-all;
+  }
+
+  /* Demo box */
+  .demo-box {
+    margin-block-end: 1rem;
+    border-left: 3px solid var(--yellow-border);
+    background: color-mix(in oklch, var(--yellow-dim) 40%, var(--surface));
+  }
+
+  .demo-box .card-header {
+    color: var(--yellow);
+  }
+
+  .demo-label {
+    display: block;
+    margin-block-end: 0.5rem;
+  }
+
+  .demo-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.4375rem 0.625rem;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .demo-input:focus {
+    border-color: var(--muted);
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  /* Output */
+  .output {
+    font-size: 0.75rem;
+    margin-block-end: 1rem;
+  }
+
+  .output-code {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text);
+  }
+}

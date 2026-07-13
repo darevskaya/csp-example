@@ -1,0 +1,31 @@
+<% layout('/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src strict-dynamic</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/components/mode-toggle', { tabs: [
+  { label: 'No strict-dynamic', href: '/examples/third-party/no-strict-dynamic', state: it.mode === 'no-strict-dynamic' ? 'unsafe' : '' },
+  { label: 'strict-dynamic', href: '/examples/third-party/strict-dynamic', state: it.mode === 'strict-dynamic' ? 'safe' : '' }
+] }) %>
+
+<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+
+<div class="script-box card">
+  <div class="card-header">Loader script in page source</div>
+  <div class="card-body">
+    <pre class="script-pre"><code class="script-code">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
+<%~ it.loaderDisplay %>
+&lt;/script&gt;</code></pre>
+  </div>
+</div>
+
+<div class="creature-row-frame">
+  <iframe class="lab-frame" src="/lab/strict-dynamic/<%= it.mode %>" title="Result"></iframe>
+</div>
+
+<% if (it.mode === 'no-strict-dynamic') { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

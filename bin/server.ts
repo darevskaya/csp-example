@@ -7,7 +7,7 @@ app.set('port', port);
 const server = http.createServer(app);
 
 const ERROR_MESSAGES: Partial<Record<string, string>> = {
-  EACCES:    `Port ${port} requires elevated privileges`,
+  EACCES: `Port ${port} requires elevated privileges`,
   EADDRINUSE: `Port ${port} is already in use`,
 };
 

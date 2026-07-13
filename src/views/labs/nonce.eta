@@ -1,0 +1,8 @@
+<% layout('/lab-layout') %>
+<%~ include('/components/creature', { label: 'Result', controller: true }) %>
+
+<% if (it.withNonce) { %>
+<script nonce="<%= it.nonce %>">markScriptRan();</script>
+<% } else { %>
+<script>markScriptRan();</script>
+<% } %>

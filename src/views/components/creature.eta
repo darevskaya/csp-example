@@ -1,0 +1,11 @@
+<div class="creature-panel card" id="creature-panel<%= it.suffix ? '-' + it.suffix : '' %>"<%~ it.controller ? ' data-controller="creature"' : '' %><%~ it.mode ? ' data-mode="' + it.mode + '"' : '' %>>
+  <div class="card-header"><%= it.label %></div>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature<%= it.suffix ? '-' + it.suffix : '' %>">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech<%= it.suffix ? '-' + it.suffix : '' %>"></div>
+    </div>
+    <% if (it.slot) { %><%~ it.slot %><% } %>
+  </div>
+</div>

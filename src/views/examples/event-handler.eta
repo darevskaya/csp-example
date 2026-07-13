@@ -1,0 +1,23 @@
+<% layout('/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src-elem / script-src-attr</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/components/mode-toggle', { tabs: [
+  { label: 'script-src only', href: '/examples/event-handler/script-src-only', state: it.mode === 'script-src-only' ? 'unsafe' : '' },
+  { label: 'split — attr allowed', href: '/examples/event-handler/split-unsafe-inline', state: it.mode === 'split-unsafe-inline' ? 'safe' : '' },
+  { label: 'split — attr blocked', href: '/examples/event-handler/split-none', state: it.mode === 'split-none' ? 'unsafe' : '' }
+] }) %>
+
+<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+
+<%~ include('/components/code-card', { header: 'Inline event handler in page source', code: '&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;' }) %>
+
+<iframe class="lab-frame" src="/lab/event-handler/<%= it.mode %>" title="Result"></iframe>
+
+<% if (!it.handlerAllowed) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>
