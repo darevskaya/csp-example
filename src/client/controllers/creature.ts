@@ -98,11 +98,7 @@ export function initCreature(el: HTMLElement): void {
     mode === 'click'
       ? null
       : setTimeout(() => {
-          if (mode === 'xss') {
-            applyState(els, 'ran', '( ^-^)', 'CSP blocked the XSS');
-          } else {
-            applyState(els, 'blocked', '( x_x)', 'CSP blocked the script');
-          }
+          applyState(els, mode === 'xss' ? 'ran' : 'blocked');
         }, 400);
 
   window.markScriptRan = () => {
