@@ -5,19 +5,19 @@ import { eta } from './eta';
 import { assetUrl, cssUrls, viteHmrScript } from './server/vite';
 
 const MAIN_ENTRY = 'main.ts';
+const DEV_NONCE_RE = /((?:default-src|script-src-elem|script-src(?!-attr|-elem))\b[^;]*)/g;
 
 export function render(res: Response, view: string, data: Record<string, unknown> = {}): void {
   const mainJs = assetUrl(MAIN_ENTRY);
   const mainCss = cssUrls(MAIN_ENTRY);
 
-  let viteNonce = '';
+  const viteNonce = isDev ? generateNonce() : '';
   if (isDev) {
-    viteNonce = generateNonce();
     const existing = res.getHeader('Content-Security-Policy');
     if (typeof existing === 'string') {
       res.setHeader(
         'Content-Security-Policy',
-        existing.replace(/((?:default-src|script-src-elem|script-src(?!-attr|-elem))\b[^;]*)/g, `$1 'nonce-${viteNonce}'`),
+        existing.replace(DEV_NONCE_RE, `$1 'nonce-${viteNonce}'`),
       );
     }
   }

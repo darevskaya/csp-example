@@ -137,7 +137,6 @@ test.describe('hash example', () => {
     const h1 = r1.headers()['content-security-policy'];
     const h2 = r2.headers()['content-security-policy'];
     expect(h1).toContain('sha256-');
-    // strip per-request dev nonces before comparing — static hash directives must match
     const stripNonce = (h: string) => h.replace(/ 'nonce-[^']*'/g, '');
     expect(stripNonce(h1)).toBe(stripNonce(h2));
   });
@@ -200,14 +199,12 @@ test.describe('strict-dynamic example', () => {
     expect(csp).not.toContain('strict-dynamic');
   });
 
-  test('no-strict-dynamic: loader runs — loader creature shows script ran', async ({ page }) => {
-    await page.goto('/examples/third-party/no-strict-dynamic');
-    await expect(page.locator('#creature-loader')).toHaveClass(/ran/, {
-      timeout: 2000,
-    });
-    await expect(page.locator('#creature-speech-loader')).toHaveText(
-      'Script ran',
-    );
+  test('loader runs on both modes — loader creature shows script ran', async ({ page }) => {
+    for (const path of ['/examples/third-party/no-strict-dynamic', '/examples/third-party/strict-dynamic']) {
+      await page.goto(path);
+      await expect(page.locator('#creature-loader')).toHaveClass(/ran/, { timeout: 2000 });
+      await expect(page.locator('#creature-speech-loader')).toHaveText('Script ran');
+    }
   });
 
   test('no-strict-dynamic: SDK injection blocked — creature shows CSP blocked', async ({
@@ -228,16 +225,6 @@ test.describe('strict-dynamic example', () => {
     const csp = res.headers()['content-security-policy'];
     expect(csp).toMatch(/nonce-/);
     expect(csp).toContain("'strict-dynamic'");
-  });
-
-  test('strict-dynamic: loader runs — loader creature shows script ran', async ({ page }) => {
-    await page.goto('/examples/third-party/strict-dynamic');
-    await expect(page.locator('#creature-loader')).toHaveClass(/ran/, {
-      timeout: 2000,
-    });
-    await expect(page.locator('#creature-speech-loader')).toHaveText(
-      'Script ran',
-    );
   });
 
   test('strict-dynamic: injected SDK runs — creature shows script allowed', async ({ page }) => {
