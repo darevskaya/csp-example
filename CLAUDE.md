@@ -8,21 +8,16 @@ Stack: Express 5 · TypeScript · Eta SSR · Vite (client assets) · Playwright 
 
 ## Architecture
 
-### Two-tier page structure
+### Page structure
 
-Every example splits into two layers:
+Each example is a single page at `/examples/:group/:mode`. The example page renders the mode toggle, CSP header card, code cards, creature panel, and demo scripts all together. The server sets the demonstration CSP for that mode directly on the example page response.
 
-- **Parent page** (`/examples/:group/:mode`) — serves the chrome: mode toggle, CSP header card, code cards. Sets a stable, strict CSP (`frame-ancestors 'none'`). Rendered by `src/routes/examples/`.
-- **Lab iframe** (`/lab/:example/:mode`) — serves just the creature panel and demo scripts inside an `<iframe class="lab-frame">`. Sets the **demonstration CSP** for that mode. Rendered by `src/routes/lab.ts`.
-
-This separation ensures the parent page is never affected by the demo CSP while the iframe is.
+In **dev mode** the `res.setHeader` middleware in `src/app.ts` appends `http://localhost:5173` to any `script/style/default-src` directive so Vite HMR assets are not blocked. This does not change the CSP value shown in the UI (that is read from the header before the middleware runs).
 
 ### CSP helpers (`src/csp.ts`)
 
-- `csp(overrides?)` — base policy with `frame-ancestors 'none'`. Use for parent/example pages.
-- `labCsp(overrides?)` — same base but overrides `frame-ancestors` to `'self'` so the iframe can be embedded. **Always use `labCsp()` in `src/routes/lab.ts`**, never `csp()`.
-- `EARLY_INIT_HASH` — SHA-256 hash of the inline early-init script in `src/views/layout.eta` (main layout).
-- `LAB_EARLY_INIT_HASH` — SHA-256 hash of the inline early-init script in `src/views/lab-layout.eta` (lab layout, which adds `window.parent.postMessage`). **These two hashes are different.** Use `LAB_EARLY_INIT_HASH` in any lab route that restricts `script-src` by hash.
+- `csp(overrides?)` — base policy with `frame-ancestors 'none'`. Use on all routes.
+- `EARLY_INIT_HASH` — SHA-256 hash of the inline early-init script in `src/views/layout.eta`. Use in any route that restricts `script-src` by hash.
 
 ### Route layout
 
@@ -37,7 +32,6 @@ src/routes/
     allowlist.ts        — /examples/third-party/:mode
     strict-dynamic.ts   — /examples/third-party/:mode
     event-handler.ts    — /examples/event-handler/:mode
-  lab.ts                — /lab/:example/:mode  (all lab iframes)
 ```
 
 ### Views layout
@@ -45,10 +39,8 @@ src/routes/
 ```
 src/views/
   layout.eta            — main site layout (includes EARLY_INIT_HASH script)
-  lab-layout.eta        — minimal iframe layout (includes LAB_EARLY_INIT_HASH script)
   index.eta             — home page (driven by src/examples/registry.ts)
-  examples/             — parent example pages (one per example)
-  labs/                 — lab iframe pages (one per example)
+  examples/             — example pages (one per example)
   components/           — shared partials (creature, mode-toggle, csp-header-card, etc.)
 ```
 
@@ -59,9 +51,8 @@ src/views/
 ### Client controllers
 
 `src/client/controllers/` contains small typed TS classes (no framework):
-- `creature.ts` — drives creature state (idle → ran / blocked / xss) by reading `window.__creatureRan` / `window.__creatureBlocked` flags set by early-init scripts
+- `creature.ts` — drives creature state (idle → ran / blocked / xss) by reading `window.__creatureRan` / `window.__creatureBlocked` flags set by the early-init script in `layout.eta`
 - `copy.ts` — copy-to-clipboard for code cards
-- `violation-log.ts` — displays CSP violation reports
 
 ### Example registry
 
@@ -94,8 +85,7 @@ npm test               — test:unit && test:e2e
 
 - Pin all dependencies via `package-lock.json`; use `npm ci` in CI — never `npm install`.
 - Bind the Vite dev server to `localhost` only.
-- `frame-ancestors 'none'` must remain in the base CSP for all non-lab routes.
-- `labCsp()` sets `frame-ancestors 'self'` — only use it for lab iframe routes.
+- `frame-ancestors 'none'` must remain in the base CSP for all routes.
 - Lab fixtures are isolated from application source. Never evaluate user-supplied content server-side.
 
 ## Testing
@@ -103,7 +93,6 @@ npm test               — test:unit && test:e2e
 - **Playwright** is the source of truth for CSP behaviour — it runs in real browsers.
 - **Vitest** (Node mode) covers unit logic: CSP helpers, registry validation, nonce generation.
 - Multi-browser coverage (Chromium, Firefox, WebKit) is required. CI runs all three.
-- Playwright tests use `page.frameLocator('.lab-frame').locator(...)` to reach elements inside the lab iframe.
 - Do not use Vitest Browser Mode.
 
 ## Code style

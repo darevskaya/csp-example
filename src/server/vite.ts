@@ -4,7 +4,7 @@ import type { Express, NextFunction, Request, Response } from 'express';
 import { isDev } from '../env';
 
 const VITE_PORT = 5173;
-const VITE_ORIGIN = `http://localhost:${VITE_PORT}`;
+export const VITE_ORIGIN = `http://localhost:${VITE_PORT}`;
 const MANIFEST_PATH = path.join(__dirname, '..', '..', 'public', 'dist', '.vite', 'manifest.json');
 
 type ManifestEntry = { file: string; css?: string[] };
@@ -57,6 +57,7 @@ export function viteDevMiddleware(app: Express): void {
   });
 }
 
-export const viteHmrScript = isDev
-  ? `<script type="module" src="${VITE_ORIGIN}/@vite/client"></script>`
-  : '';
+export function viteHmrScript(nonce: string): string {
+  if (!isDev) return '';
+  return `<script type="module" src="${VITE_ORIGIN}/@vite/client" nonce="${nonce}"></script>`;
+}

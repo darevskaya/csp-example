@@ -57,6 +57,9 @@ test.describe('reflected XSS', () => {
     await expect(page.locator('#creature')).toHaveClass(/ran/, {
       timeout: 2000,
     });
+    await expect(page.locator('#creature-speech')).toHaveText(
+      'CSP blocked the XSS',
+    );
   });
 
   test('unsafe: XSS executes — creature shows XSS ran', async ({ page }) => {
@@ -134,7 +137,9 @@ test.describe('hash example', () => {
     const h1 = r1.headers()['content-security-policy'];
     const h2 = r2.headers()['content-security-policy'];
     expect(h1).toContain('sha256-');
-    expect(h1).toBe(h2);
+    // strip per-request dev nonces before comparing — static hash directives must match
+    const stripNonce = (h: string) => h.replace(/ 'nonce-[^']*'/g, '');
+    expect(stripNonce(h1)).toBe(stripNonce(h2));
   });
 
   test('no-hash: mismatched script is blocked — creature shows CSP blocked', async ({ page }) => {
@@ -223,6 +228,16 @@ test.describe('strict-dynamic example', () => {
     const csp = res.headers()['content-security-policy'];
     expect(csp).toMatch(/nonce-/);
     expect(csp).toContain("'strict-dynamic'");
+  });
+
+  test('strict-dynamic: loader runs — loader creature shows script ran', async ({ page }) => {
+    await page.goto('/examples/third-party/strict-dynamic');
+    await expect(page.locator('#creature-loader')).toHaveClass(/ran/, {
+      timeout: 2000,
+    });
+    await expect(page.locator('#creature-speech-loader')).toHaveText(
+      'Script ran',
+    );
   });
 
   test('strict-dynamic: injected SDK runs — creature shows script allowed', async ({ page }) => {

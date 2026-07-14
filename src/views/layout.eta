@@ -21,6 +21,6 @@
     </nav>
   </header>
   <main class="site-main"><%~ it.body %></main>
-  <script type="module" src="<%= it.mainJs %>"<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>></script>
+  <script type="module" src="<%= it.mainJs %>"<% if (it.viteNonce) { %> nonce="<%= it.viteNonce %>"<% } else if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>></script>
 </body>
 </html>

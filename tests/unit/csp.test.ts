@@ -6,8 +6,6 @@ import {
   formatDirectives,
   generateNonce,
   hashScript,
-  LAB_EARLY_INIT_HASH,
-  labCsp,
 } from '../../src/csp';
 
 describe('formatDirectives', () => {
@@ -47,19 +45,6 @@ describe('csp', () => {
   });
 });
 
-describe('labCsp', () => {
-  it('sets frame-ancestors self instead of none', () => {
-    const result = labCsp();
-    expect(result).toContain("frame-ancestors 'self'");
-    expect(result).not.toContain("frame-ancestors 'none'");
-  });
-
-  it('merges additional directives', () => {
-    const result = labCsp({ 'default-src': "'self'" });
-    expect(result).toContain("frame-ancestors 'self'");
-    expect(result).toContain("default-src 'self'");
-  });
-});
 
 describe('generateNonce', () => {
   it('returns a non-empty string', () => {
@@ -113,13 +98,5 @@ describe('escapeHtml', () => {
 describe('early-init hashes', () => {
   it('EARLY_INIT_HASH is a sha256 hash', () => {
     expect(EARLY_INIT_HASH).toMatch(/^sha256-/);
-  });
-
-  it('LAB_EARLY_INIT_HASH is a sha256 hash', () => {
-    expect(LAB_EARLY_INIT_HASH).toMatch(/^sha256-/);
-  });
-
-  it('main and lab hashes are different (different scripts)', () => {
-    expect(EARLY_INIT_HASH).not.toBe(LAB_EARLY_INIT_HASH);
   });
 });

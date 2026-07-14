@@ -7,20 +7,6 @@ interface CreatureElements {
   panel: HTMLElement;
 }
 
-// These stubs may be replaced by the early-init script in layout.eta (which runs
-// before inline body scripts). This module runs after all body scripts, so we
-// guard against overwriting handlers the early-init script already wired up.
-if (!window.markScriptRan) {
-  window.markScriptRan = () => {
-    window.__creatureRan = true;
-  };
-}
-if (!window.markHandlerBlocked) {
-  window.markHandlerBlocked = () => {
-    window.__creatureBlocked = true;
-  };
-}
-
 function getElements(suffix: string): CreatureElements | null {
   const sep = suffix ? `-${suffix}` : '';
   const creature = document.getElementById(`creature${sep}`);
@@ -49,26 +35,28 @@ export function initCreature(el: HTMLElement): void {
   if (mode === 'strict-dynamic') {
     const loaderEls = getElements('loader');
     const injectedEls = getElements('injected');
-    if (loaderEls) applyState(loaderEls, 'ran', '( ^-^)', 'Script ran');
 
-    if (window.__creatureRan) {
-      if (injectedEls) applyState(injectedEls, 'ran', '( ^-^)', 'Script allowed');
-    } else {
-      const timeout = setTimeout(() => {
-        if (injectedEls) applyState(injectedEls, 'blocked', '( x_x)', 'CSP blocked the script');
-      }, 400);
-      window.markScriptRan = () => {
-        clearTimeout(timeout);
+    setTimeout(() => {
+      if (loaderEls) applyState(loaderEls, 'ran', '( ^-^)', 'Script ran');
+
+      if (window.__creatureRan) {
         if (injectedEls) applyState(injectedEls, 'ran', '( ^-^)', 'Script allowed');
-      };
-    }
+      } else {
+        const timeout = setTimeout(() => {
+          if (injectedEls) applyState(injectedEls, 'blocked', '( x_x)', 'CSP blocked the script');
+        }, 400);
+        window.markScriptRan = () => {
+          clearTimeout(timeout);
+          if (injectedEls) applyState(injectedEls, 'ran', '( ^-^)', 'Script allowed');
+        };
+      }
+    }, 400);
     return;
   }
 
   const els = getElements('');
   if (!els) return;
 
-  // Declare before closures that use it to avoid TDZ when __creatureRan is already true.
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
   const onRan = () => {
@@ -84,20 +72,15 @@ export function initCreature(el: HTMLElement): void {
     applyState(els, 'blocked', '( x_x)', 'Handler blocked by CSP');
   };
 
-  if (window.__creatureRan) {
-    onRan();
-    return;
-  }
-  if (window.__creatureBlocked) {
-    onBlocked();
-    return;
-  }
-
   timeout =
     mode === 'click'
       ? null
       : setTimeout(() => {
-          if (mode === 'xss') {
+          if (window.__creatureRan) {
+            onRan();
+          } else if (window.__creatureBlocked) {
+            onBlocked();
+          } else if (mode === 'xss') {
             applyState(els, 'ran', '( ^-^)', 'CSP blocked the XSS');
           } else {
             applyState(els, 'blocked', '( x_x)', 'CSP blocked the script');

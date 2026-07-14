@@ -33,13 +33,8 @@ export function hashScript(content: string): string {
   return `sha256-${crypto.createHash('sha256').update(content).digest('base64')}`;
 }
 
-function makeEarlyInitScript(): string {
-  return (
-    `window.__creatureRan=false;window.__creatureBlocked=false;` +
-    `window.markScriptRan=function(){window.__creatureRan=true;};` +
-    `window.markHandlerBlocked=function(){window.__creatureBlocked=true;};`
-  );
-}
-
-export const EARLY_INIT_SCRIPT = makeEarlyInitScript();
+export const EARLY_INIT_SCRIPT =
+  `window.__creatureRan=false;window.__creatureBlocked=false;` +
+  `window.markScriptRan=function(){window.__creatureRan=true;};` +
+  `window.markHandlerBlocked=function(){window.__creatureBlocked=true;};`;
 export const EARLY_INIT_HASH = hashScript(EARLY_INIT_SCRIPT);

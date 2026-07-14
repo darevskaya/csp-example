@@ -30,19 +30,6 @@ app.use('/lab-assets', express.static(path.join(process.cwd(), 'src', 'lab-asset
 if (isDev) {
   viteDevMiddleware(app);
   app.use('/src/styles', express.static(path.join(process.cwd(), 'src', 'styles')));
-  app.use((_req, res, next) => {
-    const origSetHeader = res.setHeader.bind(res);
-    res.setHeader = (name: string, value: Parameters<typeof res.setHeader>[1]) => {
-      if (typeof name === 'string' && name.toLowerCase() === 'content-security-policy' && typeof value === 'string') {
-        value = value.replace(
-          /((?:default|script|style)-src\b[^;]*)/g,
-          '$1 http://localhost:5173',
-        );
-      }
-      return origSetHeader(name, value);
-    };
-    next();
-  });
 }
 
 app.use('/', indexRouter);
