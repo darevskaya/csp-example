@@ -1,8 +1,0 @@
-<% layout('/lab-layout') %>
-<%~ include('/components/creature', { label: 'Result', controller: true }) %>
-
-<% if (it.mode === 'allowlist') { %>
-<script src="/lab-assets/scripts/sdk.js"></script>
-<% } else { %>
-<script id="allowlist-script" src="<%= it.cdnScriptUrl %>"></script>
-<% } %>

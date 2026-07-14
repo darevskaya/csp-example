@@ -16,7 +16,21 @@
 
 <%~ include('/components/code-card', { header: 'Inline event handler in page source', code: '&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;' }) %>
 
-<iframe class="lab-frame" src="/lab/event-handler/<%= it.mode %>" title="Result"></iframe>
+<%~ include('/components/creature', {
+  label: 'Result — click the button',
+  controller: true,
+  mode: 'click',
+  slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
+}) %>
+
+<% if (!it.handlerAllowed) { %>
+<script nonce="<%= it.nonce %>">
+  var btn = document.querySelector('button[onclick]');
+  if (btn) btn.addEventListener('click', function () {
+    window.markHandlerBlocked();
+  });
+</script>
+<% } %>
 
 <% if (!it.handlerAllowed) { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

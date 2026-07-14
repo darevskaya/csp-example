@@ -11,10 +11,7 @@
   { label: 'Script with matching hash', href: '/examples/inline-script/hash', state: it.withHash ? 'safe' : '' }
 ] }) %>
 
-<div class="info-box card">
-  <div class="card-header">Response header (same on both pages)</div>
-  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
-</div>
+<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
 
 <div class="script-box card">
   <div class="card-header">Inline script in page source</div>
@@ -29,8 +26,9 @@
   </div>
 </div>
 
+<%~ include('/components/creature', { label: 'Result', controller: true }) %>
 
-<iframe class="lab-frame" src="/lab/hash/<%= it.withHash ? 'hash' : 'no-hash' %>" title="Result"></iframe>
+<script><%~ it.activeScript %></script>
 
 <% if (!it.withHash) { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

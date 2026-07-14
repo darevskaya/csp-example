@@ -22,9 +22,12 @@
   </div>
 </div>
 
-<div class="creature-row-frame">
-  <iframe class="lab-frame" src="/lab/strict-dynamic/<%= it.mode %>" title="Result"></iframe>
+<div class="creature-row">
+  <%~ include('/components/creature', { suffix: 'loader', label: 'Loader script', controller: true, mode: 'strict-dynamic' }) %>
+  <%~ include('/components/creature', { suffix: 'injected', label: 'Injected script (/lab-assets/scripts/sdk.js)' }) %>
 </div>
+
+<script nonce="<%= it.nonce %>"><%~ it.loaderScript %></script>
 
 <% if (it.mode === 'no-strict-dynamic') { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

@@ -28,7 +28,7 @@ export function assetUrl(entry: string): string {
 }
 
 export function cssUrls(entry: string): string[] {
-  if (isDev) return [];
+  if (isDev) return ['/src/styles/main.css'];
   const m = loadManifest();
   const found = m[entry];
   return (found?.css ?? []).map((f) => `/dist/${f}`);
@@ -37,7 +37,11 @@ export function cssUrls(entry: string): string[] {
 export function viteDevMiddleware(app: Express): void {
   app.use(async (req: Request, res: Response, next: NextFunction) => {
     const url = req.url ?? '/';
-    if (!url.startsWith('/@') && !url.startsWith('/src/') && !url.startsWith('/node_modules/')) {
+    if (
+      !url.startsWith('/@') &&
+      !url.startsWith('/src/client/') &&
+      !url.startsWith('/node_modules/')
+    ) {
       return next();
     }
     try {

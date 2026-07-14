@@ -11,10 +11,7 @@
   { label: 'Script with nonce', href: '/examples/inline-script/nonce', state: it.withNonce ? 'safe' : '' }
 ] }) %>
 
-<div class="info-box card">
-  <div class="card-header">Response header (same on both pages)</div>
-  <div class="card-body"><code class="info-code">Content-Security-Policy: <%= it.cspDisplay %></code></div>
-</div>
+<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
 
 <div class="script-box card">
   <div class="card-header">Inline script in page source</div>
@@ -23,7 +20,13 @@
   </div>
 </div>
 
-<iframe class="lab-frame" src="/lab/nonce/<%= it.withNonce ? 'nonce' : 'no-nonce' %>" title="Result"></iframe>
+<%~ include('/components/creature', { label: 'Result', controller: true }) %>
+
+<% if (it.withNonce) { %>
+<script nonce="<%= it.nonce %>">markScriptRan();</script>
+<% } else { %>
+<script>markScriptRan();</script>
+<% } %>
 
 <% if (!it.withNonce) { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

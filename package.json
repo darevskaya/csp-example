@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
-    "dev": "cross-env NODE_ENV=development tsx watch bin/server.ts",
+    "dev": "concurrently -n express,vite -c blue,green \"cross-env NODE_ENV=development tsx watch bin/server.ts\" \"vite\"",
     "dev:vite": "vite",
     "build": "vite build && tsc -p tsconfig.server.json",
     "start:prod": "node dist/bin/server.js",
@@ -26,6 +26,7 @@
     "@playwright/test": "^1.61.1",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.1",
+    "concurrently": "^10.0.3",
     "cross-env": "^10.1.0",
     "tsx": "^4.23.1",
     "typescript": "^6.0.3",

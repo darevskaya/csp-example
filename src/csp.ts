@@ -17,10 +17,6 @@ export function csp(overrides?: Record<string, string>): string {
   return formatDirectives({ ...BASE, ...overrides });
 }
 
-export function labCsp(overrides?: Record<string, string>): string {
-  return formatDirectives({ ...BASE, 'frame-ancestors': "'self'", ...overrides });
-}
-
 export function generateNonce(): string {
   return crypto.randomBytes(16).toString('base64');
 }
@@ -37,19 +33,13 @@ export function hashScript(content: string): string {
   return `sha256-${crypto.createHash('sha256').update(content).digest('base64')}`;
 }
 
-function makeEarlyInitScript(postMessage: boolean): string {
-  const notify = (event: string) =>
-    postMessage ? `window.parent.postMessage({type:'lab',event:'${event}'},'*');` : '';
+function makeEarlyInitScript(): string {
   return (
     `window.__creatureRan=false;window.__creatureBlocked=false;` +
-    `window.markScriptRan=function(){window.__creatureRan=true;${notify('ran')}};` +
-    `window.markHandlerBlocked=function(){window.__creatureBlocked=true;${notify('blocked')}};`
+    `window.markScriptRan=function(){window.__creatureRan=true;};` +
+    `window.markHandlerBlocked=function(){window.__creatureBlocked=true;};`
   );
 }
 
-// Kept here so routes that need the hash in their CSP can compute it consistently.
-export const EARLY_INIT_SCRIPT = makeEarlyInitScript(false);
+export const EARLY_INIT_SCRIPT = makeEarlyInitScript();
 export const EARLY_INIT_HASH = hashScript(EARLY_INIT_SCRIPT);
-
-export const LAB_EARLY_INIT_SCRIPT = makeEarlyInitScript(true);
-export const LAB_EARLY_INIT_HASH = hashScript(LAB_EARLY_INIT_SCRIPT);

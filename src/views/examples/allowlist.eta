@@ -15,7 +15,13 @@
 
 <%~ include('/components/code-card', { header: 'Script tag in page source', code: it.loaderDisplay }) %>
 
-<iframe class="lab-frame" src="/lab/allowlist/<%= it.mode %>" title="Result"></iframe>
+<%~ include('/components/creature', { label: 'Result', controller: true }) %>
+
+<% if (it.mode === 'allowlist') { %>
+<script src="/lab-assets/scripts/sdk.js"></script>
+<% } else { %>
+<script id="allowlist-script" src="<%= it.cdnScriptUrl %>"></script>
+<% } %>
 
 <% if (it.mode === 'no-allowlist') { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

@@ -1,4 +1,0 @@
-<% layout('/lab-layout') %>
-<%~ include('/components/creature', { label: 'Result', controller: true }) %>
-
-<script><%~ it.activeScript %></script>
