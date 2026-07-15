@@ -1,4 +1,8 @@
 @layer components {
+  csp-creature {
+    display: block;
+  }
+
   .creature-panel {
     margin-block: 1rem;
   }
