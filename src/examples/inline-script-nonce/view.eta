@@ -1,4 +1,4 @@
-<% layout('/layout') %>
+<% layout('/views/layout') %>
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
@@ -6,12 +6,12 @@
   <p class="example-desc">CSP is active on both pages. The script is only allowed when it carries a <code class="example-desc-code">nonce</code> attribute that matches the value in the response header — a random token generated fresh on every request.</p>
 </div>
 
-<%~ include('/components/mode-toggle', { tabs: [
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
   { label: 'Script without nonce', href: '/examples/inline-script/no-nonce', state: it.withNonce ? '' : 'unsafe' },
   { label: 'Script with nonce', href: '/examples/inline-script/nonce', state: it.withNonce ? 'safe' : '' }
 ] }) %>
 
-<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
 
 <div class="script-box card">
   <div class="card-header">Inline script in page source</div>
@@ -20,13 +20,15 @@
   </div>
 </div>
 
-<%~ include('/components/creature', { label: 'Result', controller: true }) %>
+<%~ include('/ui/components/creature/creature', { label: 'Result', controller: true }) %>
 
-<% if (it.withNonce) { %>
-<script nonce="<%= it.nonce %>">markScriptRan();</script>
-<% } else { %>
-<script>markScriptRan();</script>
-<% } %>
+<section class="demo-surface" data-demo-surface>
+  <% if (it.withNonce) { %>
+  <script nonce="<%= it.nonce %>">markScriptRan();</script>
+  <% } else { %>
+  <script>markScriptRan();</script>
+  <% } %>
+</section>
 
 <% if (!it.withNonce) { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

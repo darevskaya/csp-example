@@ -6,7 +6,7 @@ import { render } from '../render';
 const router = express.Router();
 
 router.get('/', (_req: Request, res: Response) => {
-  render(res, 'index', { title: 'Home', examples });
+  render(res, 'views/index', { title: 'Home', examples });
 });
 
 export default router;

@@ -1,0 +1,45 @@
+@layer components {
+  .script-box {
+    margin-block-end: 1rem;
+    border-left: 3px solid var(--purple-border);
+    background: color-mix(in oklch, var(--purple-dim) 40%, var(--surface));
+  }
+
+  .script-box .card-header {
+    color: var(--purple);
+  }
+
+  .script-pre {
+    overflow-x: auto;
+  }
+
+  .script-code {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-code);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  .script-comment {
+    color: var(--muted);
+  }
+
+  .nonce-token {
+    color: var(--green);
+    background: var(--green-dim);
+    padding: 0.0625rem 0.25rem;
+    border-radius: 0.1875rem;
+  }
+
+  .nonce-missing {
+    color: var(--accent);
+  }
+
+  .hash-note {
+    margin-block-start: 0.625rem;
+    font-size: 0.6875rem;
+    color: var(--muted);
+    word-break: break-all;
+  }
+}

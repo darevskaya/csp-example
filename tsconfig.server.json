@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": ["src/**/*", "bin/**/*"],
-  "exclude": ["src/client/**/*"],
+  "exclude": ["src/client/**/*", "src/ui/**/*"],
   "compilerOptions": {
     "rootDir": ".",
     "module": "commonjs",

@@ -1,4 +1,4 @@
-<% layout('/layout') %>
+<% layout('/views/layout') %>
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
@@ -6,12 +6,12 @@
   <p class="example-desc"><%~ it.explanation %></p>
 </div>
 
-<%~ include('/components/mode-toggle', { tabs: [
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
   { label: 'Script without matching hash', href: '/examples/inline-script/no-hash', state: it.withHash ? '' : 'unsafe' },
   { label: 'Script with matching hash', href: '/examples/inline-script/hash', state: it.withHash ? 'safe' : '' }
 ] }) %>
 
-<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
 
 <div class="script-box card">
   <div class="card-header">Inline script in page source</div>
@@ -26,9 +26,11 @@
   </div>
 </div>
 
-<%~ include('/components/creature', { label: 'Result', controller: true }) %>
+<%~ include('/ui/components/creature/creature', { label: 'Result', controller: true }) %>
 
-<script><%~ it.activeScript %></script>
+<section class="demo-surface" data-demo-surface>
+  <script><%~ it.activeScript %></script>
+</section>
 
 <% if (!it.withHash) { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

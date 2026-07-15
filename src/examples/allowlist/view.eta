@@ -1,0 +1,30 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src origin</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'No allowlist', href: '/examples/third-party/no-allowlist', state: it.mode === 'no-allowlist' ? 'unsafe' : '' },
+  { label: 'Origin allowlist', href: '/examples/third-party/allowlist', state: it.mode === 'allowlist' ? 'safe' : '' }
+] }) %>
+
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+
+<%~ include('/ui/components/code-card/code-card', { header: 'Script tag in page source', code: it.loaderDisplay }) %>
+
+<%~ include('/ui/components/creature/creature', { label: 'Result', controller: true }) %>
+
+<section class="demo-surface" data-demo-surface>
+  <% if (it.mode === 'allowlist') { %>
+  <script src="/lab-assets/scripts/sdk.js"></script>
+  <% } else { %>
+  <script id="allowlist-script" src="<%= it.cdnScriptUrl %>"></script>
+  <% } %>
+</section>
+
+<% if (it.mode === 'no-allowlist') { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

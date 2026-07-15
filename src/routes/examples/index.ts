@@ -1,10 +1,10 @@
 import express from 'express';
-import allowlistRouter from './allowlist';
-import eventHandlerRouter from './event-handler';
-import hashRouter from './hash';
-import nonceRouter from './nonce';
-import reflectedXssRouter from './reflected-xss';
-import strictDynamicRouter from './strict-dynamic';
+import allowlistRouter from '../../examples/allowlist/route';
+import eventHandlerRouter from '../../examples/event-handler/route';
+import hashRouter from '../../examples/inline-script-hash/route';
+import nonceRouter from '../../examples/inline-script-nonce/route';
+import reflectedXssRouter from '../../examples/reflected-xss/route';
+import strictDynamicRouter from '../../examples/strict-dynamic/route';
 
 const router = express.Router();
 

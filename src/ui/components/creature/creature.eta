@@ -1,5 +1,5 @@
 <% const sfx = it.suffix ? '-' + it.suffix : ''; %>
-<div class="creature-panel card" id="creature-panel<%= sfx %>"<%~ it.controller ? ' data-controller="creature"' : '' %><%~ it.mode ? ' data-mode="' + it.mode + '"' : '' %>>
+<csp-creature class="creature-panel card" id="creature-panel<%= sfx %>"<%~ it.mode ? ' data-mode="' + it.mode + '"' : '' %><%~ it.suffix === 'injected' ? ' data-peer="injected"' : '' %>>
   <div class="card-header"><%= it.label %></div>
   <div class="card-body">
     <div class="creature-stage">
@@ -9,4 +9,4 @@
     </div>
     <% if (it.slot) { %><%~ it.slot %><% } %>
   </div>
-</div>
+</csp-creature>

@@ -1,4 +1,4 @@
-<% layout('/layout') %>
+<% layout('/views/layout') %>
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
@@ -6,31 +6,33 @@
   <p class="example-desc"><%~ it.explanation %></p>
 </div>
 
-<%~ include('/components/mode-toggle', { tabs: [
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
   { label: 'script-src only', href: '/examples/event-handler/script-src-only', state: it.mode === 'script-src-only' ? 'unsafe' : '' },
   { label: 'split — attr allowed', href: '/examples/event-handler/split-unsafe-inline', state: it.mode === 'split-unsafe-inline' ? 'safe' : '' },
   { label: 'split — attr blocked', href: '/examples/event-handler/split-none', state: it.mode === 'split-none' ? 'unsafe' : '' }
 ] }) %>
 
-<%~ include('/components/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
 
-<%~ include('/components/code-card', { header: 'Inline event handler in page source', code: '&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;' }) %>
+<%~ include('/ui/components/code-card/code-card', { header: 'Inline event handler in page source', code: '&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;' }) %>
 
-<%~ include('/components/creature', {
+<%~ include('/ui/components/creature/creature', {
   label: 'Result — click the button',
   controller: true,
   mode: 'click',
   slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
 }) %>
 
-<% if (!it.handlerAllowed) { %>
-<script nonce="<%= it.nonce %>">
-  var btn = document.querySelector('button[onclick]');
-  if (btn) btn.addEventListener('click', function () {
-    window.markHandlerBlocked();
-  });
-</script>
-<% } %>
+<section class="demo-surface" data-demo-surface>
+  <% if (!it.handlerAllowed) { %>
+  <script nonce="<%= it.nonce %>">
+    var btn = document.querySelector('button[onclick]');
+    if (btn) btn.addEventListener('click', function () {
+      window.markHandlerBlocked();
+    });
+  </script>
+  <% } %>
+</section>
 
 <% if (!it.handlerAllowed) { %>
 <p class="console-hint">Check the browser console to see the CSP violation error.</p>

@@ -1,4 +1,4 @@
-<% layout('layout') %>
+<% layout('/views/layout') %>
 <div class="page-title">CSP Examples</div>
 <div class="page-subtitle">Interactive demos showing how Content Security Policy controls which scripts can run.</div>
 

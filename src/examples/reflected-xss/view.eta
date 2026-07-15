@@ -1,4 +1,4 @@
-<% layout('/layout') %>
+<% layout('/views/layout') %>
 <a class="back" href="/">← back to examples</a>
 
 <div class="example-header">
@@ -6,12 +6,12 @@
   <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — click on search to see the difference.</p>
 </div>
 
-<%~ include('/components/mode-toggle', { tabs: [
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
   { label: 'CSP off', href: '/examples/reflected-xss/unsafe', state: it.cspOn ? '' : 'unsafe' },
   { label: 'CSP on', href: '/examples/reflected-xss/safe', state: it.cspOn ? 'safe' : '' }
 ] }) %>
 
-<%~ include('/components/csp-header-card', { active: it.cspOn, cspDisplay: it.cspDisplay }) %>
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: it.cspOn, cspDisplay: it.cspDisplay }) %>
 
 <div class="demo-box card">
   <div class="card-header">Search query</div>
@@ -32,11 +32,13 @@
 </div>
 <% } %>
 
-<%~ include('/components/creature', { label: 'Result', controller: it.query ? true : false, mode: 'xss' }) %>
+<%~ include('/ui/components/creature/creature', { label: 'Result', controller: it.query ? true : false, mode: 'xss' }) %>
 
 <% if (it.query) { %>
-<%~ it.query %>
-<script>markScriptRan();</script>
+<section class="demo-surface" data-demo-surface>
+  <%~ it.query %>
+  <script>markScriptRan();</script>
+</section>
 <% } %>
 
 <% if (it.cspOn && it.query) { %>
