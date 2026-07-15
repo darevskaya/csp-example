@@ -45,7 +45,6 @@ describe('csp', () => {
   });
 });
 
-
 describe('generateNonce', () => {
   it('returns a non-empty string', () => {
     const nonce = generateNonce();

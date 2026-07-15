@@ -57,9 +57,7 @@ test.describe('reflected XSS', () => {
     await expect(page.locator('#creature')).toHaveClass(/ran/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'CSP blocked the XSS',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the XSS');
   });
 
   test('unsafe: XSS executes — creature shows XSS ran', async ({ page }) => {
@@ -72,9 +70,7 @@ test.describe('reflected XSS', () => {
     await expect(page.locator('#creature')).toHaveClass(/xss/, {
       timeout: 5000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'XSS ran — no CSP',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('XSS ran — no CSP');
   });
 
   test('safe: XSS blocked — creature shows attack blocked', async ({ page }) => {
@@ -82,9 +78,7 @@ test.describe('reflected XSS', () => {
     await expect(page.locator('#creature')).toHaveClass(/ran/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'CSP blocked the XSS',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the XSS');
   });
 });
 
@@ -103,17 +97,13 @@ test.describe('nonce example', () => {
     await expect(page.locator('#creature')).toHaveClass(/blocked/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'CSP blocked the script',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the script');
   });
 
   test('nonce: script runs — creature shows script allowed', async ({ page }) => {
     await page.goto('/examples/inline-script/nonce');
     await expect(page.locator('#creature')).toHaveClass(/ran/);
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'Script allowed',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('Script allowed');
   });
 
   test('nonce is different on each request', async ({ request }) => {
@@ -146,17 +136,13 @@ test.describe('hash example', () => {
     await expect(page.locator('#creature')).toHaveClass(/blocked/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'CSP blocked the script',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the script');
   });
 
   test('hash: matching script runs — creature shows script allowed', async ({ page }) => {
     await page.goto('/examples/inline-script/hash');
     await expect(page.locator('#creature')).toHaveClass(/ran/);
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'Script allowed',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('Script allowed');
   });
 });
 
@@ -175,17 +161,13 @@ test.describe('origin allowlist example', () => {
     await expect(page.locator('#creature')).toHaveClass(/blocked/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'CSP blocked the script',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the script');
   });
 
   test('allowlist: SDK loads directly — creature shows script allowed', async ({ page }) => {
     await page.goto('/examples/third-party/allowlist');
     await expect(page.locator('#creature')).toHaveClass(/ran/);
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'Script allowed',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('Script allowed');
   });
 });
 
@@ -200,7 +182,10 @@ test.describe('strict-dynamic example', () => {
   });
 
   test('loader runs on both modes — loader creature shows script ran', async ({ page }) => {
-    for (const path of ['/examples/third-party/no-strict-dynamic', '/examples/third-party/strict-dynamic']) {
+    for (const path of [
+      '/examples/third-party/no-strict-dynamic',
+      '/examples/third-party/strict-dynamic',
+    ]) {
       await page.goto(path);
       await expect(page.locator('#creature-loader')).toHaveClass(/ran/, { timeout: 2000 });
       await expect(page.locator('#creature-speech-loader')).toHaveText('Script ran');
@@ -211,13 +196,8 @@ test.describe('strict-dynamic example', () => {
     page,
   }) => {
     await page.goto('/examples/third-party/no-strict-dynamic');
-    await expect(page.locator('#creature-injected')).toHaveClass(
-      /blocked/,
-      { timeout: 2000 },
-    );
-    await expect(page.locator('#creature-speech-injected')).toHaveText(
-      'CSP blocked the script',
-    );
+    await expect(page.locator('#creature-injected')).toHaveClass(/blocked/, { timeout: 2000 });
+    await expect(page.locator('#creature-speech-injected')).toHaveText('CSP blocked the script');
   });
 
   test('strict-dynamic: header contains nonce and strict-dynamic', async ({ request }) => {
@@ -230,9 +210,7 @@ test.describe('strict-dynamic example', () => {
   test('strict-dynamic: injected SDK runs — creature shows script allowed', async ({ page }) => {
     await page.goto('/examples/third-party/strict-dynamic');
     await expect(page.locator('#creature-injected')).toHaveClass(/ran/);
-    await expect(page.locator('#creature-speech-injected')).toHaveText(
-      'Script allowed',
-    );
+    await expect(page.locator('#creature-speech-injected')).toHaveText('Script allowed');
   });
 });
 
@@ -254,9 +232,7 @@ test.describe('event-handler example', () => {
     await expect(page.locator('#creature')).toHaveClass(/blocked/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'Handler blocked by CSP',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('Handler blocked by CSP');
   });
 
   test('split-unsafe-inline: CSP header uses script-src-elem and script-src-attr', async ({
@@ -276,9 +252,7 @@ test.describe('event-handler example', () => {
     await expect(page.locator('#creature')).toHaveClass(/ran/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'Script allowed',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('Script allowed');
   });
 
   test('split-none: CSP header uses script-src-attr none', async ({ request }) => {
@@ -294,8 +268,6 @@ test.describe('event-handler example', () => {
     await expect(page.locator('#creature')).toHaveClass(/blocked/, {
       timeout: 2000,
     });
-    await expect(page.locator('#creature-speech')).toHaveText(
-      'Handler blocked by CSP',
-    );
+    await expect(page.locator('#creature-speech')).toHaveText('Handler blocked by CSP');
   });
 });
