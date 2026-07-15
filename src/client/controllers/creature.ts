@@ -7,6 +7,20 @@ interface CreatureElements {
   panel: HTMLElement;
 }
 
+const FACE = {
+  happy: '( ^-^)',
+  dead: '( x_x)',
+} as const;
+
+const MSG = {
+  scriptRan: 'Script ran',
+  scriptAllowed: 'Script allowed',
+  scriptBlocked: 'CSP blocked the script',
+  xssRan: 'XSS ran — no CSP',
+  xssBlocked: 'CSP blocked the XSS',
+  handlerBlocked: 'Handler blocked by CSP',
+} as const;
+
 function getElements(suffix: string): CreatureElements | null {
   const sep = suffix ? `-${suffix}` : '';
   const creature = document.getElementById(`creature${sep}`);
@@ -37,17 +51,17 @@ export function initCreature(el: HTMLElement): void {
     const injectedEls = getElements('injected');
 
     setTimeout(() => {
-      if (loaderEls) applyState(loaderEls, 'ran', '( ^-^)', 'Script ran');
+      if (loaderEls) applyState(loaderEls, 'ran', FACE.happy, MSG.scriptRan);
 
       if (window.__creatureRan) {
-        if (injectedEls) applyState(injectedEls, 'ran', '( ^-^)', 'Script allowed');
+        if (injectedEls) applyState(injectedEls, 'ran', FACE.happy, MSG.scriptAllowed);
       } else {
         const timeout = setTimeout(() => {
-          if (injectedEls) applyState(injectedEls, 'blocked', '( x_x)', 'CSP blocked the script');
+          if (injectedEls) applyState(injectedEls, 'blocked', FACE.dead, MSG.scriptBlocked);
         }, 400);
         window.markScriptRan = () => {
           clearTimeout(timeout);
-          if (injectedEls) applyState(injectedEls, 'ran', '( ^-^)', 'Script allowed');
+          if (injectedEls) applyState(injectedEls, 'ran', FACE.happy, MSG.scriptAllowed);
         };
       }
     }, 400);
@@ -62,14 +76,14 @@ export function initCreature(el: HTMLElement): void {
   const onRan = () => {
     if (timeout) clearTimeout(timeout);
     if (mode === 'xss') {
-      applyState(els, 'xss', '( x_x)', 'XSS ran — no CSP');
+      applyState(els, 'xss', FACE.dead, MSG.xssRan);
     } else {
-      applyState(els, 'ran', '( ^-^)', 'Script allowed');
+      applyState(els, 'ran', FACE.happy, MSG.scriptAllowed);
     }
   };
 
   const onBlocked = () => {
-    applyState(els, 'blocked', '( x_x)', 'Handler blocked by CSP');
+    applyState(els, 'blocked', FACE.dead, MSG.handlerBlocked);
   };
 
   timeout =
@@ -81,9 +95,9 @@ export function initCreature(el: HTMLElement): void {
           } else if (window.__creatureBlocked) {
             onBlocked();
           } else if (mode === 'xss') {
-            applyState(els, 'ran', '( ^-^)', 'CSP blocked the XSS');
+            applyState(els, 'ran', FACE.happy, MSG.xssBlocked);
           } else {
-            applyState(els, 'blocked', '( x_x)', 'CSP blocked the script');
+            applyState(els, 'blocked', FACE.dead, MSG.scriptBlocked);
           }
         }, 400);
 
