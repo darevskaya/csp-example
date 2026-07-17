@@ -39,10 +39,6 @@ describe('csp', () => {
     expect(result).toContain("frame-ancestors 'self'");
     expect(result).not.toContain("frame-ancestors 'none'");
   });
-
-  it('returns base policy when no overrides', () => {
-    expect(csp()).toBe(csp(undefined));
-  });
 });
 
 describe('generateNonce', () => {
@@ -87,6 +83,10 @@ describe('escapeHtml', () => {
 
   it('escapes angle brackets', () => {
     expect(escapeHtml('<script>')).toBe('&lt;script&gt;');
+  });
+
+  it('escapes double quotes', () => {
+    expect(escapeHtml('"value"')).toBe('&quot;value&quot;');
   });
 
   it('leaves safe characters unchanged', () => {

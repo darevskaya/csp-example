@@ -32,7 +32,9 @@
 </div>
 <% } %>
 
-<%~ include('/ui/components/creature/creature', { label: 'Result', controller: it.query ? true : false, mode: 'xss' }) %>
+<% if (it.query) { %>
+<%~ include('/ui/components/creature/creature', { label: 'Result', controller: true, mode: 'xss' }) %>
+<% } %>
 
 <% if (it.query) { %>
 <section class="demo-surface" data-demo-surface>

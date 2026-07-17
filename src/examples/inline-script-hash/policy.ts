@@ -5,9 +5,10 @@ import { DIFFERENT_SCRIPT_CONTENT, HASH_SCRIPT_CONTENT } from '../fixtures';
 export const SCRIPT_HASH = hashScript(HASH_SCRIPT_CONTENT);
 export const DIFFERENT_SCRIPT_HASH = hashScript(DIFFERENT_SCRIPT_CONTENT);
 
-const DISPLAY_DIRECTIVES = { 'script-src': `'self' '${SCRIPT_HASH}'` };
+const DISPLAY_VALUE = `'self' '${SCRIPT_HASH}'`;
+const DISPLAY_DIRECTIVES = { 'script-src': DISPLAY_VALUE };
 const HASH_DIRECTIVES = {
-  'script-src': `${DISPLAY_DIRECTIVES['script-src']} '${EARLY_INIT_HASH}'`,
+  'script-src': `${DISPLAY_VALUE} '${EARLY_INIT_HASH}'`,
 };
 export const CSP_HEADER = csp(HASH_DIRECTIVES);
 export const CSP_DISPLAY = formatDirectives(DISPLAY_DIRECTIVES);

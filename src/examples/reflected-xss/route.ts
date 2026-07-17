@@ -8,6 +8,7 @@ const router = express.Router();
 const DEMO_DIRECTIVES = { 'default-src': "'self'" };
 const DEMO_CSP = csp(DEMO_DIRECTIVES);
 const DEMO_CSP_DISPLAY = formatDirectives(DEMO_DIRECTIVES);
+const BASE_CSP = csp();
 
 function reflectedXssHandler(cspOn: boolean) {
   const action = cspOn ? '/examples/reflected-xss/safe' : '/examples/reflected-xss/unsafe';
@@ -17,7 +18,7 @@ function reflectedXssHandler(cspOn: boolean) {
     if (cspOn) {
       res.setHeader('Content-Security-Policy', DEMO_CSP);
     } else {
-      res.removeHeader('Content-Security-Policy');
+      res.setHeader('Content-Security-Policy', BASE_CSP);
     }
     render(res, 'examples/reflected-xss/view', {
       title: 'Reflected XSS',

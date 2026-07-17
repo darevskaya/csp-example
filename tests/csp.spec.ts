@@ -18,6 +18,16 @@ test.describe('home page', () => {
 // ── Reflected XSS ─────────────────────────────────────────────────────────────
 
 test.describe('reflected XSS', () => {
+  test('unsafe: no query — creature not shown', async ({ page }) => {
+    await page.goto('/examples/reflected-xss/unsafe');
+    await expect(page.locator('#creature')).not.toBeAttached();
+  });
+
+  test('safe: no query — creature not shown', async ({ page }) => {
+    await page.goto('/examples/reflected-xss/safe');
+    await expect(page.locator('#creature')).not.toBeAttached();
+  });
+
   test('unsafe: plain input is reflected', async ({ page }) => {
     await page.goto('/examples/reflected-xss/unsafe?term=hello');
     await expect(page.locator('.output-code')).toHaveText('hello');
@@ -36,7 +46,7 @@ test.describe('reflected XSS', () => {
 
   test('unsafe: no CSP header on unsafe page', async ({ request }) => {
     const res = await request.get('/examples/reflected-xss/unsafe');
-    expect(res.headers()['content-security-policy']).toBeUndefined();
+    expect(res.headers()['content-security-policy']).toBe("frame-ancestors 'none'");
   });
 
   test('safe: CSP header present on safe page', async ({ request }) => {
@@ -269,5 +279,32 @@ test.describe('event-handler example', () => {
       timeout: 2000,
     });
     await expect(page.locator('#creature-speech')).toHaveText('Handler blocked by CSP');
+  });
+});
+
+// ── Security invariants ───────────────────────────────────────────────────────
+
+test.describe('security invariants', () => {
+  const ALL_ROUTES = [
+    '/examples/reflected-xss/safe',
+    '/examples/reflected-xss/unsafe',
+    '/examples/inline-script/nonce',
+    '/examples/inline-script/no-nonce',
+    '/examples/inline-script/hash',
+    '/examples/inline-script/no-hash',
+    '/examples/third-party/allowlist',
+    '/examples/third-party/no-allowlist',
+    '/examples/third-party/strict-dynamic',
+    '/examples/third-party/no-strict-dynamic',
+    '/examples/event-handler/script-src-only',
+    '/examples/event-handler/split-unsafe-inline',
+    '/examples/event-handler/split-none',
+  ];
+
+  test("all routes include frame-ancestors 'none'", async ({ request }) => {
+    for (const path of ALL_ROUTES) {
+      const res = await request.get(path);
+      expect(res.headers()['content-security-policy'], path).toContain("frame-ancestors 'none'");
+    }
   });
 });
