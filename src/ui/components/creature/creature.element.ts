@@ -102,6 +102,14 @@ export class CspCreatureElement extends HTMLElement {
     this.speech.textContent = message;
     this.speech.className = `creature-speech ${state}`;
     this.className = `creature-panel card ${state}`;
+
+    const panel = this.closest('.demo-panel');
+    if (panel) {
+      const divider = panel.querySelector<HTMLElement>('[data-demo-divider]');
+      const result = panel.querySelector<HTMLElement>('[data-demo-result]');
+      if (divider) divider.className = `demo-divider ${state}`;
+      if (result) result.className = `demo-result ${state}`;
+    }
   }
 }
 

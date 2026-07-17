@@ -21,13 +21,13 @@
     --green: oklch(40% 0.14 155deg);
     --green-dim: color-mix(in oklch, var(--green) 10%, transparent);
     --green-border: color-mix(in oklch, var(--green) 30%, transparent);
-    --safe-bg: color-mix(in oklch, var(--green) 6%, var(--surface));
-    --safe-border: color-mix(in oklch, var(--green) 25%, transparent);
+    --safe-bg: color-mix(in oklch, var(--green) 10%, var(--surface));
+    --safe-border: color-mix(in oklch, var(--green) 30%, transparent);
 
     --blocked: oklch(38% 0.15 34deg);
     --blocked-dim: color-mix(in oklch, var(--blocked) 10%, transparent);
     --blocked-border: color-mix(in oklch, var(--blocked) 25%, transparent);
-    --blocked-bg: color-mix(in oklch, var(--blocked) 6%, var(--surface));
+    --blocked-bg: color-mix(in oklch, var(--blocked) 10%, var(--surface));
 
     /* legacy aliases — keep for any code referencing old names */
     --blue: var(--accent);

@@ -20,7 +20,7 @@ export interface Example {
 export const examples: Example[] = [
   {
     id: 'reflected-xss',
-    title: 'default-src',
+    title: 'Blocking injected scripts',
     shortTitle: 'default-src',
     topic: 'csp',
     description: defineDemoMarkup(
@@ -34,7 +34,7 @@ export const examples: Example[] = [
   },
   {
     id: 'allowlist',
-    title: 'script-src origin',
+    title: 'Origin allowlist',
     shortTitle: 'script-src origin',
     topic: 'csp',
     description: defineDemoMarkup(
@@ -58,7 +58,7 @@ export const examples: Example[] = [
   },
   {
     id: 'nonce',
-    title: 'script-src nonce',
+    title: 'Per-request nonce',
     shortTitle: 'script-src nonce',
     topic: 'csp',
     description: defineDemoMarkup(
@@ -82,7 +82,7 @@ export const examples: Example[] = [
   },
   {
     id: 'hash',
-    title: 'script-src hash',
+    title: 'Content hash',
     shortTitle: 'script-src hash',
     topic: 'csp',
     description: defineDemoMarkup(
@@ -106,7 +106,7 @@ export const examples: Example[] = [
   },
   {
     id: 'strict-dynamic',
-    title: 'script-src strict-dynamic',
+    title: 'Trusted script injection',
     shortTitle: "script-src 'strict-dynamic'",
     topic: 'csp',
     description: defineDemoMarkup(
@@ -130,7 +130,7 @@ export const examples: Example[] = [
   },
   {
     id: 'event-handler',
-    title: 'script-src-elem / script-src-attr',
+    title: 'Split script directives',
     shortTitle: 'script-src-elem / attr',
     topic: 'csp',
     description: defineDemoMarkup(

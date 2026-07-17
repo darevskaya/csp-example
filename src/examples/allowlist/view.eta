@@ -11,11 +11,20 @@
   { label: 'Origin allowlist', href: '/examples/third-party/allowlist', state: it.mode === 'allowlist' ? 'safe' : '' }
 ] }) %>
 
-<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
-
-<%~ include('/ui/components/code-card/code-card', { header: 'Script tag in page source', code: it.loaderDisplay }) %>
-
-<%~ include('/ui/components/creature/creature', { label: 'Result' }) %>
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Script tag in page source</div>
+    <div class="demo-row-value"><%~ it.loaderDisplay %></div>
+  </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <%~ include('/ui/components/creature/creature', { label: '' }) %>
+  </div>
+</div>
 
 <section class="demo-surface" data-demo-surface>
   <% if (it.mode === 'allowlist') { %>

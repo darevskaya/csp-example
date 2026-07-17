@@ -4,39 +4,36 @@
   }
 
   .creature-panel {
-    margin-block: 1rem;
+    margin-block: 0;
   }
 
   .creature-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-block: 1rem;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-block-end: 0.75rem;
   }
 
   .creature-row .creature-panel {
-    margin-block: 0;
+    border: none;
+    border-radius: 0;
+    padding: 1rem;
   }
 
-  .creature-panel.ran {
-    border-color: var(--green-border);
+  .creature-row .creature-panel + .creature-panel {
+    border-left: 1px solid var(--border-dim);
   }
 
-  .creature-panel.ran .card-header {
-    color: var(--green);
+  .creature-row .creature-panel.ran {
+    background: var(--safe-bg);
   }
 
-  .creature-panel.blocked {
-    border-color: var(--accent-border);
-  }
-
-  .creature-panel.blocked .card-header,
-  .creature-panel.xss .card-header {
-    color: var(--accent);
-  }
-
-  .creature-panel.xss {
-    border-color: var(--accent-border);
+  .creature-row .creature-panel.blocked,
+  .creature-row .creature-panel.xss {
+    background: var(--blocked-bg);
   }
 
   .creature-stage {
@@ -60,12 +57,12 @@
   }
 
   .creature.blocked {
-    color: var(--accent);
+    color: var(--blocked);
     animation: creature-shake 0.4s ease-out;
   }
 
   .creature.xss {
-    color: var(--accent);
+    color: var(--blocked);
     animation: creature-bounce 0.4s ease-out;
   }
 
@@ -83,43 +80,23 @@
 
   .creature-speech.blocked,
   .creature-speech.xss {
-    color: var(--accent);
+    color: var(--blocked);
     opacity: 100%;
   }
 
   @keyframes creature-bounce {
-    0% {
-      transform: translateY(0);
-    }
-    30% {
-      transform: translateY(-6px);
-    }
-    60% {
-      transform: translateY(2px);
-    }
-    100% {
-      transform: translateY(0);
-    }
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+    60% { transform: translateY(2px); }
+    100% { transform: translateY(0); }
   }
 
   @keyframes creature-shake {
-    0% {
-      transform: translateX(0);
-    }
-    20% {
-      transform: translateX(-5px);
-    }
-    40% {
-      transform: translateX(5px);
-    }
-    60% {
-      transform: translateX(-4px);
-    }
-    80% {
-      transform: translateX(4px);
-    }
-    100% {
-      transform: translateX(0);
-    }
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+    100% { transform: translateX(0); }
   }
 }

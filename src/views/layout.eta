@@ -17,9 +17,6 @@
   <script<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>><%~ it.earlyInitScript %></script>
   <header class="site-header">
     <a class="site-logo" href="/"><span class="site-logo-accent">csp</span>.examples</a>
-    <nav class="site-nav">
-      <a class="site-nav-link" href="/">Examples</a>
-    </nav>
   </header>
   <main class="site-main" id="main"><%~ it.body %></main>
   <script type="module" src="<%= it.mainJs %>"<% if (it.viteNonce) { %> nonce="<%= it.viteNonce %>"<% } else if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>></script>

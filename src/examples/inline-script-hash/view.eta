@@ -11,22 +11,28 @@
   { label: 'Script with matching hash', href: '/examples/inline-script/hash', state: it.withHash ? 'safe' : '' }
 ] }) %>
 
-<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
-
-<div class="script-box card">
-  <div class="card-header">Inline script in page source</div>
-  <div class="card-body">
-    <pre class="script-pre"><code class="script-code">&lt;script&gt;<%= it.activeScript %>&lt;/script&gt;</code></pre>
-    <div class="hash-note">
-      <code class="script-code script-comment">// Header allows hash: <span class="nonce-token"><%= it.scriptHash %></span></code>
-      <% if (!it.withHash) { %>
-        <br><code class="script-code script-comment">// Script hash: <span class="nonce-missing"><%= it.differentScriptHash %> ← does not match</span></code>
-      <% } %>
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Inline script in page source</div>
+    <div class="demo-row-value">
+      <div>&lt;script&gt;<%= it.activeScript %>&lt;/script&gt;</div>
+      <div class="hash-note">
+        <code class="script-code script-comment">// Header allows hash: <span class="nonce-token"><%= it.scriptHash %></span></code>
+        <% if (!it.withHash) { %>
+          <br><code class="script-code script-comment">// Script hash: <span class="nonce-missing"><%= it.differentScriptHash %> ← does not match</span></code>
+        <% } %>
+      </div>
     </div>
   </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <%~ include('/ui/components/creature/creature', { label: '' }) %>
+  </div>
 </div>
-
-<%~ include('/ui/components/creature/creature', { label: 'Result' }) %>
 
 <section class="demo-surface" data-demo-surface>
   <script><%~ it.activeScript %></script>

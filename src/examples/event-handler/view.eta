@@ -12,15 +12,24 @@
   { label: 'split — attr blocked', href: '/examples/event-handler/split-none', state: it.mode === 'split-none' ? 'unsafe' : '' }
 ] }) %>
 
-<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
-
-<%~ include('/ui/components/code-card/code-card', { header: 'Inline event handler in page source', code: '&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;' }) %>
-
-<%~ include('/ui/components/creature/creature', {
-  label: 'Result — click the button',
-  mode: 'click',
-  slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
-}) %>
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Inline event handler in page source</div>
+    <div class="demo-row-value">&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;</div>
+  </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <%~ include('/ui/components/creature/creature', {
+      label: 'Click the button',
+      mode: 'click',
+      slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
+    }) %>
+  </div>
+</div>
 
 <section class="demo-surface" data-demo-surface>
   <% if (!it.handlerAllowed) { %>

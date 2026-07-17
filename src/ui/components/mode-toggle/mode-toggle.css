@@ -31,7 +31,7 @@
 
   .mode-tab[aria-selected="true"].unsafe {
     color: var(--blocked);
-    background: var(--blocked-bg);
+    background: transparent;
     font-weight: 600;
   }
 
@@ -47,7 +47,7 @@
 
   .mode-tab[aria-selected="true"].safe {
     color: var(--green);
-    background: var(--safe-bg);
+    background: transparent;
     font-weight: 600;
   }
 

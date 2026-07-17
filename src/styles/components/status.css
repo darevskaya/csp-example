@@ -45,6 +45,107 @@
     margin-block-end: 1rem;
   }
 
+  /* ── unified demo panel ── */
+  .demo-panel {
+    border: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--surface);
+    overflow: hidden;
+    margin-block-end: 0.75rem;
+  }
+
+  .demo-row {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+
+  .demo-row-label {
+    font-family: var(--mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-block-end: 0.25rem;
+  }
+
+  .demo-row-value {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-2);
+    line-height: 1.55;
+    word-break: break-all;
+  }
+
+  .demo-row-value.muted {
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .demo-divider {
+    height: 2px;
+    background: var(--border);
+    transition: background 0.2s, opacity 0.2s;
+  }
+
+  .demo-divider.blocked,
+  .demo-divider.xss {
+    background: var(--blocked);
+    opacity: 0.5;
+  }
+
+  .demo-divider.ran {
+    background: var(--green);
+    opacity: 0.5;
+  }
+
+  .demo-result {
+    padding: 0.875rem 0.75rem;
+    transition: background 0.2s;
+  }
+
+  /* no background wash in terminal style — color lives in the divider and creature text only */
+  .demo-result.ran,
+  .demo-result.blocked,
+  .demo-result.xss {
+    background: transparent;
+  }
+
+  /* creature inside demo-panel has no card chrome */
+  .demo-result .creature-panel {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .demo-result .creature-panel .card-body {
+    padding: 0;
+  }
+
+  .demo-result .creature-row {
+    border: none;
+    border-radius: 0;
+    margin-block-end: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .demo-result .creature-row .creature-panel {
+    padding: 0;
+  }
+
+  .demo-result .creature-row .creature-panel + .creature-panel {
+    border-left: 1px solid var(--border-dim);
+    padding-left: 0.75rem;
+  }
+
+  .demo-result .creature-row .creature-panel.ran,
+  .demo-result .creature-row .creature-panel.blocked,
+  .demo-result .creature-row .creature-panel.xss {
+    background: transparent;
+  }
+
   .console-hint {
     margin-block-start: 0.5rem;
     font-size: 0.75rem;

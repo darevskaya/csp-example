@@ -11,20 +11,24 @@
   { label: 'strict-dynamic', href: '/examples/third-party/strict-dynamic', state: it.mode === 'strict-dynamic' ? 'safe' : '' }
 ] }) %>
 
-<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay }) %>
-
-<div class="script-box card">
-  <div class="card-header">Loader script in page source</div>
-  <div class="card-body">
-    <pre class="script-pre"><code class="script-code">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
-<%~ it.loaderDisplay %>
-&lt;/script&gt;</code></pre>
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
   </div>
-</div>
-
-<div class="creature-row">
-  <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: 'Loader script', mode: 'strict-dynamic' }) %>
-  <%~ include('/ui/components/creature/creature', { suffix: 'injected', label: 'Injected script (/lab-assets/scripts/sdk.js)' }) %>
+  <div class="demo-row">
+    <div class="demo-row-label">Loader script in page source</div>
+    <div class="demo-row-value">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
+<%~ it.loaderDisplay %>
+&lt;/script&gt;</div>
+  </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <div class="creature-row">
+      <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: 'Loader script', mode: 'strict-dynamic' }) %>
+      <%~ include('/ui/components/creature/creature', { suffix: 'injected', label: 'Injected script (/lab-assets/scripts/sdk.js)' }) %>
+    </div>
+  </div>
 </div>
 
 <section class="demo-surface" data-demo-surface>

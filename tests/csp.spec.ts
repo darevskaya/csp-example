@@ -7,11 +7,11 @@ test.describe('home page', () => {
     await page.goto('/');
     await expect(page).toHaveTitle(/CSP Examples/);
     await expect(page.getByText('default-src').first()).toBeVisible();
-    await expect(page.getByText('script-src origin')).toBeVisible();
-    await expect(page.getByText('script-src nonce')).toBeVisible();
-    await expect(page.getByText('script-src hash')).toBeVisible();
-    await expect(page.getByText('script-src strict-dynamic')).toBeVisible();
-    await expect(page.getByText('script-src-elem / script-src-attr')).toBeVisible();
+    await expect(page.getByText('script-src origin').first()).toBeVisible();
+    await expect(page.getByText('script-src nonce').first()).toBeVisible();
+    await expect(page.getByText('script-src hash').first()).toBeVisible();
+    await expect(page.getByText('script-src strict-dynamic').first()).toBeVisible();
+    await expect(page.getByText('script-src-elem / script-src-attr').first()).toBeVisible();
   });
 });
 
@@ -93,7 +93,7 @@ test.describe('reflected XSS', () => {
 
   test('mode toggle preserves term query string', async ({ page }) => {
     await page.goto('/examples/reflected-xss/safe?term=%3Cscript%3Ealert(1)%3C%2Fscript%3E');
-    const unsafeLink = page.locator('a.toggle-tab', { hasText: 'CSP off' });
+    const unsafeLink = page.locator('a.mode-tab', { hasText: 'CSP off' });
     const href = await unsafeLink.getAttribute('href');
     expect(href).toContain('term=');
     expect(href).toContain('%3Cscript%3E');
@@ -145,7 +145,8 @@ test.describe('hash example', () => {
     const h1 = r1.headers()['content-security-policy'];
     const h2 = r2.headers()['content-security-policy'];
     expect(h1).toContain('sha256-');
-    expect(h1).toBe(h2);
+    const stripNonce = (h: string) => h.replace(/ 'nonce-[^']*'/g, '');
+    expect(stripNonce(h1)).toBe(stripNonce(h2));
   });
 
   test('no-hash: mismatched script is blocked — creature shows CSP blocked', async ({ page }) => {
@@ -286,6 +287,50 @@ test.describe('event-handler example', () => {
       timeout: 2000,
     });
     await expect(page.locator('#creature-speech')).toHaveText('Handler blocked by CSP');
+  });
+});
+
+// ── Home page redesign ────────────────────────────────────────────────────────
+
+test.describe('home page redesign', () => {
+  test('skip link present with correct href', async ({ page }) => {
+    await page.goto('/');
+    const skipLink = page.locator('.skip-link');
+    await expect(skipLink).toHaveAttribute('href', '#main');
+  });
+
+  test('CSP section collapses on toggle click', async ({ page }) => {
+    await page.goto('/');
+    const toggle = page.locator('#toggle-csp');
+    const body = page.locator('#body-csp');
+    await expect(body).toBeVisible();
+    await toggle.click();
+    await expect(body).toBeHidden();
+    await toggle.click();
+    await expect(body).toBeVisible();
+  });
+
+  test('6 example cards visible', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#body-csp .example-card')).toHaveCount(6);
+  });
+});
+
+// ── Mode toggle ARIA ──────────────────────────────────────────────────────────
+
+test.describe('mode toggle ARIA', () => {
+  test('nonce example — active mode tab has aria-selected=true', async ({ page }) => {
+    await page.goto('/examples/inline-script/nonce');
+    const activeTab = page.locator('.mode-tab[aria-selected="true"]');
+    await expect(activeTab).toHaveCount(1);
+    await expect(activeTab).toContainText('nonce');
+  });
+
+  test('no-nonce example — unsafe mode tab has aria-selected=true', async ({ page }) => {
+    await page.goto('/examples/inline-script/no-nonce');
+    const activeTab = page.locator('.mode-tab[aria-selected="true"]');
+    await expect(activeTab).toHaveCount(1);
+    await expect(activeTab).toContainText('without nonce');
   });
 });
 
