@@ -10,8 +10,12 @@ test.describe('home page', () => {
     await expect(page.getByText('script-src origin').first()).toBeVisible();
     await expect(page.getByText('script-src nonce').first()).toBeVisible();
     await expect(page.getByText('script-src hash').first()).toBeVisible();
-    await expect(page.locator('.card-directive').filter({ hasText: 'strict-dynamic' }).first()).toBeVisible();
-    await expect(page.locator('.card-directive').filter({ hasText: 'script-src-elem' }).first()).toBeVisible();
+    await expect(
+      page.locator('.card-directive').filter({ hasText: 'strict-dynamic' }).first(),
+    ).toBeVisible();
+    await expect(
+      page.locator('.card-directive').filter({ hasText: 'script-src-elem' }).first(),
+    ).toBeVisible();
   });
 });
 
@@ -30,7 +34,9 @@ test.describe('reflected XSS', () => {
 
   test('unsafe: plain input is reflected', async ({ page }) => {
     await page.goto('/examples/reflected-xss/unsafe?term=hello');
-    await expect(page.locator('.demo-row-value').filter({ hasText: 'hello' }).first()).toBeVisible();
+    await expect(
+      page.locator('.demo-row-value').filter({ hasText: 'hello' }).first(),
+    ).toBeVisible();
   });
 
   test('unsafe: injected script executes (alert fires)', async ({ page }) => {
