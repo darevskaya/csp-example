@@ -18,15 +18,19 @@
   </div>
   <div class="demo-row">
     <div class="demo-row-label">Loader script in page source</div>
-    <div class="demo-row-value">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
+    <div class="demo-row-value pre">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
 <%~ it.loaderDisplay %>
 &lt;/script&gt;</div>
   </div>
   <div class="demo-divider" data-demo-divider></div>
-  <div class="demo-result" data-demo-result>
-    <div class="creature-row">
-      <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: 'Loader script', mode: 'strict-dynamic' }) %>
-      <%~ include('/ui/components/creature/creature', { suffix: 'injected', label: 'Injected script (/lab-assets/scripts/sdk.js)' }) %>
+  <div class="demo-result demo-result-dual" data-demo-result>
+    <div class="dual-creature-col">
+      <div class="dual-creature-label">Loader script</div>
+      <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: '', mode: 'strict-dynamic' }) %>
+    </div>
+    <div class="dual-creature-col">
+      <div class="dual-creature-label">Injected script (/lab-assets/scripts/sdk.js)</div>
+      <%~ include('/ui/components/creature/creature', { suffix: 'injected', label: '' }) %>
     </div>
   </div>
 </div>

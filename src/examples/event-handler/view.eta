@@ -24,7 +24,7 @@
   <div class="demo-divider" data-demo-divider></div>
   <div class="demo-result" data-demo-result>
     <%~ include('/ui/components/creature/creature', {
-      label: 'Click the button',
+      label: '',
       mode: 'click',
       slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
     }) %>

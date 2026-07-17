@@ -108,7 +108,10 @@ export class CspCreatureElement extends HTMLElement {
       const divider = panel.querySelector<HTMLElement>('[data-demo-divider]');
       const result = panel.querySelector<HTMLElement>('[data-demo-result]');
       if (divider) divider.className = `demo-divider ${state}`;
-      if (result) result.className = `demo-result ${state}`;
+      if (result) {
+        const extra = result.classList.contains('demo-result-dual') ? ' demo-result-dual' : '';
+        result.className = `demo-result ${state}${extra}`;
+      }
     }
   }
 }

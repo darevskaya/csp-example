@@ -59,6 +59,10 @@
     border-bottom: 1px solid var(--border-dim);
   }
 
+  .demo-row:first-child {
+    background: var(--surface-2);
+  }
+
   .demo-row-label {
     font-family: var(--mono);
     font-size: 0.5625rem;
@@ -74,6 +78,10 @@
     color: var(--text-2);
     line-height: 1.55;
     word-break: break-all;
+  }
+
+  .demo-row-value.pre {
+    white-space: pre-wrap;
   }
 
   .demo-row-value.muted {
@@ -102,14 +110,23 @@
 
   .demo-result {
     padding: 0.875rem 0.75rem;
+    background: oklch(92% 0 0deg);
     transition: background 0.2s;
   }
 
-  /* no background wash in terminal style — color lives in the divider and creature text only */
   .demo-result.ran,
   .demo-result.blocked,
   .demo-result.xss {
-    background: transparent;
+    background: oklch(92% 0 0deg);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .demo-result,
+    .demo-result.ran,
+    .demo-result.blocked,
+    .demo-result.xss {
+      background: oklch(11% 0 0deg);
+    }
   }
 
   /* creature inside demo-panel has no card chrome */
@@ -148,6 +165,30 @@
     background: transparent;
   }
 
+  /* dual-creature layout for strict-dynamic */
+  .demo-result.demo-result-dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0;
+  }
+
+  .dual-creature-col {
+    padding: 0.875rem 0.75rem;
+  }
+
+  .dual-creature-col + .dual-creature-col {
+    border-left: 1px solid var(--muted);
+  }
+
+  .dual-creature-label {
+    font-family: var(--mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    margin-block-end: 0.4rem;
+  }
+
   .console-hint {
     margin-block-start: 0.5rem;
     font-size: 0.75rem;
@@ -178,150 +219,55 @@
     line-height: 1.55;
   }
 
-  .topics-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .topic-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    overflow: hidden;
-  }
-
-  .topic-toggle {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.65rem 1rem;
-    border: none;
-    border-bottom: 1px solid var(--border-dim);
-    background: transparent;
-    cursor: pointer;
-    text-align: left;
-    font-family: var(--sans);
-    transition: background 0.1s;
-  }
-
-  .topic-toggle:hover {
-    background: var(--surface-2);
-  }
-  .topic-toggle[aria-expanded="false"] {
-    border-bottom-color: transparent;
-  }
-  .topic-toggle[aria-expanded="false"] + .topic-body {
-    display: none;
-  }
-
-  .topic-badge {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.18rem 0.5rem;
-    border-radius: 2px;
-    font-weight: 700;
-    flex-shrink: 0;
-    border: 1px solid;
-  }
-
-  .badge-csp {
-    color: var(--accent);
-    border-color: var(--accent-border);
-    background: var(--accent-dim);
-  }
-
-  .topic-name {
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .topic-chevron {
-    margin-left: auto;
-    font-size: 0.65rem;
-    color: var(--text-3);
-    transition: transform 0.18s;
-    font-family: var(--sans);
-  }
-
-  .topic-toggle[aria-expanded="false"] .topic-chevron {
-    transform: rotate(-90deg);
-  }
-
-  .topic-body {
-    padding: 0.65rem;
-  }
-
   .example-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 
   .example-card {
-    background: var(--surface-2);
-    border: 1px solid var(--border-dim);
-    border-radius: 4px;
-    padding: 0.8rem 0.9rem 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 0.875rem 1rem;
     text-decoration: none;
     display: block;
-    position: relative;
     transition:
       border-color 0.12s,
       background 0.12s;
   }
 
   .example-card:hover {
-    background: var(--surface);
+    background: var(--surface-2);
     border-color: var(--border);
   }
 
-  .example-card:hover .card-arrow {
-    opacity: 1;
+  .card-title {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-block-end: 0.15rem;
   }
 
   .card-directive {
     font-family: var(--mono);
     font-size: 0.7rem;
-    font-weight: 700;
     color: var(--accent);
     margin-block-end: 0.3rem;
-  }
-
-  .card-title {
-    font-family: var(--sans);
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.3;
-    margin-block-end: 0.25rem;
+    display: block;
   }
 
   .card-desc {
     font-family: var(--sans);
     font-size: 0.78rem;
     color: var(--text-3);
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .card-desc code {
     font-family: var(--mono);
     color: var(--accent);
     font-size: 0.75em;
-  }
-
-  .card-arrow {
-    position: absolute;
-    bottom: 0.65rem;
-    right: 0.8rem;
-    font-size: 0.75rem;
-    color: var(--muted);
-    opacity: 0;
-    transition: opacity 0.12s;
   }
 }
