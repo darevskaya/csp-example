@@ -1,18 +1,18 @@
 @layer components {
   .info-box {
     margin-block-end: 1rem;
-    border-left: 3px solid var(--blue-border);
-    background: color-mix(in oklch, var(--blue-dim) 40%, var(--surface));
   }
 
   .info-box .card-header {
-    color: var(--blue);
+    color: var(--text-3);
   }
 
   .info-code {
     font-family: var(--mono);
     font-size: 0.75rem;
-    color: var(--blue);
+    color: var(--text-2);
+    line-height: 1.75;
+    word-break: break-all;
   }
 
   .info-box.muted .info-code {
@@ -20,7 +20,7 @@
   }
 
   .info-code-muted {
-    font-style: normal;
     color: var(--muted);
+    font-style: normal;
   }
 }

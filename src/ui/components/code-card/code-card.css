@@ -1,12 +1,10 @@
 @layer components {
   .script-box {
     margin-block-end: 1rem;
-    border-left: 3px solid var(--purple-border);
-    background: color-mix(in oklch, var(--purple-dim) 40%, var(--surface));
   }
 
   .script-box .card-header {
-    color: var(--purple);
+    color: var(--text-3);
   }
 
   .script-pre {
@@ -33,7 +31,7 @@
   }
 
   .nonce-missing {
-    color: var(--accent);
+    color: var(--blocked);
   }
 
   .hash-note {
