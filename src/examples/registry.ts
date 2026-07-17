@@ -10,6 +10,8 @@ export interface ExampleMode {
 export interface Example {
   id: string;
   title: string;
+  shortTitle: string;
+  topic: 'csp';
   description: DemoMarkup;
   defaultHref: string;
   modes: ExampleMode[];
@@ -19,6 +21,8 @@ export const examples: Example[] = [
   {
     id: 'reflected-xss',
     title: 'default-src',
+    shortTitle: 'default-src',
+    topic: 'csp',
     description: defineDemoMarkup(
       'The simplest CSP policy. See how <code class="example-card-desc-code">default-src \'self\'</code> blocks injected inline scripts.',
     ),
@@ -31,6 +35,8 @@ export const examples: Example[] = [
   {
     id: 'allowlist',
     title: 'script-src origin',
+    shortTitle: 'script-src origin',
+    topic: 'csp',
     description: defineDemoMarkup(
       'Trust scripts by origin URL. Any script loaded from a listed domain runs without a nonce or hash.',
     ),
@@ -53,6 +59,8 @@ export const examples: Example[] = [
   {
     id: 'nonce',
     title: 'script-src nonce',
+    shortTitle: 'script-src nonce',
+    topic: 'csp',
     description: defineDemoMarkup(
       'A per-request random token in the header and script tag lets one specific inline script run.',
     ),
@@ -75,6 +83,8 @@ export const examples: Example[] = [
   {
     id: 'hash',
     title: 'script-src hash',
+    shortTitle: 'script-src hash',
+    topic: 'csp',
     description: defineDemoMarkup(
       'A cryptographic hash of the script content. Only scripts whose content matches the hash are allowed.',
     ),
@@ -97,6 +107,8 @@ export const examples: Example[] = [
   {
     id: 'strict-dynamic',
     title: 'script-src strict-dynamic',
+    shortTitle: "script-src 'strict-dynamic'",
+    topic: 'csp',
     description: defineDemoMarkup(
       'Lets a trusted script inject further scripts, so third-party scripts work without allowlisting domains.',
     ),
@@ -119,6 +131,8 @@ export const examples: Example[] = [
   {
     id: 'event-handler',
     title: 'script-src-elem / script-src-attr',
+    shortTitle: 'script-src-elem / attr',
+    topic: 'csp',
     description: defineDemoMarkup(
       'Split script rules by category. Allow inline event handlers while keeping <code class="example-card-desc-code">&lt;script&gt;</code> blocks protected by nonces.',
     ),

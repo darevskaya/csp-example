@@ -1,17 +1,43 @@
 <% layout('/views/layout') %>
-<div class="page-title">CSP Examples</div>
-<div class="page-subtitle">Interactive demos showing how Content Security Policy controls which scripts can run.</div>
 
-<ul class="example-list">
-  <% for (const example of it.examples) { %>
-  <li>
-    <a class="example-card card" href="<%= example.defaultHref %>">
-      <div>
-        <div class="example-card-title"><%= example.title %></div>
-        <div class="example-card-desc"><%~ example.description %></div>
+<div class="hero">
+  <h1 class="hero-title">Browser security policies, demonstrated live</h1>
+  <p class="hero-sub">Each example sets a real response header. Watch what the browser allows or blocks.</p>
+</div>
+
+<div class="topics-list">
+<% it.topics.forEach(function(topic) { %>
+  <% const topicExamples = it.examples.filter(function(e) { return e.topic === topic.id; }); %>
+  <section class="topic-section" id="sec-<%= topic.id %>" aria-labelledby="toggle-<%= topic.id %>">
+    <button class="topic-toggle" id="toggle-<%= topic.id %>"
+            aria-expanded="true"
+            aria-controls="body-<%= topic.id %>"
+            data-topic-toggle>
+      <span class="topic-badge badge-<%= topic.id %>"><%= topic.badge %></span>
+      <span class="topic-name"><%= topic.label %></span>
+      <span class="topic-chevron" aria-hidden="true">▾</span>
+    </button>
+    <div class="topic-body" id="body-<%= topic.id %>">
+      <div class="example-grid">
+      <% topicExamples.forEach(function(example) { %>
+        <a class="example-card" href="<%= example.defaultHref %>">
+          <div class="card-directive"><%= example.shortTitle %></div>
+          <div class="card-title"><%= example.title %></div>
+          <div class="card-desc"><%~ example.description %></div>
+          <span class="card-arrow" aria-hidden="true">→</span>
+        </a>
+      <% }); %>
       </div>
-      <span class="example-arrow">→</span>
-    </a>
-  </li>
-  <% } %>
-</ul>
+    </div>
+  </section>
+<% }); %>
+</div>
+
+<script>
+  document.querySelectorAll('[data-topic-toggle]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+  });
+</script>
