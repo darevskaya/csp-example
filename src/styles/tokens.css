@@ -1,48 +1,68 @@
 @layer tokens {
   :root {
-    --bg: oklch(10% 0 0deg);
-    --surface: oklch(14% 0 0deg);
-    --surface-hover: oklch(16% 0 0deg);
-    --surface-header: oklch(11% 0 0deg);
-    --border: oklch(26% 0 0deg);
-    --text: oklch(92% 0 0deg);
-    --text-bright: oklch(100% 0 0deg);
-    --text-code: oklch(78% 0 0deg);
-    --muted: oklch(58% 0 0deg);
-    --accent: oklch(68% 0.22 25deg);
-    --accent-dim: color-mix(in oklch, var(--accent) 12%, transparent);
-    --accent-border: color-mix(in oklch, var(--accent) 35%, transparent);
-    --green: oklch(84% 0.18 158deg);
-    --green-dim: color-mix(in oklch, var(--green) 12%, transparent);
-    --green-border: color-mix(in oklch, var(--green) 35%, transparent);
-    --yellow: oklch(82% 0.15 80deg);
+    --bg: oklch(95% 0 0deg);
+    --surface: oklch(100% 0 0deg);
+    --surface-2: oklch(97% 0 0deg);
+    --surface-hover: oklch(94% 0 0deg);
+    --surface-header: oklch(96% 0 0deg);
+    --border: oklch(88% 0 0deg);
+    --border-dim: oklch(92% 0 0deg);
+    --text: oklch(12% 0 0deg);
+    --text-bright: oklch(8% 0 0deg);
+    --text-2: oklch(32% 0 0deg);
+    --text-3: oklch(46% 0 0deg);
+    --text-code: oklch(30% 0 0deg);
+    --muted: oklch(46% 0 0deg);
+
+    --accent: oklch(38% 0.12 260deg);
+    --accent-dim: color-mix(in oklch, var(--accent) 10%, transparent);
+    --accent-border: color-mix(in oklch, var(--accent) 30%, transparent);
+
+    --green: oklch(40% 0.14 155deg);
+    --green-dim: color-mix(in oklch, var(--green) 10%, transparent);
+    --green-border: color-mix(in oklch, var(--green) 30%, transparent);
+    --safe-bg: color-mix(in oklch, var(--green) 6%, var(--surface));
+    --safe-border: color-mix(in oklch, var(--green) 25%, transparent);
+
+    --blocked: oklch(38% 0.15 34deg);
+    --blocked-dim: color-mix(in oklch, var(--blocked) 10%, transparent);
+    --blocked-border: color-mix(in oklch, var(--blocked) 25%, transparent);
+    --blocked-bg: color-mix(in oklch, var(--blocked) 6%, var(--surface));
+
+    /* legacy aliases — keep for any code referencing old names */
+    --blue: var(--accent);
+    --blue-dim: var(--accent-dim);
+    --blue-border: var(--accent-border);
+    --yellow: oklch(52% 0.12 80deg);
     --yellow-dim: color-mix(in oklch, var(--yellow) 10%, transparent);
     --yellow-border: color-mix(in oklch, var(--yellow) 30%, transparent);
-    --blue: oklch(72% 0.18 250deg);
-    --blue-dim: color-mix(in oklch, var(--blue) 10%, transparent);
-    --blue-border: color-mix(in oklch, var(--blue) 30%, transparent);
-    --purple: oklch(72% 0.18 300deg);
+    --purple: oklch(46% 0.15 300deg);
     --purple-dim: color-mix(in oklch, var(--purple) 10%, transparent);
-    --purple-border: color-mix(in oklch, var(--purple) 35%, transparent);
+    --purple-border: color-mix(in oklch, var(--purple) 30%, transparent);
+
+    --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
     --mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
   }
 
-  @media (prefers-color-scheme: light) {
+  @media (prefers-color-scheme: dark) {
     :root {
-      --bg: oklch(97% 0 0deg);
-      --surface: oklch(100% 0 0deg);
-      --surface-hover: oklch(94% 0 0deg);
-      --surface-header: oklch(93% 0 0deg);
-      --border: oklch(82% 0 0deg);
-      --text: oklch(20% 0 0deg);
-      --text-bright: oklch(10% 0 0deg);
-      --text-code: oklch(30% 0 0deg);
-      --muted: oklch(50% 0 0deg);
-      --accent: oklch(48% 0.22 25deg);
-      --green: oklch(40% 0.18 158deg);
-      --yellow: oklch(46% 0.15 80deg);
-      --blue: oklch(42% 0.18 250deg);
-      --purple: oklch(45% 0.18 300deg);
+      --bg: oklch(10% 0 0deg);
+      --surface: oklch(14% 0 0deg);
+      --surface-2: oklch(11% 0 0deg);
+      --surface-hover: oklch(16% 0 0deg);
+      --surface-header: oklch(11% 0 0deg);
+      --border: oklch(26% 0 0deg);
+      --border-dim: oklch(18% 0 0deg);
+      --text: oklch(92% 0 0deg);
+      --text-bright: oklch(100% 0 0deg);
+      --text-2: oklch(70% 0 0deg);
+      --text-3: oklch(60% 0 0deg);
+      --text-code: oklch(78% 0 0deg);
+      --muted: oklch(58% 0 0deg);
+
+      --accent: oklch(68% 0.13 260deg);
+      --green: oklch(72% 0.14 155deg);
+      --blocked: oklch(68% 0.14 34deg);
     }
   }
 }
