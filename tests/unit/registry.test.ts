@@ -59,4 +59,12 @@ describe('registry', () => {
   it('getExample returns undefined for unknown id', () => {
     expect(getExample('not-real')).toBeUndefined();
   });
+
+  it('all mode hrefs match /examples/:group/:mode pattern', () => {
+    for (const example of examples) {
+      for (const mode of example.modes) {
+        expect(mode.href).toMatch(/^\/examples\/[\w-]+\/[\w-]+$/);
+      }
+    }
+  });
 });

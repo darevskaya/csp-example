@@ -11,7 +11,7 @@ const ERROR_MESSAGES: Partial<Record<string, string>> = {
   EADDRINUSE: `Port ${port} is already in use`,
 };
 
-server.listen(port);
+server.listen(port, '127.0.0.1');
 server.on('error', (error: NodeJS.ErrnoException) => {
   if (error.syscall !== 'listen') throw error;
   const message = error.code !== undefined ? ERROR_MESSAGES[error.code] : undefined;

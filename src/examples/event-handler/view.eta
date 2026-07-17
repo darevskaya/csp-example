@@ -18,7 +18,6 @@
 
 <%~ include('/ui/components/creature/creature', {
   label: 'Result — click the button',
-  controller: true,
   mode: 'click',
   slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
 }) %>

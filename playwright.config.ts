@@ -25,10 +25,6 @@ export default defineConfig({
       use: { ...devices['Desktop Safari'], headless: true },
     },
     {
-      name: 'headless',
-      use: { ...devices['Desktop Chrome'], headless: true },
-    },
-    {
       name: 'ui',
       use: { ...devices['Desktop Chrome'], headless: false, launchOptions: { slowMo: 800 } },
     },

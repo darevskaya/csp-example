@@ -24,8 +24,8 @@ describe('formatDirectives', () => {
 });
 
 describe('csp', () => {
-  it('base policy includes frame-ancestors none', () => {
-    expect(csp()).toContain("frame-ancestors 'none'");
+  it('base policy is exactly frame-ancestors none', () => {
+    expect(csp()).toBe("frame-ancestors 'none'");
   });
 
   it('merges overrides into base policy', () => {
@@ -56,7 +56,7 @@ describe('generateNonce', () => {
 
   it('is valid base64', () => {
     const nonce = generateNonce();
-    expect(() => Buffer.from(nonce, 'base64')).not.toThrow();
+    expect(nonce).toMatch(/^[A-Za-z0-9+/]+=*$/);
   });
 });
 

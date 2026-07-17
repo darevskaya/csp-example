@@ -1,3 +1,5 @@
+import { type DemoMarkup, defineDemoMarkup } from '../ui/demo-surface/demo-markup';
+
 export interface ExampleMode {
   id: string;
   label: string;
@@ -8,7 +10,7 @@ export interface ExampleMode {
 export interface Example {
   id: string;
   title: string;
-  description: string;
+  description: DemoMarkup;
   defaultHref: string;
   modes: ExampleMode[];
 }
@@ -17,8 +19,9 @@ export const examples: Example[] = [
   {
     id: 'reflected-xss',
     title: 'default-src',
-    description:
+    description: defineDemoMarkup(
       'The simplest CSP policy. See how <code class="example-card-desc-code">default-src \'self\'</code> blocks injected inline scripts.',
+    ),
     defaultHref: '/examples/reflected-xss/unsafe',
     modes: [
       { id: 'unsafe', label: 'CSP off', href: '/examples/reflected-xss/unsafe', state: 'unsafe' },
@@ -28,8 +31,9 @@ export const examples: Example[] = [
   {
     id: 'allowlist',
     title: 'script-src origin',
-    description:
+    description: defineDemoMarkup(
       'Trust scripts by origin URL. Any script loaded from a listed domain runs without a nonce or hash.',
+    ),
     defaultHref: '/examples/third-party/no-allowlist',
     modes: [
       {
@@ -49,8 +53,9 @@ export const examples: Example[] = [
   {
     id: 'nonce',
     title: 'script-src nonce',
-    description:
+    description: defineDemoMarkup(
       'A per-request random token in the header and script tag lets one specific inline script run.',
+    ),
     defaultHref: '/examples/inline-script/no-nonce',
     modes: [
       {
@@ -70,8 +75,9 @@ export const examples: Example[] = [
   {
     id: 'hash',
     title: 'script-src hash',
-    description:
+    description: defineDemoMarkup(
       'A cryptographic hash of the script content. Only scripts whose content matches the hash are allowed.',
+    ),
     defaultHref: '/examples/inline-script/no-hash',
     modes: [
       {
@@ -91,8 +97,9 @@ export const examples: Example[] = [
   {
     id: 'strict-dynamic',
     title: 'script-src strict-dynamic',
-    description:
+    description: defineDemoMarkup(
       'Lets a trusted script inject further scripts, so third-party scripts work without allowlisting domains.',
+    ),
     defaultHref: '/examples/third-party/no-strict-dynamic',
     modes: [
       {
@@ -112,8 +119,9 @@ export const examples: Example[] = [
   {
     id: 'event-handler',
     title: 'script-src-elem / script-src-attr',
-    description:
+    description: defineDemoMarkup(
       'Split script rules by category. Allow inline event handlers while keeping <code class="example-card-desc-code">&lt;script&gt;</code> blocks protected by nonces.',
+    ),
     defaultHref: '/examples/event-handler/script-src-only',
     modes: [
       {

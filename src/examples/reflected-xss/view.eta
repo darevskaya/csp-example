@@ -33,7 +33,7 @@
 <% } %>
 
 <% if (it.query) { %>
-<%~ include('/ui/components/creature/creature', { label: 'Result', controller: true, mode: 'xss' }) %>
+<%~ include('/ui/components/creature/creature', { label: 'Result', mode: 'xss' }) %>
 <% } %>
 
 <% if (it.query) { %>

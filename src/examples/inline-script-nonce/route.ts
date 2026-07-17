@@ -2,7 +2,6 @@ import type { Request, Response } from 'express';
 import express from 'express';
 import { generateNonce } from '../../csp';
 import { render } from '../../render';
-import { defineDemoMarkup } from '../../ui/demo-surface/demo-markup';
 import { buildNoncePolicy } from './policy';
 
 const router = express.Router();
@@ -17,7 +16,6 @@ function nonceHandler(withNonce: boolean) {
       withNonce,
       nonce,
       cspDisplay,
-      head: defineDemoMarkup(`<meta name="csp-nonce" content="${nonce}">`),
     });
   };
 }

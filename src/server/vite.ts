@@ -45,6 +45,7 @@ export function viteDevMiddleware(app: Express): void {
       return next();
     }
     try {
+      if (url.includes('..')) return next();
       const proxyRes = await fetch(`${VITE_ORIGIN}${url}`);
       const contentType = proxyRes.headers.get('content-type') ?? 'text/plain';
       res.setHeader('Content-Type', contentType);

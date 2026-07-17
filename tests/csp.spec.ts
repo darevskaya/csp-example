@@ -90,6 +90,14 @@ test.describe('reflected XSS', () => {
     });
     await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the XSS');
   });
+
+  test('mode toggle preserves term query string', async ({ page }) => {
+    await page.goto('/examples/reflected-xss/safe?term=%3Cscript%3Ealert(1)%3C%2Fscript%3E');
+    const unsafeLink = page.locator('a.toggle-tab', { hasText: 'CSP off' });
+    const href = await unsafeLink.getAttribute('href');
+    expect(href).toContain('term=');
+    expect(href).toContain('%3Cscript%3E');
+  });
 });
 
 // ── Nonce ─────────────────────────────────────────────────────────────────────
@@ -137,8 +145,7 @@ test.describe('hash example', () => {
     const h1 = r1.headers()['content-security-policy'];
     const h2 = r2.headers()['content-security-policy'];
     expect(h1).toContain('sha256-');
-    const stripNonce = (h: string) => h.replace(/ 'nonce-[^']*'/g, '');
-    expect(stripNonce(h1)).toBe(stripNonce(h2));
+    expect(h1).toBe(h2);
   });
 
   test('no-hash: mismatched script is blocked — creature shows CSP blocked', async ({ page }) => {

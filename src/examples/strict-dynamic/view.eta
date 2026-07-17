@@ -23,7 +23,7 @@
 </div>
 
 <div class="creature-row">
-  <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: 'Loader script', controller: true, mode: 'strict-dynamic' }) %>
+  <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: 'Loader script', mode: 'strict-dynamic' }) %>
   <%~ include('/ui/components/creature/creature', { suffix: 'injected', label: 'Injected script (/lab-assets/scripts/sdk.js)' }) %>
 </div>
 

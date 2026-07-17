@@ -36,7 +36,9 @@
   "overrides": [
     {
       "includes": ["**/src/lab-assets/**"],
-      "linter": { "rules": { "style": {}, "suspicious": { "noVar": "off" } } }
+      "linter": {
+        "rules": { "style": {}, "suspicious": { "noVar": "off", "noExplicitAny": "off" } }
+      }
     }
   ]
 }

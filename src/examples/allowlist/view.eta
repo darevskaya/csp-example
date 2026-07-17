@@ -15,7 +15,7 @@
 
 <%~ include('/ui/components/code-card/code-card', { header: 'Script tag in page source', code: it.loaderDisplay }) %>
 
-<%~ include('/ui/components/creature/creature', { label: 'Result', controller: true }) %>
+<%~ include('/ui/components/creature/creature', { label: 'Result' }) %>
 
 <section class="demo-surface" data-demo-surface>
   <% if (it.mode === 'allowlist') { %>
