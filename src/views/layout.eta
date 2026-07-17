@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= it.title %> — CSP Examples</title>
+  <%~ it.viteHmrScript %>
+  <% if (it.mainCss && it.mainCss.length > 0) { %>
+    <% for (const href of it.mainCss) { %>
+  <link rel="stylesheet" href="<%= href %>">
+    <% } %>
+  <% } %>
+  <%~ it.head ?? "" %>
+</head>
+<body class="app-body">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <script<% if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>><%~ it.earlyInitScript %></script>
+  <header class="site-header">
+    <a class="site-logo" href="/"><span class="site-logo-accent">csp</span>.examples</a>
+  </header>
+  <main class="site-main" id="main"><%~ it.body %></main>
+  <script type="module" src="<%= it.mainJs %>"<% if (it.viteNonce) { %> nonce="<%= it.viteNonce %>"<% } else if (it.nonce) { %> nonce="<%= it.nonce %>"<% } %>></script>
+</body>
+</html>

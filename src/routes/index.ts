@@ -1,11 +1,12 @@
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import express from 'express';
+import { examples } from '../examples/registry';
 import { render } from '../render';
 
 const router = express.Router();
 
-router.get('/', (_req: unknown, res: Response) => {
-  render(res, 'index', { title: 'Home' });
+router.get('/', (_req: Request, res: Response) => {
+  render(res, 'views/index', { title: 'Home', examples });
 });
 
 export default router;

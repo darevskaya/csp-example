@@ -1,0 +1,13 @@
+<% const sfx = it.suffix ? '-' + it.suffix : ''; %>
+<csp-creature class="creature-panel<% if (it.label) { %> card<% } %>" id="creature-panel<%= sfx %>"
+  role="status" aria-live="polite" aria-label="Demo result"<%~ it.mode ? ' data-mode="' + it.mode + '"' : '' %><%~ it.suffix === 'injected' ? ' data-peer="injected"' : '' %>>
+  <% if (it.label) { %><div class="card-header"><%= it.label %></div><% } %>
+  <div class="card-body">
+    <div class="creature-stage">
+      <div class="creature" id="creature<%= sfx %>" aria-hidden="true">( ._.)
+      </div>
+      <div class="creature-speech" id="creature-speech<%= sfx %>"></div>
+    </div>
+    <% if (it.slot) { %><%~ it.slot %><% } %>
+  </div>
+</csp-creature>

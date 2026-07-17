@@ -2,9 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  fullyParallel: false,
+  testMatch: '**/*.spec.ts',
+  fullyParallel: true,
   retries: 0,
-  reporter: process.env['CI'] ? [['list'], ['html', { open: 'never' }]] : 'list',
+  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
 
   use: {
     baseURL: 'http://localhost:3000',
@@ -12,8 +13,16 @@ export default defineConfig({
 
   projects: [
     {
-      name: 'headless',
+      name: 'chromium',
       use: { ...devices['Desktop Chrome'], headless: true },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'], headless: true },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'], headless: true },
     },
     {
       name: 'ui',
@@ -22,8 +31,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'npm run dev',
+    command: 'cross-env NODE_ENV=production tsx bin/server.ts',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env['CI'],
+    reuseExistingServer: !process.env.CI,
   },
 });

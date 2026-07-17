@@ -1,10 +1,10 @@
+import path from 'node:path';
 import express from 'express';
-import path from 'path';
-import indexRouter from './routes/index';
-import examplesRouter from './routes/examples/index';
 import { csp } from './csp';
-import { isReload } from './env';
-import { setupDevReload } from './dev-reload';
+import { isDev } from './env';
+import examplesRouter from './routes/examples/index';
+import indexRouter from './routes/index';
+import { viteDevMiddleware } from './server/vite';
 
 const app = express();
 
@@ -16,14 +16,22 @@ app.use((_req, res, next) => {
   res.setHeader('Content-Security-Policy', cspHeader);
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()');
+  res.setHeader(
+    'Permissions-Policy',
+    'accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()',
+  );
   res.setHeader('X-XSS-Protection', '0');
   next();
 });
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/lab-assets', express.static(path.join(process.cwd(), 'src', 'lab-assets')));
 
-if (isReload) setupDevReload(app);
+if (isDev) {
+  viteDevMiddleware(app);
+  app.use('/src/styles', express.static(path.join(process.cwd(), 'src', 'styles')));
+  app.use('/src/ui', express.static(path.join(process.cwd(), 'src', 'ui')));
+}
 
 app.use('/', indexRouter);
 app.use('/examples', examplesRouter);

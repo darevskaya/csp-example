@@ -1,0 +1,47 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src-elem / script-src-attr</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'script-src only', href: '/examples/event-handler/script-src-only', state: it.mode === 'script-src-only' ? 'unsafe' : '' },
+  { label: 'split — attr allowed', href: '/examples/event-handler/split-unsafe-inline', state: it.mode === 'split-unsafe-inline' ? 'safe' : '' },
+  { label: 'split — attr blocked', href: '/examples/event-handler/split-none', state: it.mode === 'split-none' ? 'unsafe' : '' }
+] }) %>
+
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Inline event handler in page source</div>
+    <div class="demo-row-value">&lt;button onclick="markScriptRan()"&gt;Click me&lt;/button&gt;</div>
+  </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <%~ include('/ui/components/creature/creature', {
+      label: '',
+      mode: 'click',
+      slot: '<div class="lab-btn-row"><button class="lab-btn" onclick="markScriptRan()">Click me</button></div>'
+    }) %>
+  </div>
+</div>
+
+<section class="demo-surface" data-demo-surface>
+  <% if (!it.handlerAllowed) { %>
+  <script nonce="<%= it.nonce %>">
+    var btn = document.querySelector('button[onclick]');
+    if (btn) btn.addEventListener('click', function () {
+      window.markHandlerBlocked();
+    });
+  </script>
+  <% } %>
+</section>
+
+<% if (!it.handlerAllowed) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

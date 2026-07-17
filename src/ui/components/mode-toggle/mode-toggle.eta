@@ -1,0 +1,10 @@
+<nav class="mode-strip" role="tablist" aria-label="Demo mode">
+<% for (const tab of it.tabs) { %>
+  <a class="mode-tab<%~ tab.state === 'unsafe' ? ' unsafe' : tab.state === 'safe' ? ' safe' : '' %>"
+     href="<%= tab.href %>"
+     role="tab"
+     aria-selected="<%= tab.state === 'unsafe' || tab.state === 'safe' ? 'true' : 'false' %>">
+    <%= tab.label %>
+  </a>
+<% } %>
+</nav>

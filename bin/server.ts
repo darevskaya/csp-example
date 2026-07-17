@@ -1,4 +1,4 @@
-import http from 'http';
+import http from 'node:http';
 import app from '../src/app';
 
 const port = parseInt(process.env['PORT'] || '3000', 10);
@@ -7,11 +7,11 @@ app.set('port', port);
 const server = http.createServer(app);
 
 const ERROR_MESSAGES: Partial<Record<string, string>> = {
-  EACCES:    `Port ${port} requires elevated privileges`,
+  EACCES: `Port ${port} requires elevated privileges`,
   EADDRINUSE: `Port ${port} is already in use`,
 };
 
-server.listen(port);
+server.listen(port, '127.0.0.1');
 server.on('error', (error: NodeJS.ErrnoException) => {
   if (error.syscall !== 'listen') throw error;
   const message = error.code !== undefined ? ERROR_MESSAGES[error.code] : undefined;

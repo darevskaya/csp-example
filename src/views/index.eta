@@ -1,0 +1,16 @@
+<% layout('/views/layout') %>
+
+<div class="hero">
+  <h1 class="hero-title">Browser security policies, demonstrated live</h1>
+  <p class="hero-sub">Each example sets a real response header. Watch what the browser allows or blocks.</p>
+</div>
+
+<div class="example-grid">
+<% it.examples.forEach(function(example) { %>
+  <a class="example-card" href="<%= example.defaultHref %>">
+    <div class="card-title"><%= example.title %></div>
+    <div class="card-directive"><%= example.shortTitle %></div>
+    <div class="card-desc"><%~ example.description %></div>
+  </a>
+<% }); %>
+</div>

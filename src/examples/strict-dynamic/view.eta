@@ -1,0 +1,44 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src strict-dynamic</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'No strict-dynamic', href: '/examples/third-party/no-strict-dynamic', state: it.mode === 'no-strict-dynamic' ? 'unsafe' : '' },
+  { label: 'strict-dynamic', href: '/examples/third-party/strict-dynamic', state: it.mode === 'strict-dynamic' ? 'safe' : '' }
+] }) %>
+
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Loader script in page source</div>
+    <div class="demo-row-value pre">&lt;script nonce="<span class="nonce-token"><%= it.nonce %></span>"&gt;
+<%~ it.loaderDisplay %>
+&lt;/script&gt;</div>
+  </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result demo-result-dual" data-demo-result>
+    <div class="dual-creature-col">
+      <div class="dual-creature-label">Loader script</div>
+      <%~ include('/ui/components/creature/creature', { suffix: 'loader', label: '', mode: 'strict-dynamic' }) %>
+    </div>
+    <div class="dual-creature-col">
+      <div class="dual-creature-label">Injected script (/lab-assets/scripts/sdk.js)</div>
+      <%~ include('/ui/components/creature/creature', { suffix: 'injected', label: '' }) %>
+    </div>
+  </div>
+</div>
+
+<section class="demo-surface" data-demo-surface>
+  <script nonce="<%= it.nonce %>"><%~ it.loaderScript %></script>
+</section>
+
+<% if (it.mode === 'no-strict-dynamic') { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

@@ -1,0 +1,38 @@
+@layer components {
+  .demo-surface {
+    display: contents;
+  }
+
+  .demo-box {
+    margin-block-end: 1rem;
+    border-left: 3px solid var(--border);
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .demo-input {
+    flex: 1;
+    padding: 0.375rem 0.625rem;
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-family: var(--mono);
+  }
+
+  .output {
+    margin-block-end: 1rem;
+  }
+
+  .output-code {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-code);
+    word-break: break-all;
+  }
+}

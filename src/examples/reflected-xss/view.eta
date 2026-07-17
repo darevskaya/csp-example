@@ -1,0 +1,53 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">default-src</h1>
+  <p class="example-desc">Without CSP, injected scripts run freely. A <code class="example-desc-code">default-src 'self'</code> policy blocks them — click on search to see the difference.</p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'CSP off', href: '/examples/reflected-xss/unsafe' + (it.query ? '?term=' + encodeURIComponent(it.query) : ''), state: it.cspOn ? '' : 'unsafe' },
+  { label: 'CSP on', href: '/examples/reflected-xss/safe' + (it.query ? '?term=' + encodeURIComponent(it.query) : ''), state: it.cspOn ? 'safe' : '' }
+] }) %>
+
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value<% if (!it.cspOn) { %> muted<% } %>"><% if (it.cspOn) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>(not set)<% } %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Search query</div>
+    <div class="demo-row-value">
+      <form method="get" action="<%= it.action %>">
+        <div class="input-row">
+          <input class="demo-input" type="text" name="term" value='<script>alert(1)</script>'>
+          <button class="demo-btn" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <% if (it.query) { %>
+  <div class="demo-row">
+    <div class="demo-row-label">Injected into page source</div>
+    <div class="demo-row-value"><%= it.query %></div>
+  </div>
+  <% } %>
+  <% if (it.query) { %>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <%~ include('/ui/components/creature/creature', { label: '', mode: 'xss' }) %>
+  </div>
+  <% } %>
+</div>
+
+<% if (it.query) { %>
+<section class="demo-surface" data-demo-surface>
+  <%~ it.query %>
+  <script>markScriptRan();</script>
+</section>
+<% } %>
+
+<% if (it.cspOn && it.query) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>

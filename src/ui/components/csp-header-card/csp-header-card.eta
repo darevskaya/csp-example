@@ -1,0 +1,8 @@
+<div class="info-box card<%= it.active ? '' : ' muted' %>">
+  <div class="card-header">Response header</div>
+  <div class="card-body">
+    <code class="info-code">
+      <% if (it.active) { %>Content-Security-Policy: <%= it.cspDisplay %><% } else { %>Content-Security-Policy: <em class="info-code-muted">(not set)</em><% } %>
+    </code>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">script-src nonce</h1>
+  <p class="example-desc">CSP is active on both pages. The script is only allowed when it carries a <code class="example-desc-code">nonce</code> attribute that matches the value in the response header — a random token generated fresh on every request.</p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'Script without nonce', href: '/examples/inline-script/no-nonce', state: it.withNonce ? '' : 'unsafe' },
+  { label: 'Script with nonce', href: '/examples/inline-script/nonce', state: it.withNonce ? 'safe' : '' }
+] }) %>
+
+<div class="demo-panel">
+  <div class="demo-row">
+    <div class="demo-row-label">Response header</div>
+    <div class="demo-row-value">Content-Security-Policy: <%= it.cspDisplay %></div>
+  </div>
+  <div class="demo-row">
+    <div class="demo-row-label">Inline script in page source</div>
+    <div class="demo-row-value">&lt;script<% if (it.withNonce) { %> nonce="<span class="nonce-token"><%= it.nonce %></span>"<% } else { %> <span class="nonce-missing">← no nonce attribute</span><% } %>&gt;markScriptRan();&lt;/script&gt;</div>
+  </div>
+  <div class="demo-divider" data-demo-divider></div>
+  <div class="demo-result" data-demo-result>
+    <%~ include('/ui/components/creature/creature', { label: '' }) %>
+  </div>
+</div>
+
+<section class="demo-surface" data-demo-surface>
+  <% if (it.withNonce) { %>
+  <script nonce="<%= it.nonce %>">markScriptRan();</script>
+  <% } else { %>
+  <script>markScriptRan();</script>
+  <% } %>
+</section>
+
+<% if (!it.withNonce) { %>
+<p class="console-hint">Check the browser console to see the CSP violation error.</p>
+<% } %>
