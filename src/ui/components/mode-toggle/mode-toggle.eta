@@ -1,7 +1,10 @@
-<div class="row">
-  <div class="csp-toggle">
-    <% for (const tab of it.tabs) { %>
-    <a class="toggle-tab<%~ tab.state === 'unsafe' ? ' active-unsafe' : tab.state === 'safe' ? ' active-safe' : '' %>" href="<%= tab.href %>"><%= tab.label %></a>
-    <% } %>
-  </div>
-</div>
+<nav class="mode-strip" role="tablist" aria-label="Demo mode">
+<% for (const tab of it.tabs) { %>
+  <a class="mode-tab<%~ tab.state === 'unsafe' ? ' unsafe' : tab.state === 'safe' ? ' safe' : '' %>"
+     href="<%= tab.href %>"
+     role="tab"
+     aria-selected="<%= tab.state === 'unsafe' || tab.state === 'safe' ? 'true' : 'false' %>">
+    <%= tab.label %>
+  </a>
+<% } %>
+</nav>
