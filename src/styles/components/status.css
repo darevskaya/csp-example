@@ -84,7 +84,9 @@
   .demo-divider {
     height: 2px;
     background: var(--border);
-    transition: background 0.2s, opacity 0.2s;
+    transition:
+      background 0.2s,
+      opacity 0.2s;
   }
 
   .demo-divider.blocked,
