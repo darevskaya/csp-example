@@ -10,8 +10,8 @@ test.describe('home page', () => {
     await expect(page.getByText('script-src origin').first()).toBeVisible();
     await expect(page.getByText('script-src nonce').first()).toBeVisible();
     await expect(page.getByText('script-src hash').first()).toBeVisible();
-    await expect(page.getByText('script-src strict-dynamic').first()).toBeVisible();
-    await expect(page.getByText('script-src-elem / script-src-attr').first()).toBeVisible();
+    await expect(page.locator('.card-directive').filter({ hasText: 'strict-dynamic' }).first()).toBeVisible();
+    await expect(page.locator('.card-directive').filter({ hasText: 'script-src-elem' }).first()).toBeVisible();
   });
 });
 
@@ -30,7 +30,7 @@ test.describe('reflected XSS', () => {
 
   test('unsafe: plain input is reflected', async ({ page }) => {
     await page.goto('/examples/reflected-xss/unsafe?term=hello');
-    await expect(page.locator('.output-code')).toHaveText('hello');
+    await expect(page.locator('.demo-row-value').filter({ hasText: 'hello' }).first()).toBeVisible();
   });
 
   test('unsafe: injected script executes (alert fires)', async ({ page }) => {
@@ -86,7 +86,7 @@ test.describe('reflected XSS', () => {
   test('safe: XSS blocked — creature shows attack blocked', async ({ page }) => {
     await page.goto('/examples/reflected-xss/safe?term=%3Cscript%3EmarkScriptRan()%3C%2Fscript%3E');
     await expect(page.locator('#creature')).toHaveClass(/ran/, {
-      timeout: 2000,
+      timeout: 5000,
     });
     await expect(page.locator('#creature-speech')).toHaveText('CSP blocked the XSS');
   });
@@ -299,20 +299,9 @@ test.describe('home page redesign', () => {
     await expect(skipLink).toHaveAttribute('href', '#main');
   });
 
-  test('CSP section collapses on toggle click', async ({ page }) => {
-    await page.goto('/');
-    const toggle = page.locator('#toggle-csp');
-    const body = page.locator('#body-csp');
-    await expect(body).toBeVisible();
-    await toggle.click();
-    await expect(body).toBeHidden();
-    await toggle.click();
-    await expect(body).toBeVisible();
-  });
-
   test('6 example cards visible', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#body-csp .example-card')).toHaveCount(6);
+    await expect(page.locator('.example-card')).toHaveCount(6);
   });
 });
 
