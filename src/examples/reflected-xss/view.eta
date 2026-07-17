@@ -7,8 +7,8 @@
 </div>
 
 <%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
-  { label: 'CSP off', href: '/examples/reflected-xss/unsafe', state: it.cspOn ? '' : 'unsafe' },
-  { label: 'CSP on', href: '/examples/reflected-xss/safe', state: it.cspOn ? 'safe' : '' }
+  { label: 'CSP off', href: '/examples/reflected-xss/unsafe' + (it.query ? '?term=' + encodeURIComponent(it.query) : ''), state: it.cspOn ? '' : 'unsafe' },
+  { label: 'CSP on', href: '/examples/reflected-xss/safe' + (it.query ? '?term=' + encodeURIComponent(it.query) : ''), state: it.cspOn ? 'safe' : '' }
 ] }) %>
 
 <%~ include('/ui/components/csp-header-card/csp-header-card', { active: it.cspOn, cspDisplay: it.cspDisplay }) %>

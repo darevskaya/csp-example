@@ -30,6 +30,7 @@ app.use('/lab-assets', express.static(path.join(process.cwd(), 'src', 'lab-asset
 if (isDev) {
   viteDevMiddleware(app);
   app.use('/src/styles', express.static(path.join(process.cwd(), 'src', 'styles')));
+  app.use('/src/ui', express.static(path.join(process.cwd(), 'src', 'ui')));
 }
 
 app.use('/', indexRouter);
