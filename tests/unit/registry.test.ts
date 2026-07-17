@@ -53,7 +53,7 @@ describe('registry', () => {
 
   it('getExample returns the correct example by id', () => {
     const ex = getExample('nonce');
-    expect(ex?.title).toBe('script-src nonce');
+    expect(ex?.title).toBe('Per-request nonce');
   });
 
   it('getExample returns undefined for unknown id', () => {
