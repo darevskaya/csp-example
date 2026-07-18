@@ -2,6 +2,7 @@ import http from 'node:http';
 import app from '../src/app';
 
 const port = parseInt(process.env['PORT'] || '3000', 10);
+const host = process.env['NODE_ENV'] === 'production' ? '0.0.0.0' : '127.0.0.1';
 app.set('port', port);
 
 const server = http.createServer(app);
@@ -11,7 +12,7 @@ const ERROR_MESSAGES: Partial<Record<string, string>> = {
   EADDRINUSE: `Port ${port} is already in use`,
 };
 
-server.listen(port, '127.0.0.1');
+server.listen(port, host);
 server.on('error', (error: NodeJS.ErrnoException) => {
   if (error.syscall !== 'listen') throw error;
   const message = error.code !== undefined ? ERROR_MESSAGES[error.code] : undefined;
