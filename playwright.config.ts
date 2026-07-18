@@ -33,6 +33,6 @@ export default defineConfig({
   webServer: {
     command: 'cross-env NODE_ENV=production tsx bin/server.ts',
     url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: !process.env.CI && !process.env.PREPUSH,
   },
 });
