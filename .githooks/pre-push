@@ -3,4 +3,4 @@ CHANGED=$(git diff --name-only @{u} HEAD 2>/dev/null || git diff --name-only $(g
 if [ -n "$CHANGED" ]; then
   echo "$CHANGED" | xargs npx biome check --write
 fi
-npm run typecheck && npm run test:unit && npm run build && npm run test:e2e:fast
+npm run typecheck && npm run test:unit && npm run build && PREPUSH=true npm run test:e2e:fast
