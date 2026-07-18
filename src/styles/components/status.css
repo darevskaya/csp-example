@@ -120,15 +120,6 @@
     background: oklch(92% 0 0deg);
   }
 
-  @media (prefers-color-scheme: dark) {
-    .demo-result,
-    .demo-result.ran,
-    .demo-result.blocked,
-    .demo-result.xss {
-      background: oklch(11% 0 0deg);
-    }
-  }
-
   /* creature inside demo-panel has no card chrome */
   .demo-result .creature-panel {
     background: transparent;
