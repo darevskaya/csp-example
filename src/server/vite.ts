@@ -5,7 +5,7 @@ import { isDev } from '../env';
 
 const VITE_PORT = 5173;
 const VITE_ORIGIN = `http://localhost:${VITE_PORT}`;
-const MANIFEST_PATH = path.join(__dirname, '..', '..', 'public', 'dist', '.vite', 'manifest.json');
+const MANIFEST_PATH = path.join(process.cwd(), 'public', 'dist', '.vite', 'manifest.json');
 
 type ManifestEntry = { file: string; css?: string[] };
 type Manifest = Record<string, ManifestEntry>;
