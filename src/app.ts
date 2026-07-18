@@ -24,7 +24,7 @@ app.use((_req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.use('/lab-assets', express.static(path.join(process.cwd(), 'src', 'lab-assets')));
 
 if (isDev) {
