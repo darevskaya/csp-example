@@ -80,6 +80,7 @@ test.describe('reporting: effective directive', () => {
 
   test('script-src-attr: effectiveDirective is script-src-attr', async ({ page }) => {
     await page.goto('/examples/reporting/effective-directive/script-src-attr');
+    await page.click('button.lab-btn');
     const panel = page.locator('csp-report-panel');
     await expect(panel.locator('.report-json').first()).toBeVisible({ timeout: 5000 });
     await expect(panel).toContainText('script-src-attr');
