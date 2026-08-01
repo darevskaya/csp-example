@@ -126,7 +126,7 @@ function extractFields(body: Record<string, unknown>): ReportFields {
   };
 }
 
-function isDevNoise(fields: ReportFields): boolean {
+export function isDevNoise(fields: ReportFields): boolean {
   return fields.originalPolicy.includes('localhost:');
 }
 

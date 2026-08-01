@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildReportHtml,
   classifyValue,
+  isDevNoise,
 } from '../../src/ui/components/report-panel/report-panel.element';
 
 describe('classifyValue', () => {
@@ -42,15 +43,33 @@ describe('classifyValue', () => {
   });
 });
 
-describe('noise filter logic', () => {
-  it('originalPolicy containing localhost is detectable', () => {
-    const policy =
-      "frame-ancestors 'none'; default-src 'self'; script-src 'nonce-abc' http://localhost:5173";
-    expect(policy.includes('localhost:')).toBe(true);
+describe('isDevNoise', () => {
+  const base = {
+    effectiveDirective: 'script-src-elem',
+    originalPolicy: '',
+    blockedURL: 'inline',
+    disposition: 'report',
+    documentURL: 'http://localhost:3000/foo',
+    statusCode: 200,
+    referrer: '',
+    sample: '',
+    sourceFile: '',
+    lineNumber: 0,
+    columnNumber: 0,
+  };
+
+  it('returns true when originalPolicy contains localhost:', () => {
+    const fields = {
+      ...base,
+      originalPolicy:
+        "frame-ancestors 'none'; default-src 'self'; script-src 'nonce-abc' http://localhost:5173",
+    };
+    expect(isDevNoise(fields)).toBe(true);
   });
-  it('production originalPolicy does not match localhost filter', () => {
-    const policy = "frame-ancestors 'none'; default-src 'self'";
-    expect(policy.includes('localhost:')).toBe(false);
+
+  it('returns false for a production policy without localhost:', () => {
+    const fields = { ...base, originalPolicy: "frame-ancestors 'none'; default-src 'self'" };
+    expect(isDevNoise(fields)).toBe(false);
   });
 });
 
