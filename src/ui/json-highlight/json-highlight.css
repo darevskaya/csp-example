@@ -5,6 +5,21 @@
     display: block;
   }
 
+  .j-line {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .j-line-prefix {
+    flex-shrink: 0;
+  }
+
+  .j-line-value {
+    flex: 1;
+    min-width: 0;
+    word-break: break-all;
+  }
+
   .j-key {
     color: var(--accent);
   }

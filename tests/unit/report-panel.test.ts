@@ -130,10 +130,10 @@ describe('buildReportHtml', () => {
 
   it('does not wrap non-highlighted fields in j-line-focus', () => {
     const html = buildReportHtml(report, ['effectiveDirective']);
-    const lines = html.split('\n');
-    const dispositionLine = lines.find((l) => l.includes('disposition'));
-    expect(dispositionLine).toBeDefined();
-    expect(dispositionLine).not.toContain('j-line-focus');
+    // Extract the j-line span containing "disposition" and verify it has no j-line-focus
+    const match = html.match(/<span class="j-line">([^<]|<(?!\/span>))*"disposition".*?<\/span>/);
+    expect(match).not.toBeNull();
+    expect(match![0]).not.toContain('j-line-focus');
   });
 
   it('outputs fields in the canonical order', () => {

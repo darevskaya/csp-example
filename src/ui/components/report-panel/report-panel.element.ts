@@ -95,19 +95,22 @@ function renderLine(key: FieldKey, value: unknown, comma: string, focused: boole
   const keySpan = `<span class="${CSS.J_KEY}">"${key}"</span>`;
   const colon = `<span class="${CSS.J_PUNCT}">:</span>`;
   const padding = ' '.repeat(Math.max(1, 22 - key.length));
-  const content = `  ${keySpan}${colon}${padding}${renderValue(key, value)}<span class="${CSS.J_PUNCT}">${comma}</span>`;
-  return focused ? `<span class="${CSS.LINE_FOCUS}">${content}</span>` : content;
+  const prefix = `  ${keySpan}${colon}${padding}`;
+  const valueStr = `${renderValue(key, value)}<span class="${CSS.J_PUNCT}">${comma}</span>`;
+  const content = `<span class="j-line-prefix">${prefix}</span><span class="j-line-value">${valueStr}</span>`;
+  const line = `<span class="j-line">${content}</span>`;
+  return focused ? `<span class="${CSS.LINE_FOCUS}">${line}</span>` : line;
 }
 
 export function buildReportHtml(report: ReportFields, highlight: string[]): string {
   const highlightSet = new Set(highlight);
-  const lines: string[] = ['{'];
+  const lines: string[] = ['<span class="j-line-prefix">{</span>'];
   FIELD_ORDER.forEach((key, i) => {
     const comma = i < FIELD_ORDER.length - 1 ? ',' : '';
     lines.push(renderLine(key, report[key as FieldKey], comma, highlightSet.has(key)));
   });
-  lines.push('}');
-  return lines.join('\n');
+  lines.push('<span class="j-line-prefix">}</span>');
+  return lines.join('');
 }
 
 function extractFields(body: Record<string, unknown>): ReportFields {
