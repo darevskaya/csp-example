@@ -107,54 +107,56 @@ function extractFields(body: Record<string, unknown>): ReportFields {
   };
 }
 
-if (typeof HTMLElement !== 'undefined') {
-  class CspReportPanelElement extends HTMLElement {
-    connectedCallback(): void {
-      const highlight: string[] = JSON.parse(this.dataset['highlight'] ?? '[]');
+const Base = typeof HTMLElement !== 'undefined' ? HTMLElement : (class {} as typeof HTMLElement);
 
-      if (!('ReportingObserver' in window)) return;
+export class CspReportPanelElement extends Base {
+  connectedCallback(): void {
+    const highlight: string[] = JSON.parse(this.dataset['highlight'] ?? '[]');
 
-      const observer = new ReportingObserver(
-        (reports) => {
-          const cspReports = reports.filter((r) => r.type === 'csp-violation');
-          if (cspReports.length === 0) return;
-          observer.disconnect();
-          this.populate(cspReports, highlight);
-        },
-        { types: ['csp-violation'], buffered: true },
-      );
+    if (!('ReportingObserver' in window)) return;
 
-      observer.observe();
-    }
+    const observer = new ReportingObserver(
+      (reports) => {
+        const cspReports = reports.filter((r) => r.type === 'csp-violation');
+        if (cspReports.length === 0) return;
+        observer.disconnect();
+        this.populate(cspReports, highlight);
+      },
+      { types: ['csp-violation'], buffered: true },
+    );
 
-    private populate(reports: Report[], highlight: string[]): void {
-      const skeleton = this.querySelector('.report-panel-skeleton');
-      if (!skeleton) return;
-
-      if (reports.length === 1) {
-        const [first] = reports;
-        const fields = extractFields((first as Report).body as Record<string, unknown>);
-        const div = document.createElement('div');
-        div.className = 'report-json';
-        div.innerHTML = buildReportHtml(fields, highlight);
-        skeleton.replaceWith(div);
-      } else {
-        const container = document.createElement('div');
-        reports.forEach((report, i) => {
-          const label = document.createElement('div');
-          label.className = 'demo-row-label';
-          label.textContent = `Violation report ${i + 1} of ${reports.length}`;
-          const div = document.createElement('div');
-          div.className = 'report-json';
-          const fields = extractFields(report.body as Record<string, unknown>);
-          div.innerHTML = buildReportHtml(fields, highlight);
-          container.appendChild(label);
-          container.appendChild(div);
-        });
-        skeleton.replaceWith(container);
-      }
-    }
+    observer.observe();
   }
 
+  private populate(reports: Report[], highlight: string[]): void {
+    const skeleton = this.querySelector('.report-panel-skeleton');
+    if (!skeleton) return;
+
+    if (reports.length === 1) {
+      const first = reports[0] as Report;
+      const fields = extractFields(first.body as Record<string, unknown>);
+      const div = document.createElement('div');
+      div.className = 'report-json';
+      div.innerHTML = buildReportHtml(fields, highlight);
+      skeleton.replaceWith(div);
+    } else {
+      const container = document.createElement('div');
+      reports.forEach((report, i) => {
+        const label = document.createElement('div');
+        label.className = 'demo-row-label';
+        label.textContent = `Violation report ${i + 1} of ${reports.length}`;
+        const div = document.createElement('div');
+        div.className = 'report-json';
+        const fields = extractFields(report.body as Record<string, unknown>);
+        div.innerHTML = buildReportHtml(fields, highlight);
+        container.appendChild(label);
+        container.appendChild(div);
+      });
+      skeleton.replaceWith(container);
+    }
+  }
+}
+
+if (typeof customElements !== 'undefined') {
   customElements.define('csp-report-panel', CspReportPanelElement);
 }

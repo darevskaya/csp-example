@@ -158,6 +158,66 @@ export const examples: Example[] = [
       },
     ],
   },
+  {
+    id: 'reporting-blocked-resource',
+    title: 'Violation report fields',
+    shortTitle: 'ReportingObserver',
+    topic: 'csp',
+    description: defineDemoMarkup(
+      'See what a CSP violation report contains. Each mode triggers a different resource type and shows how <code class="example-card-desc-code">blockedURL</code> and <code class="example-card-desc-code">effectiveDirective</code> change.',
+    ),
+    defaultHref: '/examples/reporting/blocked-resource/inline-script',
+    modes: [
+      {
+        id: 'inline-script',
+        label: 'inline script',
+        href: '/examples/reporting/blocked-resource/inline-script',
+        state: 'unsafe',
+      },
+      {
+        id: 'external-script',
+        label: 'external script',
+        href: '/examples/reporting/blocked-resource/external-script',
+        state: 'unsafe',
+      },
+      {
+        id: 'image-style',
+        label: 'image + style',
+        href: '/examples/reporting/blocked-resource/image-style',
+        state: 'unsafe',
+      },
+    ],
+  },
+  {
+    id: 'reporting-directive-inheritance',
+    title: 'effectiveDirective vs originalPolicy',
+    shortTitle: 'effectiveDirective',
+    topic: 'csp',
+    description: defineDemoMarkup(
+      'See how <code class="example-card-desc-code">effectiveDirective</code> always names the specific subtype that matched, even when the policy only contains <code class="example-card-desc-code">default-src</code>.',
+    ),
+    defaultHref: '/examples/reporting/directive-inheritance/default-src',
+    modes: [
+      {
+        id: 'default-src',
+        label: 'default-src only',
+        href: '/examples/reporting/directive-inheritance/default-src',
+        state: 'unsafe',
+      },
+      {
+        id: 'script-src',
+        label: 'explicit script-src',
+        href: '/examples/reporting/directive-inheritance/script-src',
+        state: 'unsafe',
+      },
+      {
+        id: 'script-src-attr',
+        label: 'script-src-attr',
+        href: '/examples/reporting/directive-inheritance/script-src-attr',
+        state: 'unsafe',
+      },
+    ],
+  },
 ];
 
 export function getExample(id: string): Example | undefined {
