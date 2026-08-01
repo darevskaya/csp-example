@@ -12,7 +12,7 @@ interface ModeConfig {
 
 export const EXTERNAL_SCRIPT_URL = 'https://cdn.example.com/lib.js';
 export const EXTERNAL_IMAGE_URL = 'https://images.example.com/photo.jpg';
-export const EXTERNAL_STYLE_URL = 'https://fonts.googleapis.com/css2?family=Inter';
+export const EXTERNAL_STYLE_URL = 'https://static.example.com/style.css';
 
 // Base directives shared across all reporting example pages.
 // report-to is required for Firefox to fire ReportingObserver on Report-Only policies.

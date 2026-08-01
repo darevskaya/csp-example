@@ -33,7 +33,7 @@
   <script src="https://cdn.example.com/lib.js"></script>
   <% } %>
   <% if (it.mode === 'image-style') { %>
-  <img src="https://images.example.com/photo.jpg" alt="" style="display:none">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter">
+  <img src="https://images.example.com/photo.jpg" alt="">
+  <link rel="stylesheet" href="https://static.example.com/style.css">
   <% } %>
 </section>
