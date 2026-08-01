@@ -1,5 +1,6 @@
 import { csp, EARLY_INIT_HASH, formatDirectives } from '../../csp';
 import { type DemoMarkup, defineDemoMarkup } from '../../ui/demo-surface/demo-markup';
+import { REPORTING_BASE_DIRECTIVES } from '../reporting-blocked-resource/policy';
 
 export type DirectiveInheritanceMode = 'default-src' | 'script-src' | 'script-src-attr';
 
@@ -21,10 +22,8 @@ export const MODE_CONFIG: Record<DirectiveInheritanceMode, ModeConfig> = {
       `<strong>effectiveDirective</strong> is <strong>"script-src-elem"</strong> but <strong>originalPolicy</strong> only contains <strong>"default-src"</strong>. The browser infers the specific directive that applied.`,
     ),
     scriptDirectives: (nonce) => ({
-      'default-src': `'self'`,
+      ...REPORTING_BASE_DIRECTIVES,
       'script-src': `'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
-      // Firefox only fires ReportingObserver on Report-Only policies when report-to is present
-      'report-to': 'csp-endpoint',
     }),
     displayDirectives: { 'default-src': `'self'` },
   },
@@ -37,10 +36,8 @@ export const MODE_CONFIG: Record<DirectiveInheritanceMode, ModeConfig> = {
       `<strong>originalPolicy</strong> now shows <strong>"script-src 'self'"</strong> explicitly. <strong>effectiveDirective</strong> is still <strong>"script-src-elem"</strong> — the browser always reports the most specific subtype.`,
     ),
     scriptDirectives: (nonce) => ({
-      'default-src': `'self'`,
+      ...REPORTING_BASE_DIRECTIVES,
       'script-src': `'self' 'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
-      // Firefox only fires ReportingObserver on Report-Only policies when report-to is present
-      'report-to': 'csp-endpoint',
     }),
     displayDirectives: { 'default-src': `'self'`, 'script-src': `'self'` },
   },
@@ -53,11 +50,9 @@ export const MODE_CONFIG: Record<DirectiveInheritanceMode, ModeConfig> = {
       `<strong>effectiveDirective</strong> is now <strong>"script-src-attr"</strong> — different from <strong>"script-src-elem"</strong>. <strong>blockedURL</strong> is still <strong>"inline"</strong>, but the violation category is different: this is an event handler attribute, not a <code>&lt;script&gt;</code> block.`,
     ),
     scriptDirectives: (nonce) => ({
-      'default-src': `'self'`,
+      ...REPORTING_BASE_DIRECTIVES,
       'script-src': `'self' 'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
       'script-src-attr': `'none'`,
-      // Firefox only fires ReportingObserver on Report-Only policies when report-to is present
-      'report-to': 'csp-endpoint',
     }),
     displayDirectives: {
       'default-src': `'self'`,

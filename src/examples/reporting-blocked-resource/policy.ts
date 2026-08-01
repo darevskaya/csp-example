@@ -13,6 +13,13 @@ export const EXTERNAL_SCRIPT_URL = 'https://cdn.example.com/lib.js';
 export const EXTERNAL_IMAGE_URL = 'https://images.example.com/photo.jpg';
 export const EXTERNAL_STYLE_URL = 'https://fonts.googleapis.com/css2?family=Inter';
 
+// Base directives shared across all reporting example pages.
+// report-to is required for Firefox to fire ReportingObserver on Report-Only policies.
+export const REPORTING_BASE_DIRECTIVES = {
+  'default-src': `'self'`,
+  'report-to': 'csp-endpoint',
+} as const;
+
 export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
   'inline-script': {
     explanation: defineDemoMarkup(
@@ -44,14 +51,11 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
 };
 
 export function buildBlockedResourcePolicy(nonce: string) {
-  const directives = {
-    'script-src': `'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
-    'default-src': `'self'`,
-    // Firefox only fires ReportingObserver on Report-Only policies when report-to is present
-    'report-to': 'csp-endpoint',
-  };
   return {
-    cspHeader: csp(directives),
+    cspHeader: csp({
+      ...REPORTING_BASE_DIRECTIVES,
+      'script-src': `'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
+    }),
     cspDisplay: formatDirectives({ 'default-src': `'self'` }),
   };
 }

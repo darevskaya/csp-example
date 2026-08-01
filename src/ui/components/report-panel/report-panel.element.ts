@@ -37,6 +37,32 @@ const KEYWORD_BLOCKED_URLS = new Set([
   'unsafe-hashes',
 ]);
 
+const CSS = {
+  PANEL: 'report-panel-skeleton',
+  FIELD: 'skeleton-field',
+  KEY: 'skeleton-key',
+  BAR: 'skeleton-bar',
+  REPORT_JSON: 'report-json',
+  ROW_LABEL: 'demo-row-label',
+  LINE_FOCUS: 'j-line-focus',
+  J_KEY: 'j-key',
+  J_PUNCT: 'j-punct',
+} as const;
+
+const SKELETON_BAR_WIDTHS: Record<FieldKey, string> = {
+  effectiveDirective: 'skeleton-bar--md',
+  originalPolicy: 'skeleton-bar--xl',
+  blockedURL: 'skeleton-bar--sm',
+  disposition: 'skeleton-bar--sm',
+  documentURL: 'skeleton-bar--xl',
+  statusCode: 'skeleton-bar--xs',
+  referrer: 'skeleton-bar--lg',
+  sample: 'skeleton-bar--xs',
+  sourceFile: 'skeleton-bar--xl',
+  lineNumber: 'skeleton-bar--xs',
+  columnNumber: 'skeleton-bar--xs',
+};
+
 export function classifyValue(key: string, value: unknown): string {
   if (typeof value === 'number') return 'j-number';
   if (typeof value === 'string') {
@@ -61,32 +87,25 @@ function esc(s: string): string {
 
 function renderValue(key: string, value: unknown): string {
   const cls = classifyValue(key, value);
-  if (typeof value === 'number') {
-    return `<span class="${cls}">${value}</span>`;
-  }
+  if (typeof value === 'number') return `<span class="${cls}">${value}</span>`;
   return `<span class="${cls}">"${esc(String(value))}"</span>`;
+}
+
+function renderLine(key: FieldKey, value: unknown, comma: string, focused: boolean): string {
+  const keySpan = `<span class="${CSS.J_KEY}">"${key}"</span>`;
+  const colon = `<span class="${CSS.J_PUNCT}">:</span>`;
+  const padding = ' '.repeat(Math.max(1, 22 - key.length));
+  const content = `  ${keySpan}${colon}${padding}${renderValue(key, value)}<span class="${CSS.J_PUNCT}">${comma}</span>`;
+  return focused ? `<span class="${CSS.LINE_FOCUS}">${content}</span>` : content;
 }
 
 export function buildReportHtml(report: ReportFields, highlight: string[]): string {
   const highlightSet = new Set(highlight);
   const lines: string[] = ['{'];
-
   FIELD_ORDER.forEach((key, i) => {
-    const value = report[key as FieldKey];
     const comma = i < FIELD_ORDER.length - 1 ? ',' : '';
-    const keySpan = `<span class="j-key">"${key}"</span>`;
-    const colon = `<span class="j-punct">:</span>`;
-    const padding = ' '.repeat(Math.max(1, 22 - key.length));
-    const valueHtml = renderValue(key, value);
-    const lineContent = `  ${keySpan}${colon}${padding}${valueHtml}<span class="j-punct">${comma}</span>`;
-
-    if (highlightSet.has(key)) {
-      lines.push(`<span class="j-line-focus">${lineContent}</span>`);
-    } else {
-      lines.push(lineContent);
-    }
+    lines.push(renderLine(key, report[key as FieldKey], comma, highlightSet.has(key)));
   });
-
   lines.push('}');
   return lines.join('\n');
 }
@@ -107,31 +126,33 @@ function extractFields(body: Record<string, unknown>): ReportFields {
   };
 }
 
-const SKELETON_BAR_WIDTHS: Record<FieldKey, string> = {
-  effectiveDirective: 'skeleton-bar--md',
-  originalPolicy: 'skeleton-bar--xl',
-  blockedURL: 'skeleton-bar--sm',
-  disposition: 'skeleton-bar--sm',
-  documentURL: 'skeleton-bar--xl',
-  statusCode: 'skeleton-bar--xs',
-  referrer: 'skeleton-bar--lg',
-  sample: 'skeleton-bar--xs',
-  sourceFile: 'skeleton-bar--xl',
-  lineNumber: 'skeleton-bar--xs',
-  columnNumber: 'skeleton-bar--xs',
-};
+function extractFieldsFromEvent(e: SecurityPolicyViolationEvent): ReportFields {
+  return {
+    effectiveDirective: e.effectiveDirective,
+    originalPolicy: e.originalPolicy,
+    blockedURL: e.blockedURI,
+    disposition: e.disposition,
+    documentURL: e.documentURI,
+    statusCode: e.statusCode,
+    referrer: e.referrer,
+    sample: e.sample,
+    sourceFile: e.sourceFile,
+    lineNumber: e.lineNumber,
+    columnNumber: e.columnNumber,
+  };
+}
 
 function buildSkeleton(): HTMLElement {
   const container = document.createElement('div');
-  container.className = 'report-panel-skeleton';
+  container.className = CSS.PANEL;
   for (const key of FIELD_ORDER) {
     const field = document.createElement('div');
-    field.className = 'skeleton-field';
+    field.className = CSS.FIELD;
     const keyEl = document.createElement('span');
-    keyEl.className = 'skeleton-key';
+    keyEl.className = CSS.KEY;
     keyEl.textContent = key;
     const bar = document.createElement('span');
-    bar.className = `skeleton-bar ${SKELETON_BAR_WIDTHS[key]}`;
+    bar.className = `${CSS.BAR} ${SKELETON_BAR_WIDTHS[key]}`;
     field.appendChild(keyEl);
     field.appendChild(bar);
     container.appendChild(field);
@@ -139,58 +160,76 @@ function buildSkeleton(): HTMLElement {
   return container;
 }
 
+function renderSingleReport(fields: ReportFields, highlight: string[]): HTMLElement {
+  const div = document.createElement('div');
+  div.className = CSS.REPORT_JSON;
+  div.innerHTML = buildReportHtml(fields, highlight);
+  return div;
+}
+
 const Base = typeof HTMLElement !== 'undefined' ? HTMLElement : (class {} as typeof HTMLElement);
+
+// Capture securitypolicyviolation events at module load time so nothing is missed
+// before connectedCallback runs (Safari fallback — no ReportingObserver).
+const spvBuffer: ReportFields[] = [];
+let spvListening = false;
+
+function ensureSpvListener(): void {
+  if (spvListening || typeof document === 'undefined') return;
+  spvListening = true;
+  document.addEventListener('securitypolicyviolation', (e: SecurityPolicyViolationEvent) => {
+    spvBuffer.push(extractFieldsFromEvent(e));
+  });
+}
 
 export class CspReportPanelElement extends Base {
   connectedCallback(): void {
     this.appendChild(buildSkeleton());
-
     const highlight: string[] = JSON.parse(this.dataset['highlight'] ?? '[]');
 
-    if (!('ReportingObserver' in window)) return;
-
-    const observer = new ReportingObserver(
-      (reports) => {
-        const cspReports = reports.filter((r) => r.type === 'csp-violation');
-        if (cspReports.length === 0) return;
-        observer.disconnect();
-        this.populate(cspReports, highlight);
-      },
-      { types: ['csp-violation'], buffered: true },
-    );
-
-    observer.observe();
+    if ('ReportingObserver' in window) {
+      const observer = new ReportingObserver(
+        (reports) => {
+          const cspReports = reports.filter((r) => r.type === 'csp-violation');
+          if (cspReports.length === 0) return;
+          observer.disconnect();
+          this.show(
+            cspReports.map((r) => extractFields(r.body as Record<string, unknown>)),
+            highlight,
+          );
+        },
+        { types: ['csp-violation'], buffered: true },
+      );
+      observer.observe();
+    } else {
+      // Safari fallback: drain the module-level buffer (populated before connectedCallback ran)
+      queueMicrotask(() => {
+        if (spvBuffer.length > 0) this.show([...spvBuffer], highlight);
+      });
+    }
   }
 
-  private populate(reports: Report[], highlight: string[]): void {
-    const skeleton = this.querySelector('.report-panel-skeleton');
+  private show(reports: ReportFields[], highlight: string[]): void {
+    const skeleton = this.querySelector(`.${CSS.PANEL}`);
     if (!skeleton) return;
+    skeleton.replaceWith(this.buildReportContainer(reports, highlight));
+  }
 
-    if (reports.length === 1) {
-      const first = reports[0] as Report;
-      const fields = extractFields(first.body as Record<string, unknown>);
-      const div = document.createElement('div');
-      div.className = 'report-json';
-      div.innerHTML = buildReportHtml(fields, highlight);
-      skeleton.replaceWith(div);
-    } else {
-      const container = document.createElement('div');
-      reports.forEach((report, i) => {
-        const label = document.createElement('div');
-        label.className = 'demo-row-label';
-        label.textContent = `Violation report ${i + 1} of ${reports.length}`;
-        const div = document.createElement('div');
-        div.className = 'report-json';
-        const fields = extractFields(report.body as Record<string, unknown>);
-        div.innerHTML = buildReportHtml(fields, highlight);
-        container.appendChild(label);
-        container.appendChild(div);
-      });
-      skeleton.replaceWith(container);
-    }
+  private buildReportContainer(reports: ReportFields[], highlight: string[]): HTMLElement {
+    if (reports.length === 1) return renderSingleReport(reports[0] as ReportFields, highlight);
+    const container = document.createElement('div');
+    reports.forEach((fields, i) => {
+      const label = document.createElement('div');
+      label.className = CSS.ROW_LABEL;
+      label.textContent = `Violation report ${i + 1} of ${reports.length}`;
+      container.appendChild(label);
+      container.appendChild(renderSingleReport(fields, highlight));
+    });
+    return container;
   }
 }
 
 if (typeof customElements !== 'undefined') {
+  ensureSpvListener();
   customElements.define('csp-report-panel', CspReportPanelElement);
 }
