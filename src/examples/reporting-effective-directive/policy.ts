@@ -10,6 +10,7 @@ interface ModeConfig {
   notice: DemoMarkup;
   scriptDirectives: (nonce: string) => Record<string, string>;
   displayDirectives: Record<string, string>;
+  codeDisplay: string;
 }
 
 export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
@@ -26,6 +27,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
       'script-src': `'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
     }),
     displayDirectives: { 'default-src': `'self'` },
+    codeDisplay: '<script>void 0;</script>',
   },
   'script-src': {
     explanation: defineDemoMarkup(
@@ -40,6 +42,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
       'script-src': `'self' 'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
     }),
     displayDirectives: { 'default-src': `'self'`, 'script-src': `'self'` },
+    codeDisplay: '<script>void 0;</script>',
   },
   'script-src-attr': {
     explanation: defineDemoMarkup(
@@ -59,6 +62,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
       'script-src': `'self'`,
       'script-src-attr': `'none'`,
     },
+    codeDisplay: '<button onclick="void 0" style="display:none">trigger</button>',
   },
 };
 

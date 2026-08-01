@@ -7,7 +7,7 @@ import { buildEffectiveDirectivePolicy, type EffectiveDirectiveMode, MODE_CONFIG
 const router = express.Router();
 
 function handler(mode: EffectiveDirectiveMode) {
-  const { explanation, highlight, notice } = MODE_CONFIG[mode];
+  const { explanation, highlight, notice, codeDisplay } = MODE_CONFIG[mode];
 
   return (_req: Request, res: Response) => {
     const nonce = generateNonce();
@@ -18,6 +18,7 @@ function handler(mode: EffectiveDirectiveMode) {
       mode,
       nonce,
       cspDisplay,
+      codeDisplay,
       explanation,
       highlight,
       notice,
