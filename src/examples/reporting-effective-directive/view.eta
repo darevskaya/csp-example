@@ -16,10 +16,16 @@
 
 <%~ include('/ui/components/code-card/code-card', { header: 'Markup triggering violation', code: it.codeDisplay }) %>
 
+<% if (it.mode === 'script-src-attr') { %>
+<div class="lab-btn-row">
+  <button class="lab-btn" onclick="void 0">Click me</button>
+</div>
+<% } %>
+
 <div class="demo-row">
   <div class="demo-row-label">Violation report</div>
   <div class="demo-row-value">
-    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight }) %>
+    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight, expected: it.expected }) %>
   </div>
 </div>
 
@@ -28,8 +34,5 @@
 <section class="demo-surface" data-demo-surface>
   <% if (it.mode === 'default-src' || it.mode === 'script-src') { %>
   <script>void 0;</script>
-  <% } %>
-  <% if (it.mode === 'script-src-attr') { %>
-  <button onclick="void 0">trigger</button>
   <% } %>
 </section>

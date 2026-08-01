@@ -19,7 +19,7 @@
 <div class="demo-row">
   <div class="demo-row-label">Violation report</div>
   <div class="demo-row-value">
-    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight }) %>
+    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight, expected: it.expected }) %>
   </div>
 </div>
 
