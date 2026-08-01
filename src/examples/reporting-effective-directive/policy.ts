@@ -2,7 +2,7 @@ import { csp, EARLY_INIT_HASH, formatDirectives } from '../../csp';
 import { type DemoMarkup, defineDemoMarkup } from '../../ui/demo-surface/demo-markup';
 import { REPORTING_BASE_DIRECTIVES } from '../reporting-blocked-resource/policy';
 
-export type DirectiveInheritanceMode = 'default-src' | 'script-src' | 'script-src-attr';
+export type EffectiveDirectiveMode = 'default-src' | 'script-src' | 'script-src-attr';
 
 interface ModeConfig {
   explanation: DemoMarkup;
@@ -12,7 +12,7 @@ interface ModeConfig {
   displayDirectives: Record<string, string>;
 }
 
-export const MODE_CONFIG: Record<DirectiveInheritanceMode, ModeConfig> = {
+export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
   'default-src': {
     explanation: defineDemoMarkup(
       `The policy only contains <code>default-src 'self'</code>. The inline script fires a violation. Watch which directive the browser reports.`,
@@ -62,7 +62,7 @@ export const MODE_CONFIG: Record<DirectiveInheritanceMode, ModeConfig> = {
   },
 };
 
-export function buildDirectiveInheritancePolicy(mode: DirectiveInheritanceMode, nonce: string) {
+export function buildEffectiveDirectivePolicy(mode: EffectiveDirectiveMode, nonce: string) {
   const { scriptDirectives, displayDirectives } = MODE_CONFIG[mode];
   return {
     cspHeader: csp(scriptDirectives(nonce)),

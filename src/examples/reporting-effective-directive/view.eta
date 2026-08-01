@@ -7,9 +7,9 @@
 </div>
 
 <%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
-  { label: 'default-src only',    href: '/examples/reporting/directive-inheritance/default-src',      state: it.mode === 'default-src'      ? 'unsafe' : '' },
-  { label: 'explicit script-src', href: '/examples/reporting/directive-inheritance/script-src',       state: it.mode === 'script-src'       ? 'unsafe' : '' },
-  { label: 'script-src-attr',     href: '/examples/reporting/directive-inheritance/script-src-attr',  state: it.mode === 'script-src-attr'  ? 'unsafe' : '' }
+  { label: 'default-src only',    href: '/examples/reporting/effective-directive/default-src',      state: it.mode === 'default-src'      ? 'unsafe' : '' },
+  { label: 'explicit script-src', href: '/examples/reporting/effective-directive/script-src',       state: it.mode === 'script-src'       ? 'unsafe' : '' },
+  { label: 'script-src-attr',     href: '/examples/reporting/effective-directive/script-src-attr',  state: it.mode === 'script-src-attr'  ? 'unsafe' : '' }
 ] }) %>
 
 <div class="demo-panel">
@@ -29,7 +29,7 @@
 
 <section class="demo-surface" data-demo-surface>
   <% if (it.mode === 'default-src' || it.mode === 'script-src') { %>
-  <script>window.__reportPanelTrigger = true;</script>
+  <script>void 0;</script>
   <% } %>
   <% if (it.mode === 'script-src-attr') { %>
   <button onclick="void 0" style="display:none">trigger</button>

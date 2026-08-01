@@ -10,5 +10,6 @@
 @import "../ui/components/code-card/code-card.css";
 @import "../ui/components/csp-header-card/csp-header-card.css";
 @import "../ui/components/report-panel/report-panel.css";
+@import "../ui/json-highlight/json-highlight.css";
 @import "../ui/demo-surface/demo-surface.css";
 @import "./components/status.css";

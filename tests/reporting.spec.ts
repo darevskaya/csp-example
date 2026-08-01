@@ -61,9 +61,9 @@ test.describe('reporting: blocked resource types', () => {
 
 // ── Page 2: Directive inheritance ─────────────────────────────────────────────
 
-test.describe('reporting: directive inheritance', () => {
+test.describe('reporting: effective directive', () => {
   test('default-src: effectiveDirective is script-src-elem', async ({ page }) => {
-    await page.goto('/examples/reporting/directive-inheritance/default-src');
+    await page.goto('/examples/reporting/effective-directive/default-src');
     const panel = page.locator('csp-report-panel');
     await expect(panel.locator('.report-json').first()).toBeVisible({ timeout: 5000 });
     await expect(panel).toContainText('script-src-elem');
@@ -71,7 +71,7 @@ test.describe('reporting: directive inheritance', () => {
   });
 
   test('script-src: originalPolicy includes script-src', async ({ page }) => {
-    await page.goto('/examples/reporting/directive-inheritance/script-src');
+    await page.goto('/examples/reporting/effective-directive/script-src');
     const panel = page.locator('csp-report-panel');
     await expect(panel.locator('.report-json').first()).toBeVisible({ timeout: 5000 });
     await expect(panel).toContainText('script-src-elem');
@@ -79,7 +79,7 @@ test.describe('reporting: directive inheritance', () => {
   });
 
   test('script-src-attr: effectiveDirective is script-src-attr', async ({ page }) => {
-    await page.goto('/examples/reporting/directive-inheritance/script-src-attr');
+    await page.goto('/examples/reporting/effective-directive/script-src-attr');
     const panel = page.locator('csp-report-panel');
     await expect(panel.locator('.report-json').first()).toBeVisible({ timeout: 5000 });
     await expect(panel).toContainText('script-src-attr');
@@ -87,7 +87,7 @@ test.describe('reporting: directive inheritance', () => {
 
   test('report-only header present on all modes', async ({ request }) => {
     for (const mode of ['default-src', 'script-src', 'script-src-attr']) {
-      const res = await request.get(`/examples/reporting/directive-inheritance/${mode}`);
+      const res = await request.get(`/examples/reporting/effective-directive/${mode}`);
       expect(res.headers()['content-security-policy-report-only']).toBeTruthy();
     }
   });

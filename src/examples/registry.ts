@@ -189,31 +189,31 @@ export const examples: Example[] = [
     ],
   },
   {
-    id: 'reporting-directive-inheritance',
+    id: 'reporting-effective-directive',
     title: 'effectiveDirective vs originalPolicy',
     shortTitle: 'effectiveDirective',
     topic: 'csp',
     description: defineDemoMarkup(
       'See how <code class="example-card-desc-code">effectiveDirective</code> always names the specific subtype that matched, even when the policy only contains <code class="example-card-desc-code">default-src</code>.',
     ),
-    defaultHref: '/examples/reporting/directive-inheritance/default-src',
+    defaultHref: '/examples/reporting/effective-directive/default-src',
     modes: [
       {
         id: 'default-src',
         label: 'default-src only',
-        href: '/examples/reporting/directive-inheritance/default-src',
+        href: '/examples/reporting/effective-directive/default-src',
         state: 'unsafe',
       },
       {
         id: 'script-src',
         label: 'explicit script-src',
-        href: '/examples/reporting/directive-inheritance/script-src',
+        href: '/examples/reporting/effective-directive/script-src',
         state: 'unsafe',
       },
       {
         id: 'script-src-attr',
         label: 'script-src-attr',
-        href: '/examples/reporting/directive-inheritance/script-src-attr',
+        href: '/examples/reporting/effective-directive/script-src-attr',
         state: 'unsafe',
       },
     ],
