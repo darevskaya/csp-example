@@ -46,10 +46,11 @@ describe('classifyValue', () => {
 describe('isDevNoise', () => {
   const base = {
     effectiveDirective: 'script-src-elem',
-    originalPolicy: '',
-    blockedURL: 'inline',
+    originalPolicy:
+      "frame-ancestors 'none'; default-src 'self'; report-to csp-endpoint; script-src 'nonce-abc' 'sha256-xyz'",
+    blockedURL: '',
     disposition: 'report',
-    documentURL: 'http://localhost:3000/foo',
+    documentURL: 'http://localhost:3000/examples/reporting/blocked-resource/inline-script',
     statusCode: 200,
     referrer: '',
     sample: '',
@@ -58,18 +59,48 @@ describe('isDevNoise', () => {
     columnNumber: 0,
   };
 
-  it('returns true when originalPolicy contains localhost:', () => {
-    const fields = {
-      ...base,
-      originalPolicy:
-        "frame-ancestors 'none'; default-src 'self'; script-src 'nonce-abc' http://localhost:5173",
-    };
-    expect(isDevNoise(fields)).toBe(true);
+  it('returns true when blockedURL is a Vite script URL', () => {
+    expect(isDevNoise({ ...base, blockedURL: 'http://localhost:5173/@vite/client' })).toBe(true);
   });
 
-  it('returns false for a production policy without localhost:', () => {
-    const fields = { ...base, originalPolicy: "frame-ancestors 'none'; default-src 'self'" };
-    expect(isDevNoise(fields)).toBe(false);
+  it('returns true when blockedURL is the Vite websocket URL', () => {
+    expect(isDevNoise({ ...base, blockedURL: 'ws://localhost:5173/?token=abc' })).toBe(true);
+  });
+
+  it('returns true when sourceFile points to Vite client', () => {
+    expect(
+      isDevNoise({
+        ...base,
+        blockedURL: 'inline',
+        sourceFile: 'http://localhost:5173/@vite/client',
+      }),
+    ).toBe(true);
+  });
+
+  it('returns false for the intended inline script violation', () => {
+    expect(
+      isDevNoise({
+        ...base,
+        blockedURL: 'inline',
+        sourceFile: 'http://localhost:3000/examples/reporting/blocked-resource/inline-script',
+      }),
+    ).toBe(false);
+  });
+
+  it('returns true for Vite inline-style violation (sourceFile is localhost:5173)', () => {
+    expect(
+      isDevNoise({
+        ...base,
+        blockedURL: 'inline',
+        sourceFile: 'http://localhost:5173/@vite/client',
+      }),
+    ).toBe(true);
+  });
+
+  it('returns false for a production external script violation', () => {
+    expect(
+      isDevNoise({ ...base, blockedURL: 'https://cdn.example.com/lib.js', sourceFile: '' }),
+    ).toBe(false);
   });
 });
 

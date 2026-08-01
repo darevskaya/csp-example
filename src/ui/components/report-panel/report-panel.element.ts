@@ -127,7 +127,7 @@ function extractFields(body: Record<string, unknown>): ReportFields {
 }
 
 export function isDevNoise(fields: ReportFields): boolean {
-  return fields.originalPolicy.includes('localhost:');
+  return fields.blockedURL.includes('localhost:') || fields.sourceFile.includes('localhost:5173');
 }
 
 function extractFieldsFromEvent(e: SecurityPolicyViolationEvent): ReportFields {
