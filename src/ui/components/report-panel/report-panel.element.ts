@@ -107,10 +107,44 @@ function extractFields(body: Record<string, unknown>): ReportFields {
   };
 }
 
+const SKELETON_BAR_WIDTHS: Record<FieldKey, string> = {
+  effectiveDirective: 'skeleton-bar--md',
+  originalPolicy: 'skeleton-bar--xl',
+  blockedURL: 'skeleton-bar--sm',
+  disposition: 'skeleton-bar--sm',
+  documentURL: 'skeleton-bar--xl',
+  statusCode: 'skeleton-bar--xs',
+  referrer: 'skeleton-bar--lg',
+  sample: 'skeleton-bar--xs',
+  sourceFile: 'skeleton-bar--xl',
+  lineNumber: 'skeleton-bar--xs',
+  columnNumber: 'skeleton-bar--xs',
+};
+
+function buildSkeleton(): HTMLElement {
+  const container = document.createElement('div');
+  container.className = 'report-panel-skeleton';
+  for (const key of FIELD_ORDER) {
+    const field = document.createElement('div');
+    field.className = 'skeleton-field';
+    const keyEl = document.createElement('span');
+    keyEl.className = 'skeleton-key';
+    keyEl.textContent = key;
+    const bar = document.createElement('span');
+    bar.className = `skeleton-bar ${SKELETON_BAR_WIDTHS[key]}`;
+    field.appendChild(keyEl);
+    field.appendChild(bar);
+    container.appendChild(field);
+  }
+  return container;
+}
+
 const Base = typeof HTMLElement !== 'undefined' ? HTMLElement : (class {} as typeof HTMLElement);
 
 export class CspReportPanelElement extends Base {
   connectedCallback(): void {
+    this.appendChild(buildSkeleton());
+
     const highlight: string[] = JSON.parse(this.dataset['highlight'] ?? '[]');
 
     if (!('ReportingObserver' in window)) return;

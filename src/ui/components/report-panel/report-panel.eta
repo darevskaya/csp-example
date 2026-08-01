@@ -1,15 +1,2 @@
 <csp-report-panel class="report-panel" data-highlight='<%~ JSON.stringify(it.highlight) %>' aria-live="polite" aria-label="Violation report">
-  <div class="report-panel-skeleton">
-    <div class="skeleton-field"><span class="skeleton-key">effectiveDirective</span><span class="skeleton-bar" style="width:7rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">originalPolicy</span><span class="skeleton-bar" style="width:11rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">blockedURL</span><span class="skeleton-bar" style="width:4rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">disposition</span><span class="skeleton-bar" style="width:4rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">documentURL</span><span class="skeleton-bar" style="width:18rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">statusCode</span><span class="skeleton-bar" style="width:2rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">referrer</span><span class="skeleton-bar" style="width:12rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">sample</span><span class="skeleton-bar" style="width:3rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">sourceFile</span><span class="skeleton-bar" style="width:18rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">lineNumber</span><span class="skeleton-bar" style="width:2rem"></span></div>
-    <div class="skeleton-field"><span class="skeleton-key">columnNumber</span><span class="skeleton-bar" style="width:2rem"></span></div>
-  </div>
 </csp-report-panel>

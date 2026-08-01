@@ -31,6 +31,22 @@
     animation: rp-pulse 1.6s ease-in-out infinite;
   }
 
+  .skeleton-bar--xs {
+    width: 2rem;
+  }
+  .skeleton-bar--sm {
+    width: 4rem;
+  }
+  .skeleton-bar--md {
+    width: 7rem;
+  }
+  .skeleton-bar--lg {
+    width: 12rem;
+  }
+  .skeleton-bar--xl {
+    width: 18rem;
+  }
+
   @keyframes rp-pulse {
     0%,
     100% {
