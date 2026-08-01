@@ -62,7 +62,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
       'script-src': `'self'`,
       'script-src-attr': `'none'`,
     },
-    codeDisplay: '<button onclick="void 0" style="display:none">trigger</button>',
+    codeDisplay: '<button onclick="void 0">trigger</button>',
   },
 };
 

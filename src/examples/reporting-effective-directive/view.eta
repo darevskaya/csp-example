@@ -30,6 +30,6 @@
   <script>void 0;</script>
   <% } %>
   <% if (it.mode === 'script-src-attr') { %>
-  <button onclick="void 0" style="display:none">trigger</button>
+  <button onclick="void 0">trigger</button>
   <% } %>
 </section>
