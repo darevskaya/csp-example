@@ -126,6 +126,10 @@ function extractFields(body: Record<string, unknown>): ReportFields {
   };
 }
 
+function isDevNoise(fields: ReportFields): boolean {
+  return fields.originalPolicy.includes('localhost:');
+}
+
 function extractFieldsFromEvent(e: SecurityPolicyViolationEvent): ReportFields {
   return {
     effectiveDirective: e.effectiveDirective,
@@ -190,13 +194,13 @@ export class CspReportPanelElement extends Base {
     if ('ReportingObserver' in window) {
       const observer = new ReportingObserver(
         (reports) => {
-          const cspReports = reports.filter((r) => r.type === 'csp-violation');
+          const cspReports = reports
+            .filter((r) => r.type === 'csp-violation')
+            .map((r) => extractFields(r.body as Record<string, unknown>))
+            .filter((f) => !isDevNoise(f));
           if (cspReports.length === 0) return;
           observer.disconnect();
-          this.show(
-            cspReports.map((r) => extractFields(r.body as Record<string, unknown>)),
-            highlight,
-          );
+          this.show(cspReports, highlight);
         },
         { types: ['csp-violation'], buffered: true },
       );
@@ -204,7 +208,8 @@ export class CspReportPanelElement extends Base {
     } else {
       // Safari fallback: drain the module-level buffer (populated before connectedCallback ran)
       queueMicrotask(() => {
-        if (spvBuffer.length > 0) this.show([...spvBuffer], highlight);
+        const filtered = spvBuffer.filter((f) => !isDevNoise(f));
+        if (filtered.length > 0) this.show([...filtered], highlight);
       });
     }
   }

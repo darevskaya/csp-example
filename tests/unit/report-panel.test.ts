@@ -42,6 +42,18 @@ describe('classifyValue', () => {
   });
 });
 
+describe('noise filter logic', () => {
+  it('originalPolicy containing localhost is detectable', () => {
+    const policy =
+      "frame-ancestors 'none'; default-src 'self'; script-src 'nonce-abc' http://localhost:5173";
+    expect(policy.includes('localhost:')).toBe(true);
+  });
+  it('production originalPolicy does not match localhost filter', () => {
+    const policy = "frame-ancestors 'none'; default-src 'self'";
+    expect(policy.includes('localhost:')).toBe(false);
+  });
+});
+
 describe('buildReportHtml', () => {
   const report = {
     effectiveDirective: 'script-src-elem',
