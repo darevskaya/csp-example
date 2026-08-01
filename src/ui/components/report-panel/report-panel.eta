@@ -1,2 +1,2 @@
-<csp-report-panel class="report-panel" data-highlight='<%~ JSON.stringify(it.highlight) %>' aria-live="polite" aria-label="Violation report">
+<csp-report-panel class="report-panel" data-highlight='<%~ JSON.stringify(it.highlight) %>' data-expected='<%~ JSON.stringify(it.expected) %>' aria-live="polite" aria-label="Violation report">
 </csp-report-panel>

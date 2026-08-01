@@ -1,4 +1,5 @@
 import { csp, EARLY_INIT_HASH, formatDirectives } from '../../csp';
+import type { ExpectedViolation } from '../../ui/components/report-panel/report-panel.element';
 import { type DemoMarkup, defineDemoMarkup } from '../../ui/demo-surface/demo-markup';
 
 export type BlockedResourceMode = 'inline-script' | 'external-script' | 'image-style';
@@ -8,6 +9,7 @@ interface ModeConfig {
   highlight: string[];
   notice: DemoMarkup;
   codeDisplay: string;
+  expected: ExpectedViolation[];
 }
 
 export const EXTERNAL_SCRIPT_URL = 'https://cdn.example.com/lib.js';
@@ -31,6 +33,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
       `<strong>effectiveDirective</strong> is <strong>"script-src-elem"</strong> even though the policy only contains <strong>"default-src"</strong>. <strong>blockedURL</strong> is <strong>"inline"</strong> — a special keyword, not a URL.`,
     ),
     codeDisplay: '<script>void 0;</script>',
+    expected: [{ blockedURL: 'inline', effectiveDirective: 'script-src-elem' }],
   },
   'external-script': {
     explanation: defineDemoMarkup(
@@ -41,6 +44,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
       `<strong>blockedURL</strong> is now a real URL. <strong>sourceFile</strong>, <strong>lineNumber</strong>, and <strong>columnNumber</strong> are empty or zero — the violation is a network fetch, not a line in the page source.`,
     ),
     codeDisplay: `<script src="${EXTERNAL_SCRIPT_URL}"></script>`,
+    expected: [{ blockedURL: EXTERNAL_SCRIPT_URL }],
   },
   'image-style': {
     explanation: defineDemoMarkup(
@@ -51,6 +55,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
       `One page load produces two reports with two different <strong>effectiveDirective</strong> values — <strong>"img-src"</strong> and <strong>"style-src-elem"</strong> — both derived from the single <strong>"default-src"</strong> in <strong>originalPolicy</strong>.`,
     ),
     codeDisplay: `<img src="${EXTERNAL_IMAGE_URL}" alt="">\n<link rel="stylesheet" href="${EXTERNAL_STYLE_URL}">`,
+    expected: [{ blockedURL: EXTERNAL_IMAGE_URL }, { blockedURL: EXTERNAL_STYLE_URL }],
   },
 };
 

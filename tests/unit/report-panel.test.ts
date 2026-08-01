@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildReportHtml,
   classifyValue,
-  isDevNoise,
+  isExpected,
 } from '../../src/ui/components/report-panel/report-panel.element';
 
 describe('classifyValue', () => {
@@ -43,64 +43,67 @@ describe('classifyValue', () => {
   });
 });
 
-describe('isDevNoise', () => {
+describe('isExpected', () => {
   const base = {
     effectiveDirective: 'script-src-elem',
     originalPolicy:
       "frame-ancestors 'none'; default-src 'self'; report-to csp-endpoint; script-src 'nonce-abc' 'sha256-xyz'",
-    blockedURL: '',
+    blockedURL: 'inline',
     disposition: 'report',
     documentURL: 'http://localhost:3000/examples/reporting/blocked-resource/inline-script',
     statusCode: 200,
     referrer: '',
     sample: '',
-    sourceFile: '',
-    lineNumber: 0,
+    sourceFile: 'http://localhost:3000/examples/reporting/blocked-resource/inline-script',
+    lineNumber: 66,
     columnNumber: 0,
   };
 
-  it('returns true when blockedURL is a Vite script URL', () => {
-    expect(isDevNoise({ ...base, blockedURL: 'http://localhost:5173/@vite/client' })).toBe(true);
-  });
-
-  it('returns true when blockedURL is the Vite websocket URL', () => {
-    expect(isDevNoise({ ...base, blockedURL: 'ws://localhost:5173/?token=abc' })).toBe(true);
-  });
-
-  it('returns true when sourceFile points to Vite client', () => {
+  it('matches when blockedURL and effectiveDirective both match', () => {
     expect(
-      isDevNoise({
-        ...base,
-        blockedURL: 'inline',
-        sourceFile: 'http://localhost:5173/@vite/client',
-      }),
+      isExpected(base, [{ blockedURL: 'inline', effectiveDirective: 'script-src-elem' }]),
     ).toBe(true);
   });
 
-  it('returns false for the intended inline script violation', () => {
+  it('does not match when effectiveDirective differs', () => {
     expect(
-      isDevNoise({
-        ...base,
-        blockedURL: 'inline',
-        sourceFile: 'http://localhost:3000/examples/reporting/blocked-resource/inline-script',
-      }),
+      isExpected(base, [{ blockedURL: 'inline', effectiveDirective: 'script-src-attr' }]),
     ).toBe(false);
   });
 
-  it('returns true for Vite inline-style violation (sourceFile is localhost:5173)', () => {
+  it('matches on blockedURL alone when effectiveDirective is omitted', () => {
     expect(
-      isDevNoise({
-        ...base,
-        blockedURL: 'inline',
-        sourceFile: 'http://localhost:5173/@vite/client',
-      }),
+      isExpected({ ...base, blockedURL: 'https://cdn.example.com/lib.js' }, [
+        { blockedURL: 'https://cdn.example.com/lib.js' },
+      ]),
     ).toBe(true);
   });
 
-  it('returns false for a production external script violation', () => {
+  it('does not match a browser extension or Vite violation not in the expected list', () => {
     expect(
-      isDevNoise({ ...base, blockedURL: 'https://cdn.example.com/lib.js', sourceFile: '' }),
+      isExpected(
+        {
+          ...base,
+          blockedURL: 'chrome-extension://abc/script.js',
+          effectiveDirective: 'script-src-elem',
+        },
+        [{ blockedURL: 'inline', effectiveDirective: 'script-src-elem' }],
+      ),
     ).toBe(false);
+  });
+
+  it('matches any entry in a multi-entry expected list', () => {
+    const fields = {
+      ...base,
+      blockedURL: 'https://images.example.com/photo.jpg',
+      effectiveDirective: 'img-src',
+    };
+    expect(
+      isExpected(fields, [
+        { blockedURL: 'https://images.example.com/photo.jpg' },
+        { blockedURL: 'https://static.example.com/style.css' },
+      ]),
+    ).toBe(true);
   });
 });
 

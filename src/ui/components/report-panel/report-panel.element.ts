@@ -126,8 +126,17 @@ function extractFields(body: Record<string, unknown>): ReportFields {
   };
 }
 
-export function isDevNoise(fields: ReportFields): boolean {
-  return fields.blockedURL.includes('localhost:') || fields.sourceFile.includes('localhost:5173');
+export interface ExpectedViolation {
+  blockedURL: string;
+  effectiveDirective?: string;
+}
+
+export function isExpected(fields: ReportFields, expected: ExpectedViolation[]): boolean {
+  return expected.some(
+    (e) =>
+      fields.blockedURL === e.blockedURL &&
+      (e.effectiveDirective === undefined || fields.effectiveDirective === e.effectiveDirective),
+  );
 }
 
 function extractFieldsFromEvent(e: SecurityPolicyViolationEvent): ReportFields {
@@ -190,6 +199,7 @@ export class CspReportPanelElement extends Base {
   connectedCallback(): void {
     this.appendChild(buildSkeleton());
     const highlight: string[] = JSON.parse(this.dataset['highlight'] ?? '[]');
+    const expected: ExpectedViolation[] = JSON.parse(this.dataset['expected'] ?? '[]');
 
     if ('ReportingObserver' in window) {
       const observer = new ReportingObserver(
@@ -197,7 +207,7 @@ export class CspReportPanelElement extends Base {
           const cspReports = reports
             .filter((r) => r.type === 'csp-violation')
             .map((r) => extractFields(r.body as Record<string, unknown>))
-            .filter((f) => !isDevNoise(f));
+            .filter((f) => isExpected(f, expected));
           if (cspReports.length === 0) return;
           observer.disconnect();
           this.show(cspReports, highlight);
@@ -208,7 +218,7 @@ export class CspReportPanelElement extends Base {
     } else {
       // Safari fallback: drain the module-level buffer (populated before connectedCallback ran)
       queueMicrotask(() => {
-        const filtered = spvBuffer.filter((f) => !isDevNoise(f));
+        const filtered = spvBuffer.filter((f) => isExpected(f, expected));
         if (filtered.length > 0) this.show([...filtered], highlight);
       });
     }

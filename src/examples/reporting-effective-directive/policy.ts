@@ -1,4 +1,5 @@
 import { csp, EARLY_INIT_HASH, formatDirectives } from '../../csp';
+import type { ExpectedViolation } from '../../ui/components/report-panel/report-panel.element';
 import { type DemoMarkup, defineDemoMarkup } from '../../ui/demo-surface/demo-markup';
 import { REPORTING_BASE_DIRECTIVES } from '../reporting-blocked-resource/policy';
 
@@ -11,6 +12,7 @@ interface ModeConfig {
   scriptDirectives: (nonce: string) => Record<string, string>;
   displayDirectives: Record<string, string>;
   codeDisplay: string;
+  expected: ExpectedViolation[];
 }
 
 export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
@@ -28,6 +30,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
     }),
     displayDirectives: { 'default-src': `'self'` },
     codeDisplay: '<script>void 0;</script>',
+    expected: [{ blockedURL: 'inline', effectiveDirective: 'script-src-elem' }],
   },
   'script-src': {
     explanation: defineDemoMarkup(
@@ -43,6 +46,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
     }),
     displayDirectives: { 'default-src': `'self'`, 'script-src': `'self'` },
     codeDisplay: '<script>void 0;</script>',
+    expected: [{ blockedURL: 'inline', effectiveDirective: 'script-src-elem' }],
   },
   'script-src-attr': {
     explanation: defineDemoMarkup(
@@ -63,6 +67,7 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
       'script-src-attr': `'none'`,
     },
     codeDisplay: '<button onclick="void 0">trigger</button>',
+    expected: [{ blockedURL: 'inline', effectiveDirective: 'script-src-attr' }],
   },
 };
 
