@@ -50,7 +50,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
     explanation: defineDemoMarkup(
       `The page loads an image and a stylesheet from external origins. Both are reported as separate violations with different <code>effectiveDirective</code> values.`,
     ),
-    highlight: ['effectiveDirective'],
+    highlight: ['effectiveDirective', 'blockedURL'],
     notice: defineDemoMarkup(
       `One page load produces two reports with two different <strong>effectiveDirective</strong> values — <strong>"img-src"</strong> and <strong>"style-src-elem"</strong> — both derived from the single <strong>"default-src"</strong> in <strong>originalPolicy</strong>.`,
     ),
