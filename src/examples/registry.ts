@@ -11,7 +11,7 @@ export interface Example {
   id: string;
   title: string;
   shortTitle: string;
-  topic: 'csp';
+  topic: 'csp' | 'reporting';
   description: DemoMarkup;
   defaultHref: string;
   modes: ExampleMode[];
@@ -162,7 +162,7 @@ export const examples: Example[] = [
     id: 'reporting-blocked-resource',
     title: 'Violation report fields',
     shortTitle: 'ReportingObserver',
-    topic: 'csp',
+    topic: 'reporting',
     description: defineDemoMarkup(
       'See what a CSP violation report contains. Each mode triggers a different resource type and shows how <code class="example-card-desc-code">blockedURL</code> and <code class="example-card-desc-code">effectiveDirective</code> change.',
     ),
@@ -192,7 +192,7 @@ export const examples: Example[] = [
     id: 'reporting-effective-directive',
     title: 'effectiveDirective vs originalPolicy',
     shortTitle: 'effectiveDirective',
-    topic: 'csp',
+    topic: 'reporting',
     description: defineDemoMarkup(
       'See how <code class="example-card-desc-code">effectiveDirective</code> always names the specific subtype that matched, even when the policy only contains <code class="example-card-desc-code">default-src</code>.',
     ),
