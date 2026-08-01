@@ -97,9 +97,8 @@ function renderLine(key: FieldKey, value: unknown, comma: string, focused: boole
   const padding = ' '.repeat(Math.max(1, 22 - key.length));
   const prefix = `  ${keySpan}${colon}${padding}`;
   const valueStr = `${renderValue(key, value)}<span class="${CSS.J_PUNCT}">${comma}</span>`;
-  const content = `<span class="j-line-prefix">${prefix}</span><span class="j-line-value">${valueStr}</span>`;
-  const line = `<span class="j-line">${content}</span>`;
-  return focused ? `<span class="${CSS.LINE_FOCUS}">${line}</span>` : line;
+  const cls = focused ? `j-line ${CSS.LINE_FOCUS}` : 'j-line';
+  return `<span class="${cls}"><span class="j-line-prefix">${prefix}</span><span class="j-line-value">${valueStr}</span></span>`;
 }
 
 export function buildReportHtml(report: ReportFields, highlight: string[]): string {

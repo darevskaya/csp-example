@@ -133,7 +133,7 @@ describe('buildReportHtml', () => {
     // Extract the j-line span containing "disposition" and verify it has no j-line-focus
     const match = html.match(/<span class="j-line">([^<]|<(?!\/span>))*"disposition".*?<\/span>/);
     expect(match).not.toBeNull();
-    expect(match![0]).not.toContain('j-line-focus');
+    if (match) expect(match[0]).not.toContain('j-line-focus');
   });
 
   it('outputs fields in the canonical order', () => {

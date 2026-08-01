@@ -40,13 +40,10 @@
   }
 
   .j-line-focus {
-    display: inline;
     background: color-mix(in oklch, var(--accent) 8%, transparent);
     border-left: 2px solid var(--accent);
     margin-inline-start: -0.75rem;
     padding-inline-start: calc(0.75rem - 2px);
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
   }
 
   .j-line-focus .j-key {
