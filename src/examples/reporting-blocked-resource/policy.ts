@@ -7,6 +7,7 @@ interface ModeConfig {
   explanation: DemoMarkup;
   highlight: string[];
   notice: DemoMarkup;
+  codeDisplay: string;
 }
 
 export const EXTERNAL_SCRIPT_URL = 'https://cdn.example.com/lib.js';
@@ -29,6 +30,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
     notice: defineDemoMarkup(
       `<strong>effectiveDirective</strong> is <strong>"script-src-elem"</strong> even though the policy only contains <strong>"default-src"</strong>. <strong>blockedURL</strong> is <strong>"inline"</strong> — a special keyword, not a URL.`,
     ),
+    codeDisplay: '<script>void 0;</script>',
   },
   'external-script': {
     explanation: defineDemoMarkup(
@@ -38,6 +40,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
     notice: defineDemoMarkup(
       `<strong>blockedURL</strong> is now a real URL. <strong>sourceFile</strong>, <strong>lineNumber</strong>, and <strong>columnNumber</strong> are empty or zero — the violation is a network fetch, not a line in the page source.`,
     ),
+    codeDisplay: `<script src="${EXTERNAL_SCRIPT_URL}"></script>`,
   },
   'image-style': {
     explanation: defineDemoMarkup(
@@ -47,6 +50,7 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
     notice: defineDemoMarkup(
       `One page load produces two reports with two different <strong>effectiveDirective</strong> values — <strong>"img-src"</strong> and <strong>"style-src-elem"</strong> — both derived from the single <strong>"default-src"</strong> in <strong>originalPolicy</strong>.`,
     ),
+    codeDisplay: `<img src="${EXTERNAL_IMAGE_URL}" alt="">\n<link rel="stylesheet" href="${EXTERNAL_STYLE_URL}">`,
   },
 };
 

@@ -12,16 +12,14 @@
   { label: 'image + style',   href: '/examples/reporting/blocked-resource/image-style',     state: it.mode === 'image-style'     ? 'unsafe' : '' }
 ] }) %>
 
-<div class="demo-panel">
-  <div class="demo-row">
-    <div class="demo-row-label">Response header</div>
-    <div class="demo-row-value">Content-Security-Policy-Report-Only: <%= it.cspDisplay %></div>
-  </div>
-  <div class="demo-row">
-    <div class="demo-row-label">Violation report</div>
-    <div class="demo-row-value">
-      <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight }) %>
-    </div>
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay, headerName: 'Content-Security-Policy-Report-Only' }) %>
+
+<%~ include('/ui/components/code-card/code-card', { header: 'Markup triggering violation', code: it.codeDisplay }) %>
+
+<div class="demo-row">
+  <div class="demo-row-label">Violation report</div>
+  <div class="demo-row-value">
+    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight }) %>
   </div>
 </div>
 
