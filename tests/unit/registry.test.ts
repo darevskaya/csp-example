@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { examples, getExample } from '../../src/examples/registry';
 
 describe('registry', () => {
-  it('has 6 examples', () => {
-    expect(examples).toHaveLength(6);
+  it('has 8 examples', () => {
+    expect(examples).toHaveLength(8);
   });
 
   it('all example ids are unique', () => {
@@ -43,8 +43,8 @@ describe('registry', () => {
     }
   });
 
-  it('each example has at least one safe mode and one unsafe mode', () => {
-    for (const example of examples) {
+  it('each non-reporting example has at least one safe mode and one unsafe mode', () => {
+    for (const example of examples.filter((e) => e.topic === 'csp')) {
       const states = example.modes.map((m) => m.state);
       expect(states).toContain('safe');
       expect(states).toContain('unsafe');
@@ -60,10 +60,10 @@ describe('registry', () => {
     expect(getExample('not-real')).toBeUndefined();
   });
 
-  it('all mode hrefs match /examples/:group/:mode pattern', () => {
+  it('all mode hrefs match /examples/... pattern', () => {
     for (const example of examples) {
       for (const mode of example.modes) {
-        expect(mode.href).toMatch(/^\/examples\/[\w-]+\/[\w-]+$/);
+        expect(mode.href).toMatch(/^\/examples\/[\w-]+(\/[\w-]+)+$/);
       }
     }
   });

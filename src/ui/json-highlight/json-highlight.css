@@ -1,0 +1,59 @@
+@layer components {
+  .report-json {
+    white-space: pre-wrap;
+    word-break: break-all;
+    display: block;
+  }
+
+  .j-line {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .j-line-prefix {
+    flex-shrink: 0;
+  }
+
+  .j-line-value {
+    flex: 1;
+    min-width: 0;
+    word-break: break-all;
+  }
+
+  .j-key {
+    color: var(--accent);
+  }
+  .j-string {
+    color: var(--green);
+  }
+  .j-keyword {
+    color: var(--blocked);
+  }
+  .j-url {
+    color: var(--text-2);
+  }
+  .j-number {
+    color: var(--yellow);
+  }
+  .j-punct {
+    color: var(--muted);
+  }
+
+  .j-line-focus {
+    background: color-mix(in oklch, var(--accent) 8%, transparent);
+    border-left: 2px solid var(--accent);
+    margin-inline-start: -0.75rem;
+    padding-inline-start: calc(0.75rem - 2px);
+  }
+
+  .j-line-focus .j-key {
+    font-weight: 600;
+  }
+  .j-line-focus .j-string,
+  .j-line-focus .j-url {
+    font-weight: 600;
+  }
+  .j-line-focus .j-keyword {
+    font-weight: 600;
+  }
+}
