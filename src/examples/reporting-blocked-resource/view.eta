@@ -23,8 +23,6 @@
   </div>
 </div>
 
-<p class="notice"><%~ it.notice %></p>
-
 <section class="demo-surface" data-demo-surface>
   <% if (it.mode === 'inline-script') { %>
   <script>void 0;</script>

@@ -61,9 +61,9 @@ test.describe('reporting: blocked resource types', () => {
     await expect(panel.locator('.j-line-focus').first()).toBeVisible();
   });
 
-  test('notice callout is visible', async ({ page }) => {
+  test('csp-header-card is visible', async ({ page }) => {
     await page.goto('/examples/reporting/blocked-resource/inline-script');
-    await expect(page.locator('.notice')).toBeVisible();
+    await expect(page.locator('.info-box')).toBeVisible();
   });
 });
 

@@ -7,7 +7,7 @@ import { type BlockedResourceMode, buildBlockedResourcePolicy, MODE_CONFIG } fro
 const router = express.Router();
 
 function handler(mode: BlockedResourceMode) {
-  const { explanation, highlight, notice, codeDisplay, expected } = MODE_CONFIG[mode];
+  const { explanation, highlight, codeDisplay, expected } = MODE_CONFIG[mode];
 
   return (_req: Request, res: Response) => {
     const nonce = generateNonce();
@@ -22,7 +22,6 @@ function handler(mode: BlockedResourceMode) {
       expected,
       explanation,
       highlight,
-      notice,
     });
   };
 }

@@ -8,7 +8,6 @@ export type EffectiveDirectiveMode = 'default-src' | 'script-src' | 'script-src-
 interface ModeConfig {
   explanation: DemoMarkup;
   highlight: string[];
-  notice: DemoMarkup;
   scriptDirectives: (nonce: string) => Record<string, string>;
   displayDirectives: Record<string, string>;
   codeDisplay: string;
@@ -18,12 +17,9 @@ interface ModeConfig {
 export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
   'default-src': {
     explanation: defineDemoMarkup(
-      `The policy only contains <code>default-src 'self'</code>. The inline script fires a violation. Watch which directive the browser reports.`,
+      `The policy only contains <code>default-src 'self'</code>. The inline script fires a violation. <strong>effectiveDirective</strong> is <strong>"script-src-elem"</strong> but <strong>originalPolicy</strong> only contains <strong>"default-src"</strong> — the browser infers the specific directive that applied.`,
     ),
     highlight: ['effectiveDirective', 'originalPolicy'],
-    notice: defineDemoMarkup(
-      `<strong>effectiveDirective</strong> is <strong>"script-src-elem"</strong> but <strong>originalPolicy</strong> only contains <strong>"default-src"</strong>. The browser infers the specific directive that applied.`,
-    ),
     scriptDirectives: (nonce) => ({
       ...REPORTING_BASE_DIRECTIVES,
       'script-src': `'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
@@ -34,12 +30,9 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
   },
   'script-src': {
     explanation: defineDemoMarkup(
-      `The policy explicitly names <code>script-src 'self'</code> alongside <code>default-src</code>. Compare <code>effectiveDirective</code> and <code>originalPolicy</code> with the previous mode.`,
+      `The policy explicitly names <code>script-src 'self'</code> alongside <code>default-src</code>. <strong>originalPolicy</strong> now shows <strong>"script-src 'self'"</strong> explicitly. <strong>effectiveDirective</strong> is still <strong>"script-src-elem"</strong> — the browser always reports the most specific subtype.`,
     ),
     highlight: ['effectiveDirective', 'originalPolicy'],
-    notice: defineDemoMarkup(
-      `<strong>originalPolicy</strong> now shows <strong>"script-src 'self'"</strong> explicitly. <strong>effectiveDirective</strong> is still <strong>"script-src-elem"</strong> — the browser always reports the most specific subtype.`,
-    ),
     scriptDirectives: (nonce) => ({
       ...REPORTING_BASE_DIRECTIVES,
       'script-src': `'self' 'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
@@ -50,12 +43,9 @@ export const MODE_CONFIG: Record<EffectiveDirectiveMode, ModeConfig> = {
   },
   'script-src-attr': {
     explanation: defineDemoMarkup(
-      `The policy adds <code>script-src-attr 'none'</code>. The violation trigger is an inline event handler (<code>onclick</code>). Watch how <code>effectiveDirective</code> changes.`,
+      `The policy adds <code>script-src-attr 'none'</code>. The violation trigger is an inline event handler (<code>onclick</code>). <strong>effectiveDirective</strong> is <strong>"script-src-attr"</strong> — different from <strong>"script-src-elem"</strong>. This is an event handler attribute, not a <code>&lt;script&gt;</code> block.`,
     ),
     highlight: ['effectiveDirective', 'originalPolicy'],
-    notice: defineDemoMarkup(
-      `<strong>effectiveDirective</strong> is now <strong>"script-src-attr"</strong> — different from <strong>"script-src-elem"</strong>. <strong>blockedURL</strong> is still <strong>"inline"</strong>, but the violation category is different: this is an event handler attribute, not a <code>&lt;script&gt;</code> block.`,
-    ),
     scriptDirectives: (nonce) => ({
       ...REPORTING_BASE_DIRECTIVES,
       'script-src': `'self' 'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
