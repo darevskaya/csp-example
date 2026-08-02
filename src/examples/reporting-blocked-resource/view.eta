@@ -1,0 +1,37 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">Violation report fields</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'inline script',   href: '/examples/reporting/blocked-resource/inline-script',   state: it.mode === 'inline-script'   ? 'unsafe' : '' },
+  { label: 'external script', href: '/examples/reporting/blocked-resource/external-script', state: it.mode === 'external-script' ? 'unsafe' : '' },
+  { label: 'image + style',   href: '/examples/reporting/blocked-resource/image-style',     state: it.mode === 'image-style'     ? 'unsafe' : '' }
+] }) %>
+
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay, headerName: 'Content-Security-Policy-Report-Only' }) %>
+
+<%~ include('/ui/components/code-card/code-card', { header: 'Markup triggering violation', code: it.codeDisplay }) %>
+
+<div class="demo-row">
+  <div class="demo-row-label">Violation report</div>
+  <div class="demo-row-value">
+    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight, expected: it.expected }) %>
+  </div>
+</div>
+
+<section class="demo-surface" data-demo-surface>
+  <% if (it.mode === 'inline-script') { %>
+  <script>void 0;</script>
+  <% } %>
+  <% if (it.mode === 'external-script') { %>
+  <script src="https://cdn.example.com/lib.js"></script>
+  <% } %>
+  <% if (it.mode === 'image-style') { %>
+  <img src="https://images.example.com/photo.jpg" alt="">
+  <link rel="stylesheet" href="https://static.example.com/style.css">
+  <% } %>
+</section>

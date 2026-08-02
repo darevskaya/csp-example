@@ -1,0 +1,36 @@
+<% layout('/views/layout') %>
+<a class="back" href="/">← back to examples</a>
+
+<div class="example-header">
+  <h1 class="example-title">effectiveDirective vs originalPolicy</h1>
+  <p class="example-desc"><%~ it.explanation %></p>
+</div>
+
+<%~ include('/ui/components/mode-toggle/mode-toggle', { tabs: [
+  { label: 'default-src only',    href: '/examples/reporting/effective-directive/default-src',      state: it.mode === 'default-src'      ? 'unsafe' : '' },
+  { label: 'explicit script-src', href: '/examples/reporting/effective-directive/script-src',       state: it.mode === 'script-src'       ? 'unsafe' : '' },
+  { label: 'script-src-attr',     href: '/examples/reporting/effective-directive/script-src-attr',  state: it.mode === 'script-src-attr'  ? 'unsafe' : '' }
+] }) %>
+
+<%~ include('/ui/components/csp-header-card/csp-header-card', { active: true, cspDisplay: it.cspDisplay, headerName: 'Content-Security-Policy-Report-Only' }) %>
+
+<%~ include('/ui/components/code-card/code-card', { header: 'Markup triggering violation', code: it.codeDisplay }) %>
+
+<% if (it.mode === 'script-src-attr') { %>
+<div class="lab-btn-row">
+  <button class="lab-btn" onclick="void 0">Click me</button>
+</div>
+<% } %>
+
+<div class="demo-row">
+  <div class="demo-row-label">Violation report</div>
+  <div class="demo-row-value">
+    <%~ include('/ui/components/report-panel/report-panel', { highlight: it.highlight, expected: it.expected }) %>
+  </div>
+</div>
+
+<section class="demo-surface" data-demo-surface>
+  <% if (it.mode === 'default-src' || it.mode === 'script-src') { %>
+  <script>void 0;</script>
+  <% } %>
+</section>
