@@ -32,7 +32,10 @@ test.describe('reporting: blocked resource types', () => {
   });
 
   test('external-script: blockedURL is a URL not a keyword', async ({ page, browserName }) => {
-    test.skip(browserName === 'webkit', 'WebKit does not fire securitypolicyviolation for blocked network fetches');
+    test.skip(
+      browserName === 'webkit',
+      'WebKit does not fire securitypolicyviolation for blocked network fetches',
+    );
     await page.goto('/examples/reporting/blocked-resource/external-script');
     const panel = page.locator('csp-report-panel');
     await expect(panel.locator('.report-json').first()).toBeVisible({ timeout: 5000 });
@@ -40,7 +43,10 @@ test.describe('reporting: blocked resource types', () => {
   });
 
   test('image-style: two reports shown', async ({ page, browserName }) => {
-    test.skip(browserName === 'webkit', 'WebKit does not fire securitypolicyviolation for blocked network fetches');
+    test.skip(
+      browserName === 'webkit',
+      'WebKit does not fire securitypolicyviolation for blocked network fetches',
+    );
     await page.goto('/examples/reporting/blocked-resource/image-style');
     const panel = page.locator('csp-report-panel');
     await expect(panel.locator('.report-json').first()).toBeVisible({ timeout: 5000 });
