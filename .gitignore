@@ -4,6 +4,7 @@ local/
 .idea/
 .claude/
 .superpowers/
+docs/
 test-results/
 playwright-report/
 .playwright/

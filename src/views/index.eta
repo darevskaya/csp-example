@@ -6,7 +6,7 @@
 </div>
 
 <div class="example-grid">
-<% it.examples.forEach(function(example) { %>
+<% it.cspExamples.forEach(function(example) { %>
   <a class="example-card" href="<%= example.defaultHref %>">
     <div class="card-title"><%= example.title %></div>
     <div class="card-directive"><%= example.shortTitle %></div>
@@ -14,3 +14,15 @@
   </a>
 <% }); %>
 </div>
+
+<section class="reporting-section">
+  <h2 class="reporting-section-heading">Reporting</h2>
+  <div class="example-grid">
+  <% it.reportingExamples.forEach(function(example) { %>
+    <a class="example-card" href="<%= example.defaultHref %>">
+      <div class="card-title"><%= example.title %></div>
+      <div class="card-desc"><%~ example.description %></div>
+    </a>
+  <% }); %>
+  </div>
+</section>

@@ -4,6 +4,8 @@ import eventHandlerRouter from '../../examples/event-handler/route';
 import hashRouter from '../../examples/inline-script-hash/route';
 import nonceRouter from '../../examples/inline-script-nonce/route';
 import reflectedXssRouter from '../../examples/reflected-xss/route';
+import reportingBlockedResourceRouter from '../../examples/reporting-blocked-resource/route';
+import reportingEffectiveDirectiveRouter from '../../examples/reporting-effective-directive/route';
 import strictDynamicRouter from '../../examples/strict-dynamic/route';
 
 const router = express.Router();
@@ -14,5 +16,7 @@ router.use('/inline-script', hashRouter);
 router.use('/third-party', strictDynamicRouter);
 router.use('/third-party', allowlistRouter);
 router.use('/event-handler', eventHandlerRouter);
+router.use('/reporting/blocked-resource', reportingBlockedResourceRouter);
+router.use('/reporting/effective-directive', reportingEffectiveDirectiveRouter);
 
 export default router;

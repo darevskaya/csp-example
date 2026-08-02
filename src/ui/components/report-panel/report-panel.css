@@ -1,0 +1,76 @@
+@layer components {
+  .report-panel {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    line-height: 1.7;
+    display: block;
+  }
+
+  .report-panel-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .skeleton-field {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .skeleton-key {
+    color: var(--text-3);
+    min-width: 11rem;
+    flex-shrink: 0;
+  }
+
+  .skeleton-bar {
+    height: 0.65rem;
+    border-radius: 2px;
+    background: var(--border);
+    animation: rp-pulse 1.6s ease-in-out infinite;
+  }
+
+  .skeleton-bar--xs {
+    width: 2rem;
+  }
+  .skeleton-bar--sm {
+    width: 4rem;
+  }
+  .skeleton-bar--md {
+    width: 7rem;
+  }
+  .skeleton-bar--lg {
+    width: 12rem;
+  }
+  .skeleton-bar--xl {
+    width: 18rem;
+  }
+
+  @keyframes rp-pulse {
+    0%,
+    100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* "what to notice" callout */
+  .notice {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-left: 2px solid var(--accent);
+    background: var(--accent-dim);
+    font-size: 0.6875rem;
+    color: var(--text-2);
+    line-height: 1.55;
+  }
+
+  .notice strong {
+    font-family: var(--mono);
+    color: var(--accent);
+    font-weight: 600;
+  }
+}

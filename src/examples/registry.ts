@@ -11,7 +11,7 @@ export interface Example {
   id: string;
   title: string;
   shortTitle: string;
-  topic: 'csp';
+  topic: 'csp' | 'reporting';
   description: DemoMarkup;
   defaultHref: string;
   modes: ExampleMode[];
@@ -154,6 +154,66 @@ export const examples: Example[] = [
         id: 'split-none',
         label: 'split — attr blocked',
         href: '/examples/event-handler/split-none',
+        state: 'unsafe',
+      },
+    ],
+  },
+  {
+    id: 'reporting-blocked-resource',
+    title: 'Violation report fields',
+    shortTitle: 'ReportingObserver',
+    topic: 'reporting',
+    description: defineDemoMarkup(
+      'See what a CSP violation report contains. Each mode triggers a different resource type and shows how <code class="example-card-desc-code">blockedURL</code> and <code class="example-card-desc-code">effectiveDirective</code> change.',
+    ),
+    defaultHref: '/examples/reporting/blocked-resource/inline-script',
+    modes: [
+      {
+        id: 'inline-script',
+        label: 'inline script',
+        href: '/examples/reporting/blocked-resource/inline-script',
+        state: 'unsafe',
+      },
+      {
+        id: 'external-script',
+        label: 'external script',
+        href: '/examples/reporting/blocked-resource/external-script',
+        state: 'unsafe',
+      },
+      {
+        id: 'image-style',
+        label: 'image + style',
+        href: '/examples/reporting/blocked-resource/image-style',
+        state: 'unsafe',
+      },
+    ],
+  },
+  {
+    id: 'reporting-effective-directive',
+    title: 'effectiveDirective vs originalPolicy',
+    shortTitle: 'effectiveDirective',
+    topic: 'reporting',
+    description: defineDemoMarkup(
+      'See how <code class="example-card-desc-code">effectiveDirective</code> always names the specific subtype that matched, even when the policy only contains <code class="example-card-desc-code">default-src</code>.',
+    ),
+    defaultHref: '/examples/reporting/effective-directive/default-src',
+    modes: [
+      {
+        id: 'default-src',
+        label: 'default-src only',
+        href: '/examples/reporting/effective-directive/default-src',
+        state: 'unsafe',
+      },
+      {
+        id: 'script-src',
+        label: 'explicit script-src',
+        href: '/examples/reporting/effective-directive/script-src',
+        state: 'unsafe',
+      },
+      {
+        id: 'script-src-attr',
+        label: 'script-src-attr',
+        href: '/examples/reporting/effective-directive/script-src-attr',
         state: 'unsafe',
       },
     ],

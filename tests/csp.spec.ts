@@ -305,9 +305,9 @@ test.describe('home page redesign', () => {
     await expect(skipLink).toHaveAttribute('href', '#main');
   });
 
-  test('6 example cards visible', async ({ page }) => {
+  test('8 example cards visible', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.example-card')).toHaveCount(6);
+    await expect(page.locator('.example-card')).toHaveCount(8);
   });
 });
 
