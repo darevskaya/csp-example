@@ -218,11 +218,19 @@ export class CspReportPanelElement extends Base {
       );
       observer.observe();
     } else {
-      // Safari fallback: drain the module-level buffer (populated before connectedCallback ran)
-      queueMicrotask(() => {
+      // Safari fallback: securitypolicyviolation events.
+      // Drain the module-level buffer first (catches violations before connectedCallback),
+      // then keep listening for late-arriving events (e.g. blocked network fetches).
+      const drain = (): void => {
         const filtered = spvBuffer.filter((f) => isExpected(f, expected));
-        if (filtered.length > 0) this.show([...filtered], highlight);
-      });
+        if (filtered.length > 0) {
+          this.show([...filtered], highlight);
+          document.removeEventListener('securitypolicyviolation', onLate);
+        }
+      };
+      const onLate = (): void => drain();
+      document.addEventListener('securitypolicyviolation', onLate);
+      queueMicrotask(drain);
     }
   }
 
