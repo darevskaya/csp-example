@@ -18,7 +18,7 @@ export const EXTERNAL_STYLE_URL = 'https://static.example.com/style.css';
 // Base directives shared across all reporting example pages.
 // report-to is required for Firefox to fire ReportingObserver on Report-Only policies.
 export const REPORTING_BASE_DIRECTIVES = {
-  'default-src': `'self'`,
+  'default-src': `'self' '${EARLY_INIT_HASH}'`,
   'report-to': 'csp-endpoint',
 } as const;
 
@@ -49,12 +49,9 @@ export const MODE_CONFIG: Record<BlockedResourceMode, ModeConfig> = {
   },
 };
 
-export function buildBlockedResourcePolicy(nonce: string) {
+export function buildBlockedResourcePolicy() {
   return {
-    cspHeader: csp({
-      ...REPORTING_BASE_DIRECTIVES,
-      'script-src': `'nonce-${nonce}' '${EARLY_INIT_HASH}'`,
-    }),
+    cspHeader: csp(REPORTING_BASE_DIRECTIVES),
     cspDisplay: formatDirectives({ 'default-src': `'self'` }),
   };
 }
